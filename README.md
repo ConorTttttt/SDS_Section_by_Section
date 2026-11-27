@@ -52,6 +52,37 @@ These sources are always checked by hand:
 
 The lookups run at about one request per second. Keep it that way.
 
+## 3. Check Section 10: `tools/check_s10.py`
+
+```bash
+python3 -I tools/check_s10.py out/my_sds/sds.json out/my_sds --declared GB --type substance --out out/my_sds/findings.json
+```
+
+It applies the tuned Section 10 checklist and prints each finding: check ID, status (fail/warning/info/not checked) and what the SDS says against what's expected.
+
+It also works out the jurisdiction from the SDS itself: the regulation cited and the supplier address. If that differs from `--declared`, it says `** MISMATCH **`, but it still runs the checks under the declared jurisdiction.
+
+The rules are keyword heuristics tuned on the regression set below. Read every finding: the output is a review aid, not a verdict.
+
+## 4. Re-run the regression set: `tools/run_regression.py`
+
+```bash
+python3 -I tools/run_regression.py /path/to/test_sds_folder
+```
+
+`regression/section10/cases.json` lists the test SDSs, each with its SHA-256, declared jurisdiction and SDS type:
+
+- sodium hypochlorite solution (US, mixture)
+- acetone (GB, substance)
+- calcium carbide (GB, substance)
+- the same calcium carbide SDS declared as EU, which must flag the mismatch
+
+The PDFs themselves aren't committed, because they're supplier documents. Put them in one folder and pass its path.
+
+By default the runner uses the stored lookup snapshots in `regression/section10/lookups/`, so results stay repeatable. Add `--live` to query the sources again. Results can drift as the sources change.
+
+Expected findings per check are in `regression/section10/expected/`. The exit code is 0 when every case matches and 1 on any difference. Run it after every rule change. When a change is intended, update the expected file in the same commit.
+
 ## Network access
 
 These hosts must be allowed in the cloud environment: chemicalsafety.ilo.org, www.cdc.gov, cameochemicals.noaa.gov, gestis-api.dguv.de, pubchem.ncbi.nlm.nih.gov and publications.europa.eu (EU legal texts). The personal cloud environment "SDS_Section_by_Section" allows them.

@@ -1,0 +1,51 @@
+{
+ "cas": "7732-18-5",
+ "results": [
+  {
+   "source": "ICSC",
+   "status": "not found",
+   "url": "https://chemicalsafety.ilo.org/dyn/icsc/showcard.listCards3?p_lang=en&p_cas_number=7732-18-5"
+  },
+  {
+   "source": "NIOSH Pocket Guide",
+   "status": "not found"
+  },
+  {
+   "source": "CAMEO Chemicals",
+   "status": "ok",
+   "datasheets": [
+    {
+     "id": "30024",
+     "url": "https://cameochemicals.noaa.gov/chemical/30024",
+     "http": "200",
+     "name": null,
+     "air_water_reactions": "No rapid reaction with air. No rapid reaction with water.",
+     "reactivity_profile": "Water reacts with many substances, including but not limited to alkali metals, hydrides, strong halogenating agents, and chlorosilanes. These reactions can be hazardous and may result in flammable or toxic gas production, or generation of excessive heat that may cause pressurization to occur. Another reactive hazard is heat of mixing. Mixing substances such as sulfuric acid or sodium hydroxide with water may generate significant heat. Additionally, water is a good solvent for polar molecules, so it can form aqueous solutions if it comes into contact with such molecules.",
+     "reactive_groups": "Water and Aqueous Solutions",
+     "incompatible_absorbents": "No information available."
+    }
+   ],
+   "retrieved": "2026-11-27"
+  },
+  {
+   "source": "GESTIS",
+   "status": "search only (article text needs authorisation; check manually)",
+   "entries": [
+    {
+     "name": "Water",
+     "zvg": "001140",
+     "url": "https://gestis.dguv.de/data?name=001140&lang=en"
+    }
+   ]
+  },
+  {
+   "source": "PubChem",
+   "status": "ok",
+   "cid": 962,
+   "formula": "H2O",
+   "name": "oxidane",
+   "url": "https://pubchem.ncbi.nlm.nih.gov/compound/962",
+   "retrieved": "2026-11-27"
+  }
+ ]
+}

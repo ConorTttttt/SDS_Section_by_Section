@@ -1,0 +1,41 @@
+{
+ "checklist": "Section 10 (tuned, approved 2026-11-27)",
+ "cases": [
+  {
+   "id": "hypochlorite_us_mixture",
+   "file": "1fda6848-SODIUM-HYPOCHLORITE-2C-13-25-500ML.pdf",
+   "product": "Sodium hypochlorite solution 5-<16% (Fisher/Acros, rev 11, 19-Dec-2025)",
+   "declared": "US",
+   "type": "mixture",
+   "expected_detected": "US",
+   "sha256": "f7f75369c60c72567c64577ba6ebdc49c8b670fdeebfd4e6e3fe399a8288d462"
+  },
+  {
+   "id": "acetone_gb_substance",
+   "file": "2da7065e-10131560.pdf",
+   "product": "Acetone (Fisher, rev 14, 19-Oct-2023)",
+   "declared": "GB",
+   "type": "substance",
+   "expected_detected": "GB",
+   "sha256": "d3a57318b809a2a62b2c3b5b2b690d75399687e4028c17e255a75d7dc4e77b1e"
+  },
+  {
+   "id": "calcium_carbide_gb_substance",
+   "file": "f98aa1d4-Safety_Data_Sheets_c_che1468_S.pdf",
+   "product": "Calcium carbide tech. (SLS CHE1468, rev 1.1, 20-Apr-2021)",
+   "declared": "GB",
+   "type": "substance",
+   "expected_detected": "GB",
+   "sha256": "aa49b3f043edd596419fea3bb04ce5565af2346df688d7d10006f630cbea28ae"
+  },
+  {
+   "id": "calcium_carbide_declared_eu",
+   "file": "f98aa1d4-Safety_Data_Sheets_c_che1468_S.pdf",
+   "product": "Same SDS declared as EU: must flag the jurisdiction mismatch",
+   "declared": "EU",
+   "type": "substance",
+   "expected_detected": "GB",
+   "sha256": "aa49b3f043edd596419fea3bb04ce5565af2346df688d7d10006f630cbea28ae"
+  }
+ ]
+}

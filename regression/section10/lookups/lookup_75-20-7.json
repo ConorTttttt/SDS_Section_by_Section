@@ -1,0 +1,61 @@
+{
+ "cas": "75-20-7",
+ "results": [
+  {
+   "source": "ICSC",
+   "status": "ok",
+   "cards": [
+    {
+     "card": "0406",
+     "url": "https://chemicalsafety.ilo.org/dyn/icsc/showcard.display?p_lang=en&p_card_id=0406&p_version=2",
+     "http": "200",
+     "name": null,
+     "chemical_dangers": "Mixtures with silver nitrate and copper salts are shock-sensitive. Decomposes violently on contact with moisture or water. This produces highly flammable and explosive acetylene gas (ICSC 0089). This generates fire and explosion hazard. Reacts with chlorine, bromine, iodine, hydrogen chloride, lead, fluoride magnesium, sodium peroxide and sulfur. This generates fire and explosion hazard. Mixtures with iron (III) chloride, iron (III) oxide and tin (II) chloride ignite easily and burn fiercely.",
+     "physical_dangers": "",
+     "fire_and_explosion": "Not combustible but forms flammable gas on contact with water or damp air. Many reactions may cause fire or explosion. Risk of fire and explosion on contact with water. NO contact with water. Use non-sparking handtools. Closed system, dust explosion-proof electrical equipment and lighting. Prevent deposition of dust. Use special powder, dry sand. NO other agents. In case of fire: keep drums, etc., cool by spraying with water. NO direct contact with water. PREVENT DISPERSION OF DUST! STRICT HYGIENE! SYMPTOMS",
+     "storage": "Separated from incompatible materials. See Chemical Dangers. Dry. Well closed.",
+     "spillage": ""
+    }
+   ],
+   "retrieved": "2026-11-27"
+  },
+  {
+   "source": "NIOSH Pocket Guide",
+   "status": "not found"
+  },
+  {
+   "source": "CAMEO Chemicals",
+   "status": "ok",
+   "datasheets": [
+    {
+     "id": "2769",
+     "url": "https://cameochemicals.noaa.gov/chemical/2769",
+     "http": "200",
+     "name": null,
+     "air_water_reactions": "Reacts rapidly with water to generate the flammable gas acetylene and the base calcium hydroxide. Enough heat may be generated to ignite the gas [Jones, G.W. BM Report Invest. 3755 1944].",
+     "reactivity_profile": "CALCIUM CARBIDE is a reducing agent. May react vigorously with oxidizing materials. The powdered mixture of the acetylide and iron oxide and iron chloride burns violently upon ignition, producing molten iron. Calcium carbide incandesces with chlorine, bromine, or iodine at 245, 350, or 305°C., respectively, [Mellor, 1946, Vol. 5, 862]. The carbide burns incandescently when mixed and heated with lead difluoride, magnesium, hydrogen chloride, and tin (II) chloride, [Mellor, 1946, 1940, 1946, and 1941], respectively. Interaction of calcium carbide with methanol to give calcium methoxide is vigorous , but subject to an induction period of variable length. Once reaction starts, evolution of acetylene gas is very rapid, unpublished observations [Bretherick 1995]. Mixing calcium carbide with silver nitrate solutions forms silver acetylide, a highly sensitive explosive. Copper salt solutions would behave similarly, [Photogr. Sci. Eng., 1966, 10, 334]. The mixture of calcium carbide and sodium peroxide is explosive, as is calcium carbide and perchloryl fluoride as gases at 100-300°C.",
+     "reactive_groups": "Nitrides, Phosphides, Carbides, and Silicides",
+     "incompatible_absorbents": "No information available."
+    }
+   ],
+   "retrieved": "2026-11-27"
+  },
+  {
+   "source": "GESTIS",
+   "status": "search only (article text needs authorisation; check manually)",
+   "entries": [
+    {
+     "name": "Calcium carbide",
+     "zvg": "001980",
+     "url": "https://gestis.dguv.de/data?name=001980&lang=en"
+    }
+   ]
+  },
+  {
+   "source": "PubChem",
+   "status": "unreachable",
+   "http": "503",
+   "note": "{\n  \"Fault\": {\n    \"Code\": \"PUGREST.ServerBusy\",\n    \"Message\": \"Too many requests or server too busy\"\n  }\n}\n"
+  }
+ ]
+}

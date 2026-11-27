@@ -1,0 +1,65 @@
+{
+ "cas": "67-64-1",
+ "results": [
+  {
+   "source": "ICSC",
+   "status": "ok",
+   "cards": [
+    {
+     "card": "0087",
+     "url": "https://chemicalsafety.ilo.org/dyn/icsc/showcard.display?p_lang=en&p_card_id=0087&p_version=2",
+     "http": "200",
+     "name": null,
+     "chemical_dangers": "Contact with strong oxidants such as acetic acid, nitric acid and hydrogen peroxide generates explosive peroxides. Reacts with chloroform and bromoform under basic conditions. This generates fire and explosion hazard. Attacks plastics.",
+     "physical_dangers": "The vapour is heavier than air and may travel along the ground; distant ignition possible.",
+     "fire_and_explosion": "Highly flammable. Vapour/air mixtures are explosive. Heating will cause rise in pressure with risk of bursting. NO open flames, NO sparks and NO smoking. Closed system, ventilation, explosion-proof electrical equipment and lighting. Do NOT use compressed air for filling, discharging, or handling. Use non-sparking handtools. Use powder, alcohol-resistant foam, water, carbon dioxide. In case of fire: keep drums, etc., cool by spraying with water. SYMPTOMS",
+     "storage": "Fireproof. Separated from : see Chemical Dangers. Store in an area without drain or sewer access.",
+     "spillage": ""
+    }
+   ],
+   "retrieved": "2026-11-27"
+  },
+  {
+   "source": "NIOSH Pocket Guide",
+   "status": "ok",
+   "http": "200",
+   "url": "https://www.cdc.gov/niosh/npg/npgd0004.html",
+   "incompatibilities": "Oxidizers, acids",
+   "retrieved": "2026-11-27"
+  },
+  {
+   "source": "CAMEO Chemicals",
+   "status": "ok",
+   "datasheets": [
+    {
+     "id": "8",
+     "url": "https://cameochemicals.noaa.gov/chemical/8",
+     "http": "200",
+     "name": null,
+     "air_water_reactions": "Highly flammable. Water soluble.",
+     "reactivity_profile": "It was reported that a mixture of ACETONE and chloroform, in a residue bottle, exploded. Since addition of acetone to chloroform in the presence of base will result in a highly exothermic reaction, it is thought that a base was in the bottle [MCA Case History 1661. 1970]. Also, Nitrosyl chloride, sealed in a tube with a residue of acetone in the presence of platinum catalyst, gave an explosive reaction [Chem. Eng. News 35(43):60. 1967]. The reaction of nitrosyl perchlorate and acetone ignites and explodes. Explosions occur with mixtures of nitrosyl perchlorate and primary amine [Ann. Chem. 42:2031. 1909]. Reacts violently with nitric acid. Also causes exothermic reaction when in contact with aldehydes.",
+     "reactive_groups": "Ketones",
+     "incompatible_absorbents": "No information available."
+    }
+   ],
+   "retrieved": "2026-11-27"
+  },
+  {
+   "source": "GESTIS",
+   "status": "search only (article text needs authorisation; check manually)",
+   "entries": [
+    {
+     "name": "Acetone",
+     "zvg": "011230",
+     "url": "https://gestis.dguv.de/data?name=011230&lang=en"
+    }
+   ]
+  },
+  {
+   "source": "PubChem",
+   "status": "unreachable",
+   "http": "503",
+   "note": "{\n  \"Fault\": {\n    \"Code\": \"PUGREST.ServerBusy\",\n    \"Message\": \"Too many requests or server too busy\"\n  }\n}\n"
+  }
+ ]
+}
