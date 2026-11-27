@@ -761,6 +761,9 @@ def run(sds, lookup_dir, declared, sds_type):
                                     r'polymeri[sz]able|self-polymeri[sz]', {'reactivity'})):
                 if re.search(rx, t):
                     sev = gate.allow(cas_, kind, 'warning', src)
+                    if sev and what == 'peroxide formation' and gate.band(cas_) == 'minor' and 'EUH019' not in H \
+                            and cas_ not in refgate.CFG['strong_peroxide_formers']['cas']:
+                        sev = 'info'   # 1-10 %: warning only with EUH019 or a listed strong peroxide former (user decision)
                     if sev:
                         d6.append(what); src456.add(src)
                         d6_sev[what] = refgate.strongest(d6_sev.get(what), sev)

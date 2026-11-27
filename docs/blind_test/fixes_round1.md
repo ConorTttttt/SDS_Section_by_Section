@@ -82,3 +82,10 @@ Side effects to note: with peroxide formation kept for 1-10 % ingredients (as ag
 fires for propan-2-ol (≤ 5 %) in the cleaner and 2-butoxyethanol (≤ 2.5 %) in the aerosol. Claude counts both as debatable.
 
 Expectations for these 8 SDSs are frozen in local/blind_test/ (git-ignored): `python3 -I tools/run_regression.py --cases local/blind_test/cases.json`.
+
+## Follow-up decision (27 Nov 2026)
+
+10-D6 for 1-10 % ingredients: peroxide-formation data count as a warning only if the mixture carries EUH019 or the ingredient
+is a known strong peroxide former (`config/reference_gating.json` → `strong_peroxide_formers`); otherwise info. The list is
+empty until a cited source is added (Prudent Practices could not be fetched from this environment). Effect: 10-D6 is info on
+the cleaner (propan-2-ol), Epoxyline (1-methoxy-2-propanol) and the aerosol (2-butoxyethanol). Local expectations updated.

@@ -130,5 +130,10 @@
  "unclassified_mixture": {
   "_about": "A mixture SDS with no hazard classification in Section 2: findings based only on reference data are capped at max_severity (user decision, 27 Nov 2026).",
   "max_severity": "warning"
+ },
+ "strong_peroxide_formers": {
+  "_about": "1-10 % ingredients: peroxide-formation data give a warning only if the mixture carries EUH019 or the ingredient is listed here; otherwise info (user decision, 27 Nov 2026). Source pending: the intended list is the severe-hazard class (Class/List A) of Prudent Practices in the Laboratory (NAP, 2011), which could not be fetched from this environment. Add CAS numbers only from a cited source, and record the source here.",
+  "source": null,
+  "cas": []
  }
 }

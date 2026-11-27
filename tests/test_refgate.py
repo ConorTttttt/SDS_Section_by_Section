@@ -100,6 +100,12 @@ class Gating(unittest.TestCase):
         self.assertIn('high_hazard', refgate.kinds_of('May undergo autoxidation upon exposure to the air to form explosive peroxides.'))
 
 
+class PeroxideFormers(unittest.TestCase):
+    def test_list_has_a_source_before_any_entry(self):
+        spf = refgate.CFG['strong_peroxide_formers']
+        self.assertTrue(not spf['cas'] or spf['source'], 'strong_peroxide_formers needs a cited source before CAS numbers are added')
+
+
 class Form(unittest.TestCase):
     def test_gas_record_not_applied_to_liquid(self):
         g = refgate.Gate(sds('Hydrochloric acid 7647-01-0 1.6%'), set(), 'mixture')
