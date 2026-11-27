@@ -18,6 +18,10 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import check_s10 as s10  # noqa: E402
 from dedupe import dedupe  # noqa: E402
 
+# Checklist rows this engine implements (checked against checklist/coverage.csv by tools/check_coverage.py)
+CODED = ({f'4-A{i}' for i in range(1, 11)} | {f'4-B{i}' for i in range(1, 8)} | {f'4-C{i}' for i in range(1, 5)}
+         | {f'4-D{i}' for i in range(1, 4)} | {'2-L1', '2-L2'})
+
 # health hazard statements -> codes (for SDSs that print text without codes)
 H_TEXT = [
     (r'fatal if swallowed', 'H300'), (r'toxic if swallowed', 'H301'), (r'harmful if swallowed', 'H302'),
@@ -134,8 +138,6 @@ def run(sds, lookup_dir, declared, sds_type):
     J = declared or detected
     EUGB = J in ('EU', 'GB')
     juris = {'declared': declared, 'detected': detected, 'evidence': why[detected], 'mismatch': bool(declared and declared != detected)}
-    if juris['mismatch']:
-        add('All', '10-J1', 'warning', f"Detected {detected} ({'; '.join(why[detected])})", f'Declared {declared}; checks run as {declared}', 'Run rule')
     sec4 = sds['sections'].get('4')
     if not sec4:
         add('4', '4-A1', 'fail', 'Section 4 not found', 'Section 4 "First aid measures"', 'Annex II Part B / 1910.1200(g)(2)(iv)')
@@ -167,6 +169,12 @@ def run(sds, lookup_dir, declared, sds_type):
                                 ('(b) symptoms', bool(s42)), ('(c) medical attention', bool(s43) or 'medical attention' in s4)) if not ok]
         if miss:
             add('4', '4-A3', 'fail', 'Missing: ' + ', '.join(miss), 'App D s.4 (a)-(c)', 'App D Table D.1 s.4')
+    if not EUGB:
+        empty = [k for k in ('eyes', 'skin', 'inhalation', 'ingestion', 'symptoms', 'physician') if k in r and not r[k]]
+        if empty:
+            add('4', '4-A5', 'fail', 'Empty: ' + ', '.join(empty), 'Mark "no applicable information available"', '1910.1200(g)(3)')
+    if not (H & HEALTH) and (not s42 or (re.search(NOINFO, low(s42)) and len(s42) < 80)):
+        add('4.2', '4-A10', 'warning', s42[:100], 'Most important acute and delayed symptoms summarised (or why none are expected)', 'Annex II 4.2; App D s.4(b)')
     need = sorted(k for k, trig in ROUTE_TRIGGERS.items() if H & trig and k not in r)
     if need:
         add('4.1', '4-A6', 'fail', 'Routes given: ' + ', '.join(sorted(k for k in r if k in ROUTE_TRIGGERS)),
@@ -351,5 +359,8 @@ if __name__ == '__main__':
     print('H:', res.get('H'), '| P(s2):', res.get('P_section2'), '| routes:', sorted(res.get('routes', {})))
     for f in res['findings']:
         print(f"  {f['check']:<9} {f['status']:<8} {f['sds_says'][:80]!r} -> {f['expected'][:120]}")
+    import coverage
+    have = any(not k.endswith('7732-18-5.json') for k in os.listdir(a.lookup_dir) if k.startswith('lookup_') and k[7:-5] in sds['codes_all']['CAS'])
+    coverage.print_not_run('4', a.declared or res['jurisdiction']['detected'], a.type, have)
     if a.out:
         json.dump(res, open(a.out, 'w'), indent=1, ensure_ascii=False)

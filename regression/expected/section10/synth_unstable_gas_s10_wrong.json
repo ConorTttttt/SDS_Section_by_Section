@@ -1,0 +1,21 @@
+{
+ "case": "synth_unstable_gas_s10_wrong",
+ "section": "10",
+ "jurisdiction": {
+  "declared": "EU",
+  "detected": "EU",
+  "mismatch": false
+ },
+ "findings": [
+  {
+   "check": "10-B1",
+   "status": "fail",
+   "section": "10"
+  },
+  {
+   "check": "10-B4",
+   "status": "fail",
+   "section": "10.2-10.4"
+  }
+ ]
+}

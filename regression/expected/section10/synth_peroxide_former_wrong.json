@@ -1,0 +1,31 @@
+{
+ "case": "synth_peroxide_former_wrong",
+ "section": "10",
+ "jurisdiction": {
+  "declared": "EU",
+  "detected": "EU",
+  "mismatch": false
+ },
+ "findings": [
+  {
+   "check": "10-B1",
+   "status": "fail",
+   "section": "10"
+  },
+  {
+   "check": "10-B13",
+   "status": "fail",
+   "section": "10.2/10.3"
+  },
+  {
+   "check": "10-B14",
+   "status": "fail",
+   "section": "10.4"
+  },
+  {
+   "check": "10-B15",
+   "status": "fail",
+   "section": "10.3/10.5"
+  }
+ ]
+}

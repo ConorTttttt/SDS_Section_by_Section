@@ -8,6 +8,11 @@
  },
  "findings": [
   {
+   "check": "10-A15",
+   "status": "info",
+   "section": "9/10"
+  },
+  {
    "check": "10-A7",
    "status": "warning",
    "section": "10"

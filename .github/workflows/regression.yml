@@ -1,6 +1,6 @@
 name: regression (synthetic SDSs)
 
-# Runs the Section 10, 4, 5, 6 and 7 checkers on the committed synthetic test SDSs and compares
+# Checks that the Checklist status mirror (checklist/coverage.csv) matches the engines' check IDs, then runs the Section 10, 4, 5, 6 and 7 checkers on the committed synthetic test SDSs and compares
 # the findings with regression/expected/. Supplier SDSs are not in the repo and are run locally.
 on:
   push:
@@ -17,5 +17,7 @@ jobs:
           python-version: '3.12'
       - name: Install pandoc (reads the synthetic .docx files)
         run: sudo apt-get update && sudo apt-get install -y pandoc
+      - name: Coverage check (Checklist "coded" rows vs engine check IDs)
+        run: python3 -I tools/check_coverage.py
       - name: Run the synthetic regression cases
         run: python3 -I tools/run_regression.py --synthetic-only

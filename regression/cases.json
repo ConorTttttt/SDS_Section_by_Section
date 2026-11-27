@@ -116,6 +116,56 @@
    "type": "substance",
    "expected_detected": "EU",
    "sha256": "1d5d9a17fe27dc26b7be71bc57f58acb782ea8eeb85c962e4930025b772361bd"
+  },
+  {
+   "id": "synth_unstable_gas_s10_wrong",
+   "repo_file": "regression/synthetic/synth_unstable_gas_s10_wrong.docx",
+   "synthetic": true,
+   "product": "SYNTHETIC: chemically unstable gas with 10.2 \"stable\" -> 10-B4 fail",
+   "declared": "EU",
+   "type": "substance",
+   "expected_detected": "EU",
+   "sha256": "cea79a18e812a405e8cd5441b55f633feb2d212601409f16a66584df439ea87c"
+  },
+  {
+   "id": "synth_explosive_s10_wrong",
+   "repo_file": "regression/synthetic/synth_explosive_s10_wrong.docx",
+   "synthetic": true,
+   "product": "SYNTHETIC: explosive whose 10.4 lacks shock/friction/static -> 10-B5 fail",
+   "declared": "EU",
+   "type": "substance",
+   "expected_detected": "EU",
+   "sha256": "ec770a266ad4c7ed2a496bf44b7f595614f3be285cd36dcf395fcaeaec9e803a"
+  },
+  {
+   "id": "synth_org_peroxide_s10_wrong",
+   "repo_file": "regression/synthetic/synth_org_peroxide_s10_wrong.docx",
+   "synthetic": true,
+   "product": "SYNTHETIC: organic peroxide with incomplete 10.2-10.4 -> 10-B7 fail",
+   "declared": "EU",
+   "type": "substance",
+   "expected_detected": "EU",
+   "sha256": "38ffa7be9990aa4d7eb08e5b0b4e2fadcaf50bb0519facacbbf6ea4ee2cb3d8a"
+  },
+  {
+   "id": "synth_peroxide_former_wrong",
+   "repo_file": "regression/synthetic/synth_peroxide_former_wrong.docx",
+   "synthetic": true,
+   "product": "SYNTHETIC: EUH019/EUH044/EUH031 not reflected in Section 10 -> 10-B13, 10-B14, 10-B15 fail",
+   "declared": "EU",
+   "type": "substance",
+   "expected_detected": "EU",
+   "sha256": "c937eba1b8b93f557d0b86a8837587559d780280ccff751976f33ad21ae05537"
+  },
+  {
+   "id": "synth_monomer_s10_wrong",
+   "repo_file": "regression/synthetic/synth_monomer_s10_wrong.docx",
+   "synthetic": true,
+   "product": "SYNTHETIC: inhibited monomer, no stabiliser or polymerisation in Section 10 -> 10-A10, 10-A11 fail",
+   "declared": "EU",
+   "type": "substance",
+   "expected_detected": "EU",
+   "sha256": "e0a65f416cf365d38545f5b744d5631b8bbd5edcf48fe96a5e80a88fbdd16d7f"
   }
  ]
 }

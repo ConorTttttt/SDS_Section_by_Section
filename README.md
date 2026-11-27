@@ -62,7 +62,13 @@ python3 -I tools/check_s4.py  out/my_sds/sds.json out/my_sds --declared GB --typ
 python3 -I tools/check_s567.py out/my_sds/sds.json out/my_sds --declared GB --type substance   # Sections 5, 6, 7 (or --section 6)
 ```
 
-Not every Checklist row is automated yet: [BACKLOG.md](BACKLOG.md) lists the rows with no code.
+Each checker ends its output with a **Not run** list: rows that are manual, not yet coded, or not applicable to the jurisdiction or SDS type. No finding is not the same as passed.
+
+For a full report on one SDS (all five sections, a summary, findings, and the Not run list at the end):
+
+```bash
+python3 -I tools/report.py path/to/sds.pdf out/my_sds --declared GB --type substance
+```
 
 Each script applies that section's checklist and prints every finding: check ID, status (fail/warning/info/not checked), what the SDS says and what's expected. A cross-section finding is counted under the section that needs fixing. For example, a bracketed P334 phrase in Section 2 is reported as `2-L1`.
 
@@ -90,7 +96,7 @@ This runs Sections 10, 4, 5, 6 and 7 for every case in `regression/cases.json`. 
 
 The PDFs themselves aren't committed, because they're supplier documents. Put them in one folder and pass its path.
 
-There are also eight synthetic cases in `regression/synthetic/`, each clearly marked "SYNTHETIC TEST SDS — NOT A REAL PRODUCT". They are committed and need no folder. Each one triggers one rule:
+There are also thirteen synthetic cases in `regression/synthetic/`, each clearly marked "SYNTHETIC TEST SDS — NOT A REAL PRODUCT". They are committed and need no folder. Each one triggers one rule:
 
 - GHS Rev.10 codes → 2-L2
 - "induce vomiting" with Asp. Tox. 1 → 4-B1 fail
@@ -100,6 +106,11 @@ There are also eight synthetic cases in `regression/synthetic/`, each clearly ma
 - explosive 1.1 with no evacuation advice and no P401 storage → 5-B2, 7-B8 fail
 - oxidising solid cat. 1 with no separation from combustibles → 5-B2, 7-B2 fail
 - organic peroxide with "Store at temperatures not exceeding 0 °C" on the label but no temperature in 7.2 → 7-B3 fail
+- chemically unstable gas whose 10.2 says "stable" → 10-B4 fail
+- explosive whose 10.4 lacks shock, friction and static → 10-B5 fail
+- organic peroxide with an incomplete 10.2–10.4 → 10-B7 fail
+- peroxide-forming ether (EUH019, EUH044, EUH031) → 10-B13, 10-B14, 10-B15 fail
+- inhibited monomer with no stabiliser or polymerisation in Section 10 → 10-A10, 10-A11 fail
 
 To regenerate them, run `SOURCE_DATE_EPOCH=1795737600 python3 -I regression/synthetic/make_synthetic.py`. If the files change, update their SHA-256 in `cases.json`.
 
@@ -110,9 +121,15 @@ Options:
 
 Use `--write-expected` only for an intended, reviewed rule change, and commit the new expectations together with that change. The exit code is 0 when everything matches and 1 on any difference.
 
+## Checklist status and coverage
+
+`checklist/coverage.csv` mirrors the Status column of the Checklist tab in the Sheet. Each row records the check ID, the jurisdictions and SDS types it applies to, its status (`coded`, `manual` with a reason, or `not yet coded`) and the reason. Each engine declares the IDs it implements in a `CODED` set.
+
+`tools/check_coverage.py` fails when the two disagree, or when a declared ID never appears in its engine. When you change the Status column in the Sheet, update `coverage.csv` in the same change.
+
 ## Continuous integration
 
-`.github/workflows/regression.yml` runs `python3 -I tools/run_regression.py --synthetic-only` on every push and pull request, on Ubuntu 24.04 with pandoc 3.1.3, the version the expected results were generated with. Supplier SDSs stay local, so CI covers the synthetic cases only.
+`.github/workflows/regression.yml` runs the coverage check, then `python3 -I tools/run_regression.py --synthetic-only` on every push and pull request, on Ubuntu 24.04 with pandoc 3.1.3, the version the expected results were generated with. Supplier SDSs stay local, so CI covers the synthetic cases only.
 
 ## Network access
 

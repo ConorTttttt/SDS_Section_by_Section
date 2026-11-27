@@ -18,6 +18,13 @@ import check_s10 as s10  # noqa: E402
 import check_s4 as s4  # noqa: E402
 from dedupe import dedupe  # noqa: E402
 
+# Checklist rows this engine implements (checked against checklist/coverage.csv by tools/check_coverage.py).
+# 5/6/7-A1..A3 are produced by structure().
+CODED = ({f'{n}-A{i}' for n in (5, 6, 7) for i in (1, 2, 3)}
+         | {'5-A4', '5-A5', '5-A6', '5-B1', '5-B2', '5-B3', '5-B4', '5-B5', '5-C3', '5-C4', '5-C5', '5-C6', '5-D1'}
+         | {'6-A4', '6-A5', '6-A6', '6-A7', '6-B1', '6-B2', '6-B3', '6-B4', '6-B5', '6-C2', '6-D1'}
+         | {'7-A4', '7-A5', '7-A6', '7-A7'} | {f'7-B{i}' for i in range(1, 15)} | {'7-C2', '7-C3', '7-C4', '7-D1'})
+
 EXPLOSIVE = {'H200', 'H201', 'H202', 'H203', 'H204', 'H205'}
 DESENS = {'H206', 'H207', 'H208'}
 FLAM_GAS = {'H220', 'H221'}
@@ -37,7 +44,7 @@ H_EXTRA = [(r'very toxic to aquatic life', 'H400'), (r'very toxic to aquatic lif
            (r'may cause long lasting harmful effects to aquatic', 'H413'), (r'unstable explosive', 'H200'),
            (r'explosive; mass explosion hazard', 'H201'), (r'extremely flammable gas', 'H220'), (r'(?<!extremely )flammable gas\b', 'H221'),
            (r'may cause or intensify fire; oxidi', 'H270'), (r'contains refrigerated gas', 'H281'), (r'pressurised container', 'H229')]
-TEMP = r'(?:not exceeding|below|at or below|maximum(?: of)?|max\.?|≤|<|under)\s*(-?\d+(?:[.,]\d+)?)\s*°\s*C'
+TEMP = r'(?i)(?:not exceeding|below|at or below|maximum(?: of)?|max\.?|≤|<|under)\s*(-?\d+(?:[.,]\d+)?)\s*°\s*C'
 MEDIA = {'water spray': r'water spray|water mist|water fog', 'water jet': r'water jet|full jet|straight stream|direct water',
          'water': r'\bwater\b', 'foam': r'foam', 'dry chemical': r'dry chemical|dry powder|\bpowder\b', 'sand': r'\bsand\b',
          'carbon dioxide': r'carbon dioxide|\bco ?2\b', 'halogenated agents': r'halon|halogenated'}
@@ -318,7 +325,7 @@ def run7(ctx):
             ctx.add('7.1', '7-A5', 'warning', s71[:150], 'Hygiene advice missing: ' + '; '.join(hyg), 'Annex II 7.1.2')
         if s73 and re.search(r'^\W*(?:see (?:section|subsection) 1\.2|no data|not available|none)\W*\.?$', s73):
             ctx.add('7.3', '7-A7', 'info', s73[:100], 'Specific end use recommendations (or reference to an attached exposure scenario)', 'Annex II 7.3')
-    if not re.search(r'closed|cool|ventilat|dry|temperature|original container|original packaging', s72):
+    if ctx.EUGB and not re.search(r'closed|cool|ventilat|dry|temperature|original container|original packaging', s72):
         ctx.add('7.2', '7-A6', 'warning', s72[:150], 'Basic storage conditions (closed container, temperature, ventilation, humidity)', 'Annex II 7.2; App D s.7(b)')
     # B rows
     if H & FLAMMABLE:
@@ -462,5 +469,8 @@ if __name__ == '__main__':
         print(f"== Section {sec}  (jurisdiction {res['jurisdiction']['detected']}{', MISMATCH' if res['jurisdiction']['mismatch'] else ''}; H: {', '.join(res['H'])})")
         for f in res['findings']:
             print(f"  {f['check']:<7} {f['status']:<8} {f['sds_says'][:70]!r} -> {f['expected'][:120]}")
+        import coverage
+        have = any(k.startswith('lookup_') and k[7:-5] in sds['codes_all']['CAS'] and not k.endswith('7732-18-5.json') for k in os.listdir(a.lookup_dir))
+        coverage.print_not_run(sec, a.declared or res['jurisdiction']['detected'], a.type, have)
     if a.out:
         json.dump(out, open(a.out, 'w'), indent=1, ensure_ascii=False)

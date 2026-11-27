@@ -11,6 +11,11 @@ to run the checkers and is built to trigger one specific rule:
   synth_explosive_wrong        explosive 1.1, no evacuation advice, no P401 storage  -> 5-B2, 7-B8 fail
   synth_oxidiser_cat1_wrong    oxidising solid cat. 1, no combustibles separation    -> 5-B2, 7-B2 fail
   synth_org_peroxide_ct_wrong  organic peroxide, P411 0 °C on label, none in 7.2     -> 7-B3 fail
+  synth_unstable_gas_s10_wrong chemically unstable gas, 10.2 'stable'              -> 10-B4 fail
+  synth_explosive_s10_wrong    explosive, 10.4 without shock/friction/static       -> 10-B5 fail
+  synth_org_peroxide_s10_wrong organic peroxide, 10.2-10.4 incomplete              -> 10-B7 fail
+  synth_peroxide_former_wrong  EUH019/EUH044/EUH031 not reflected in Section 10    -> 10-B13, 10-B14, 10-B15 fail
+  synth_monomer_s10_wrong      inhibited monomer, no stabiliser/polymerisation     -> 10-A10, 10-A11 fail
 
 Usage: python3 -I regression/synthetic/make_synthetic.py   (writes .md and .docx next to this script; needs pandoc)
 """
@@ -246,6 +251,77 @@ CASES.update({
         (10, 5): 'Amines, accelerators, reducing agents, acids, bases, metal compounds.',
         (10, 6): 'On decomposition: carbon dioxide and flammable organic vapours.',
         (14, 1): 'Transport hazard class 5.2; control temperature 0 °C; emergency temperature 10 °C (synthetic fixture).',
+    },
+})
+
+S10GOOD = {(5, 1): 'Suitable extinguishing media: water spray, dry chemical, carbon dioxide. Unsuitable extinguishing media: water jet.',
+           (5, 2): 'Containers may burst when heated. Combustion produces carbon monoxide and carbon dioxide.', (5, 3): 'Wear self-contained breathing apparatus.',
+           (6, 1): 'Remove all ignition sources; avoid raising dust. Emergency responders: chemically protective clothing of a suitable material (e.g. butyl rubber). '
+                   'Small spills: soak up. Large spills: dike and contain.',
+           (6, 2): 'Keep away from drains.', (6, 3): 'Contain and soak up with inert absorbent; collect into closed containers. Use non-sparking tools and explosion-proof equipment.',
+           (6, 4): 'See Sections 8 and 13.'}
+CASES.update({
+    'synth_unstable_gas_s10_wrong': {**GOOD4, **S10GOOD, 'tag': 'UGW',
+        (2, 1): 'Flam. Gas 1A, H220; Chem. Unst. Gas A, H230; Press. Gas, H280.',
+        (2, 2): 'Signal word: Danger. H220 Extremely flammable gas. H230 May react explosively even in the absence of air. H280 Contains gas under pressure; may explode if heated. '
+                'P202 Do not handle until all safety precautions have been read and understood. P210 Keep away from heat, hot surfaces, sparks, open flames and other ignition sources. No smoking. '
+                'P377 Leaking gas fire: Do not extinguish, unless leak can be stopped safely. P381 In case of leakage, eliminate all ignition sources. P410+P403 Protect from sunlight. Store in a well-ventilated place.',
+        (3, 1): 'Synthetic unstable gas (no CAS): 100 %.',
+        (5, 3): 'Leaking gas fire: Do not extinguish, unless leak can be stopped safely. Wear self-contained breathing apparatus.',
+        (7, 1): 'Keep away from heat, sparks, open flames and other ignition sources. ' + GOOD7_HYGIENE,
+        (7, 2): 'Store in a well-ventilated place; keep cool; protect from sunlight; away from oxidising agents (see Section 10.5).',
+        (9, 1): 'Physical state: gas.',
+        (10, 1): 'Extremely flammable gas (synthetic fixture).', (10, 2): 'Stable under normal conditions.', (10, 3): 'Forms explosive mixtures with air.',
+        (10, 4): 'Heat, sparks, open flames, static discharge and other ignition sources; direct sunlight.', (10, 5): 'Oxidising agents.',
+        (10, 6): 'None known; on combustion carbon oxides (see Section 5).',
+    },
+    'synth_explosive_s10_wrong': {**GOOD4, **S10GOOD, 'tag': 'ESW',
+        (2, 1): 'Expl. 1.1, H201.',
+        (2, 2): 'Signal word: Danger. H201 Explosive; mass explosion hazard. P210 Keep away from heat, hot surfaces, sparks, open flames and other ignition sources. No smoking. '
+                'P240 Ground and bond container and receiving equipment. P250 Do not subject to grinding/shock/friction. P234 Keep only in original packaging. '
+                'P370+P372+P380+P373 In case of fire: Explosion risk. Evacuate area. DO NOT fight fire when fire reaches explosives. P401 Store in accordance with local regulations.',
+        (3, 1): 'Synthetic explosive (no CAS): 100 %.',
+        (5, 3): 'Explosion risk: evacuate the area. Do not fight fire when fire reaches explosives. Wear self-contained breathing apparatus.',
+        (7, 1): 'Do not subject to grinding, shock or friction. Ground and bond equipment. ' + GOOD7_HYGIENE,
+        (7, 2): 'Store in accordance with the applicable explosives regulations, in the original packaging, separated from other materials (see Section 10.5).',
+        (9, 1): 'Physical state: solid (powder).',
+        (10, 1): 'Explosive; mass explosion hazard (synthetic fixture).', (10, 2): 'Stable only under the recommended storage conditions.',
+        (10, 3): 'May explode on heating.', (10, 4): 'Heat and open flames.', (10, 5): 'Acids, metals, oxidising agents.', (10, 6): 'On decomposition: nitrogen oxides, carbon oxides.',
+        (14, 1): 'UN classification 1.1D (synthetic fixture).',
+    },
+    'synth_org_peroxide_s10_wrong': {**GOOD4, **S10GOOD, 'tag': 'PSW',
+        (2, 1): 'Org. Perox. B, H241.',
+        (2, 2): 'Signal word: Danger. H241 Heating may cause a fire or explosion. P210 Keep away from heat, hot surfaces, sparks, open flames and other ignition sources. No smoking. '
+                'P234 Keep only in original packaging. P410 Protect from sunlight. P411 Store at temperatures not exceeding 5 °C. P420 Store separately.',
+        (3, 1): 'Synthetic organic peroxide (no CAS): 100 %.',
+        (7, 1): 'Keep away from heat and ignition sources. ' + GOOD7_HYGIENE,
+        (7, 2): 'Store at temperatures not exceeding 5 °C in the original packaging, separately, protected from sunlight, away from amines and reducing agents (see Section 10.5).',
+        (9, 1): 'Physical state: liquid. SADT: 20 °C (UN test H.4, synthetic value).',
+        (10, 1): 'Organic peroxide (synthetic fixture).', (10, 2): 'Stable.', (10, 3): 'No data available: synthetic fixture.',
+        (10, 4): 'Sources of ignition, contamination and direct sunlight.', (10, 5): 'Amines, reducing agents.', (10, 6): 'On decomposition: carbon dioxide.',
+        (14, 1): 'Transport hazard class 5.2; control temperature 5 °C (synthetic fixture).',
+    },
+    'synth_peroxide_former_wrong': {**GOOD4, **S10GOOD, 'tag': 'PFW',
+        (2, 1): 'Flam. Liq. 2, H225. EUH019, EUH044, EUH031.',
+        (2, 2): 'Signal word: Danger. H225 Highly flammable liquid and vapour. EUH019 May form explosive peroxides. EUH044 Risk of explosion if heated under confinement. '
+                'EUH031 Contact with acids liberates toxic gas. P210 Keep away from heat, hot surfaces, sparks, open flames and other ignition sources. No smoking. '
+                'P233 Keep container tightly closed. P240 Ground and bond container and receiving equipment. P243 Take action to prevent static discharges.',
+        (3, 1): 'Synthetic ether (no CAS): 100 %.',
+        (7, 1): 'Keep away from ignition sources; ground and bond containers; take action to prevent static discharges; use explosion-proof equipment. ' + GOOD7_HYGIENE,
+        (7, 2): 'Store in a cool, well-ventilated place away from acids (see Section 10.5). Record the date of opening; test for peroxides before use.',
+        (9, 1): 'Physical state: liquid. Flash point -20 °C.',
+        (10, 1): 'Highly flammable liquid (synthetic fixture).', (10, 2): 'Stable under normal conditions.', (10, 3): 'Vapours may form explosive mixtures with air.',
+        (10, 4): 'Heat, sparks, open flames, static discharge.', (10, 5): 'Oxidising agents.', (10, 6): 'None known; on combustion carbon oxides (see Section 5).',
+    },
+    'synth_monomer_s10_wrong': {**GOOD4, **S10GOOD, 'tag': 'MOW',
+        (2, 1): 'Flam. Liq. 3, H226.',
+        (2, 2): 'Signal word: Warning. H226 Flammable liquid and vapour. P210 Keep away from heat, hot surfaces, sparks, open flames and other ignition sources. No smoking.',
+        (3, 1): 'Synthetic monomer (no CAS): > 99 %, stabilised with 50 ppm inhibitor.',
+        (7, 1): 'Keep away from heat and ignition sources. ' + GOOD7_HYGIENE,
+        (7, 2): 'Store cool, away from oxidising agents (see Section 10.5). The inhibitor prevents polymerisation; check the inhibitor level every 3 months.',
+        (9, 1): 'Physical state: liquid. Flash point 30 °C.',
+        (10, 1): 'Flammable liquid (synthetic fixture).', (10, 2): 'Stable under normal conditions.', (10, 3): 'No hazardous reactions known.',
+        (10, 4): 'Heat, sparks, open flames.', (10, 5): 'Oxidising agents.', (10, 6): 'None known; on combustion carbon oxides (see Section 5).',
     },
 })
 

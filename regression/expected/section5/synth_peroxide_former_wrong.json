@@ -1,0 +1,10 @@
+{
+ "case": "synth_peroxide_former_wrong",
+ "section": "5",
+ "jurisdiction": {
+  "declared": "EU",
+  "detected": "EU",
+  "mismatch": false
+ },
+ "findings": []
+}

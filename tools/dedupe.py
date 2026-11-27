@@ -7,6 +7,8 @@ the item, and is dropped when no items remain. Findings without items are never 
 """
 import re
 
+CODED = {'X-R1'}  # the duplicate rule itself (Checklist row X-R1)
+
 SEV = {'fail': 0, 'warning': 1, 'info': 2, 'not checked': 3}
 LAYER = {'B': 0, 'L': 0, 'A': 1, 'C': 2, 'D': 3, 'J': 4}
 

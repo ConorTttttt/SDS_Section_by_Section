@@ -19,6 +19,10 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from dedupe import dedupe  # noqa: E402
 
+# Checklist rows this engine implements (checked against checklist/coverage.csv by tools/check_coverage.py)
+CODED = ({f'10-A{i}' for i in range(1, 17)} | {f'10-B{i}' for i in range(1, 18)} | {f'10-C{i}' for i in range(1, 9)}
+         | {'10-D1', '10-D4', '10-D5', '10-D6', '10-J1', '5-C1', '5-C2', '6-C1', '7-C1'})
+
 # ------------------------------------------------------------------ vocabularies
 FAMILIES = {  # common material families: a recorded violent reaction with one of these missing from 10.5 is a fail
     'water': r'\bwater\b|moist|humid|aqueous',
@@ -58,7 +62,7 @@ H_TEXT = [
     (r'extremely flammable liquid', 'H224'), (r'highly flammable liquid', 'H225'), (r'(?<!highly )(?<!extremely )flammable liquid and vapou?r', 'H226'),
     (r'flammable solid', 'H228'), (r'extremely flammable gas', 'H220'), (r'contains gas under pressure', 'H280'),
     (r'may cause or intensify fire', 'H270'), (r'may cause fire or explosion; strong oxidi', 'H271'), (r'may intensify fire; oxidi', 'H272'),
-    (r'heating may cause an explosion', 'H240'), (r'heating may cause a fire or explosion', 'H241'), (r'heating may cause a fire', 'H242'),
+    (r'heating may cause an explosion', 'H240'), (r'heating may cause a fire or explosion', 'H241'), (r'heating may cause a fire(?! or explosion)', 'H242'),
     (r'self-heating', 'H251'), (r'may react explosively even in the absence of air', 'H230'),
 ]
 REACTIVITY_CLASS = {'H200', 'H201', 'H202', 'H203', 'H204', 'H205', 'H206', 'H207', 'H208', 'H230', 'H231', 'H232',
@@ -272,6 +276,8 @@ def run(sds, lookup_dir, declared, sds_type):
              'mismatch': bool(declared and declared != detected)}
     J = declared or detected
     EUGB = J in ('EU', 'GB')
+    if juris['mismatch']:
+        add('All', '10-J1', 'warning', f"Detected {detected} ({'; '.join(why[detected])})", f'Declared {declared}; checks run as {declared}', 'Run rule')
 
     sec10 = sds['sections'].get('10')
     if not sec10:
@@ -319,16 +325,17 @@ def run(sds, lookup_dir, declared, sds_type):
     bad = []
     for sl, label in (('reactivity', '10.1'), ('reactions', '10.3')):
         if reactive and re.search(CONTRADICT, low(slots.get(sl))):
-            bad.append(f'{label}: "{slots.get(sl, "")[:70]}"')
+            bad.append(('contra:' + label, f'{label}: "{slots.get(sl, "")[:70]}"'))
     if re.search(r'^\W*yes\b|reactive hazard\W*yes|(?<!not )\bis reactive\b', low(r1)) and re.search(r'^\W*none\b|none under normal|no hazardous reactions?|(?<!polymerization )does not occur\W*$', low(slots.get('reactions', ''))):
-        bad.append('10.1 says reactive but 10.3 says none')
-    if H & UNSTABLE_CLASS and re.fullmatch(r'\W*stable under normal conditions\W*', low(slots.get('stability', ''))):
-        bad.append('10.2 unqualified "stable"')
+        bad.append(('contra:self', '10.1 says reactive but 10.3 says none'))
+    if H & UNSTABLE_CLASS and re.fullmatch(r'\W*stable(?: under normal conditions)?\W*', low(slots.get('stability', ''))):
+        bad.append(('stab:unstable', '10.2 unqualified "stable"'))
     if H & FIRE_CLASS and re.search(r'^\W*(?:none|no data available|not applicable)\W*$', low(slots.get('conditions', ''))):
-        bad.append('10.4 "none"')
+        bad.append(('contra:10.4', '10.4 "none"'))
     if bad:
-        add('10', '10-B1', 'fail', '; '.join(bad), f'No contradiction with classification ({", ".join(sorted(reactive or H))})',
-            'Annex II 0.2.4 / 1910.1200(g)(5)')
+        add('10', '10-B1', 'fail', '; '.join(t for _, t in bad), f'No contradiction with classification ({", ".join(sorted(reactive or H))})',
+            'Annex II 0.2.4 / 1910.1200(g)(5)', items=[{'key': k, 'status': 'fail', 'text': t} for k, t in bad],
+            prefix=f'No contradiction with classification ({", ".join(sorted(reactive or H))}): ')
     if H & FLAMMABLE:
         c = low(slots.get('conditions', ''))
         if not re.search(r'heat|spark|flame|ignition|hot surface', c):
@@ -347,6 +354,109 @@ def run(sds, lookup_dir, declared, sds_type):
         add('10.5', '10-B11', 'fail', incompatible, 'Combustible materials (P220)', 'CLP Annex IV P220')
     if 'H290' in H and 'metals' not in have10:
         add('10.5', '10-B12', 'warning', incompatible, 'Metals attacked', 'H290; Annex II 10.1.2')
+
+    # ---- rows added 27 Nov 2026 (A6, A8, A10, A11, A13-A16, B3-B9, B13-B17)
+    s2t = low(' '.join(sds['sections'].get('2', {}).get('text', '').split()))
+    sx = {n: low(' '.join(sds['sections'].get(n, {}).get('text', '').split())) for n in ('1', '3', '7', '9', '14')}
+    st10, re10, co10, dec10 = low(slots.get('stability')), low(slots.get('reactions')), low(slots.get('conditions')), low(slots.get('decomposition'))
+
+    def items_add(section, cid, status, says, prefix, wants, source):
+        if wants:
+            add(section, cid, status, says, prefix + '; '.join(t for _, t in wants), source,
+                items=[{'key': k, 'status': status, 'text': t} for k, t in wants], prefix=prefix)
+    if J == 'US':
+        empty = [sl for sl in NUM_SLOT.values() if sl in slots and not slots[sl]]
+        if empty:
+            add('10', '10-A6', 'fail', 'Empty: ' + ', '.join(empty), 'Mark "no applicable information available"', '1910.1200(g)(3); App D intro')
+    if EUGB and sds_type == 'mixture' and re.search(NO_INFO + r'|none known', low(r1)) and not re.search(r'component|ingredient|substance', low(s10)):
+        add('10.1', '10-A8', 'warning', r1, 'With no mixture-level data, data on the component substances', 'Annex II 10.1.2')
+    if re.search(r'stabili[sz]|inhibit', sx['1'] + ' ' + sx['3'] + ' ' + sx['7']) and not re.search(r'stabili[sz]|inhibit', st10):
+        st = 'fail' if EUGB else 'warning'
+        add('10.2', '10-A10', st, slots.get('stability', ''), 'Name the stabiliser/inhibitor (named in Sections 1, 3 or 7) and any condition it depends on',
+            'Annex II 10.2', items=[{'key': 'stab', 'status': st, 'text': 'name the stabiliser/inhibitor'}], prefix='Name the stabiliser/inhibitor (named in Sections 1, 3 or 7): ')
+    if EUGB and re.search(r'polymeri', sx['7'] + ' ' + sx['9'] + ' ' + s2t) and not re.search(r'polymeri', re10):
+        add('10.3', '10-A11', 'fail', slots.get('reactions', ''), 'Say whether hazardous polymerisation may occur and under what conditions (polymerisation is named elsewhere in the SDS)',
+            'Annex II 10.3', items=[{'key': 'react:polymer', 'status': 'fail', 'text': 'hazardous polymerisation'}], prefix='10.3 must address: ')
+    elif EUGB and (H & REACTIVITY_CLASS) and not slots.get('reactions'):
+        add('10.3', '10-A11', 'fail', '', 'Describe the hazardous reactions for a reactivity class (' + ', '.join(sorted(H & REACTIVITY_CLASS)) + ')', 'Annex II 10.3')
+    fire_only = re.search(r'fire|combustion|burning', dec10) and not re.search(r'heat|decompos|storage|use|spill', dec10.replace('in case of fire', ''))
+    if fire_only:
+        add('10.6', '10-A13' if EUGB else '10-A14', 'warning' if EUGB else 'info', slots.get('decomposition', ''),
+            'Decomposition products from use, storage, spill and heating (fire products belong in 5.2)', 'Annex II 10.6' if EUGB else 'App D s.10(f)')
+    m15 = re.search(r'(?:sadt|decomposition (?:onset )?temperature|self-accelerating decomposition temperature)[^.]{0,40}?\d+(?:[.,]\d+)?\s*°\s*c(.{0,80})', sx['9'] + ' ' + s10.lower())
+    if EUGB and m15 and not re.search(r'method|test|\bun\b|h\.[1-4]|oecd|astm|dsc|\ben ?\d', m15.group(1)):
+        add('9/10', '10-A15', 'info', '', 'Cite the test method for the quoted SADT/decomposition value', 'Annex II s.10 preamble')
+    if J == 'EU' and re.search(r'nanoform', sx['1'] + ' ' + sx['3'] + ' ' + sx['9']) and 'nanoform' not in s10.lower():
+        add('10', '10-A16', 'warning', '', 'Say which nanoform each Section 10 statement applies to', 'Annex II 0.1.3')
+    if H & {'H280', 'H229', 'H222', 'H223'}:
+        items_add('10.3/10.4', '10-B3', 'warning', s10[:120], 'Gases under pressure/aerosols: ',
+                  [(k, t) for k, t, ok in (('cond:heat', '10.4 heating' + (' (aerosols: above 50 °C, P412)' if H & {'H229', 'H222', 'H223'} else ''), re.search(r'heat|temperature', co10)),
+                                           ('react:burst', '10.3 container may burst or explode if heated', re.search(r'burst|explo|rupture', re10 + ' ' + s10.lower())))
+                   if not ok], 'H229/H280 wording; P412')
+    if H & {'H230', 'H231'}:
+        items_add('10.2-10.4', '10-B4', 'fail', s10[:120], 'Chemically unstable gas: ',
+                  [(k, t) for k, t, ok in (('stab:unstable', '10.2 states instability', re.search(r'unstable|instab', st10)),
+                                           ('react:explosive', '10.3 may react explosively even without air' + (' (at elevated pressure and/or temperature)' if 'H231' in H else ''),
+                                            re.search(r'explo', re10) and ('H231' not in H or re.search(r'pressure|temperature', re10))),
+                                           ('cond:unstable', '10.4 gives the pressure/temperature conditions', re.search(r'pressure|temperature', co10)))
+                   if not ok], 'H230/H231 wording; P202')
+    if H & {'H200', 'H201', 'H202', 'H203', 'H204', 'H205'}:
+        P2 = set(sds['codes_by_section'].get('2', {}).get('P', []))
+        P2 = {c for combo in P2 for c in combo.split('+')}
+        wants = [(k, t) for k, t, ok in (('react:explosive', '10.1 describes the explosive hazard', re.search(r'explo', r1.lower())),
+                                         ('cond:heat', '10.4 heat and ignition sources (P210)', re.search(r'heat|ignition|flame|spark', co10)),
+                                         ('cond:shock', '10.4 shock, friction, grinding (P250 on label)', 'P250' not in P2 or re.search(r'shock|friction|grind|impact', co10)),
+                                         ('cond:static discharge', '10.4 static discharge (P240 on label)', 'P240' not in P2 or re.search(r'static', co10)),
+                                         ('cond:drying', '10.4 drying out (P230 on label)', 'P230' not in P2 or re.search(r'dry|wet', co10))) if not ok]
+        items_add('10.1/10.4', '10-B5', 'fail', s10[:120], 'Explosive: ', wants, 'CLP Annex IV P210, P230, P240, P250 conditions')
+    if H & {'H206', 'H207', 'H208'}:
+        if J == 'EU':
+            items_add('10.2/10.4', '10-B6', 'fail', s10[:120], 'Desensitised explosive (EU 2020/878): ',
+                      [(k, t) for k, t, ok in (('stab:shelf', '10.2 shelf life', re.search(r'shelf', st10)),
+                                               ('stab:verify', '10.2 how to verify desensitisation', re.search(r'verif|check', st10)),
+                                               ('stab:removal', '10.2 removal of the agent turns it into an explosive', re.search(r'remov|loss', st10) and re.search(r'explos', st10)),
+                                               ('cond:agent', '10.4 measures against loss of the desensitising agent', re.search(r'desensiti|wet|dry', co10))) if not ok],
+                      'EU REACH Annex II 10.2/10.4')
+        elif not re.search(r'desensiti|wet|dry', co10):
+            add('10.4', '10-B6', 'warning', slots.get('conditions', ''), 'Loss of the desensitising agent as a condition to avoid (P212, P230)', 'CLP Annex IV P212, P230')
+    if H & {'H240', 'H241', 'H242'}:
+        lab = re.search(r'store at temperatures not exceeding\s*(-?\d+(?:[.,]\d+)?)\s*°\s*c', s2t)
+        ctrl = re.search(r'control temperature\s*:?\s*(-?\d+(?:[.,]\d+)?)\s*°\s*c', sx['14'])
+        need = lab or ctrl
+        tval = (lab or ctrl).group(1).replace(',', '.') if need else None
+        t10 = re.findall(r'(-?\d+(?:[.,]\d+)?)\s*°\s*c', co10)
+        wants = [(k, t) for k, t, ok in (('stab:unstable', '10.2 states the conditions under which it is stable', re.search(r'only|under|at or below|provided|when stored|temperature|condition', st10)),
+                                         ('react:sadt', '10.3 describes self-accelerating decomposition', re.search(r'self-accelerating|decompos', re10)),
+                                         ('cond:heat', '10.4 lists heat', re.search(r'heat|temperature', co10)),
+                                         ('cond:temp', f'10.4 gives the maximum temperature ({tval} °C per P411/control temperature)',
+                                          not need or any(abs(float(x.replace(',', '.')) - float(tval)) < 0.01 for x in t10))) if not ok]
+        items_add('10.2-10.4', '10-B7', 'fail', s10[:120], 'Self-reactive/organic peroxide: ', wants, 'H240-H242 wording; CLP Annex IV P411 (Annex I 2.8.2.4/2.15.2.3)')
+    if H & {'H250', 'H232'} and not re.search(r'\bair\b|oxygen', co10 + ' ' + low(incompatible)):
+        add('10.4/10.5', '10-B8', 'fail', slots.get('conditions', ''), 'Exposure to air in 10.4 or 10.5 (pyrophoric)', 'H250/H232 wording; P222, P231',
+            items=[{'key': 'fam:air', 'status': 'fail', 'text': 'air'}], prefix='Exposure to air in 10.4 or 10.5 (pyrophoric): ')
+    if H & {'H251', 'H252'}:
+        items_add('10.3/10.4', '10-B9', 'warning', s10[:120], 'Self-heating: ',
+                  [(k, t) for k, t, ok in (('react:selfheat', '10.3 self-heating can lead to ignition', re.search(r'self-heat|ignit|spontaneous', re10)),
+                                           ('cond:heat', '10.4 heat / bulk quantities', re.search(r'heat|temperature|bulk|large quantit', co10))) if not ok], 'H251/H252 wording; P413')
+    if 'EUH019' in H and not re.search(r'peroxide', st10 + ' ' + re10):
+        add('10.2/10.3', '10-B13', 'fail', (slots.get('stability', '') + ' | ' + slots.get('reactions', ''))[:150], 'Say that explosive peroxides may form and under what conditions (EUH019)', 'EUH019 wording',
+            items=[{'key': 'react:peroxide', 'status': 'fail', 'text': 'peroxide formation'}], prefix='10.2/10.3 must address: ')
+    if 'EUH044' in H and not re.search(r'confine', co10):
+        add('10.4', '10-B14', 'fail', slots.get('conditions', ''), 'Heating under confinement as a condition to avoid (EUH044)', 'EUH044 wording')
+    if H & {'EUH031', 'EUH032'}:
+        items_add('10.3/10.5', '10-B15', 'fail', s10[:120], 'Contact with acids liberates (very) toxic gas: ',
+                  [(k, t) for k, t, ok in (('fam:acids', '10.5 lists acids', 'acids' in families_in(incompatible)),
+                                           ('react:gas', '10.3 names the gas released', re.search(r'gas|hydrogen|cyanide|sulphide|sulfide|chlorine|phosphine', re10))) if not ok], 'EUH031/EUH032 wording')
+    if 'EUH206' in H:
+        items_add('10.3/10.5', '10-B15', 'fail', s10[:120], 'Active chlorine (EUH206): ',
+                  [(k, t) for k, t, ok in (('react:chlorine', '10.3 names chlorine release when mixed with other products', re.search(r'chlorine', re10)),
+                                           ('fam:other-products', '10.5 names the products it must not be mixed with (e.g. acids)', re.search(r'acid|other products|cleaning', low(incompatible)))) if not ok], 'EUH206 wording')
+    if H & {'EUH018', 'EUH209', 'EUH209A'} and not re.search(r'vapou?r|flammab', re10 + ' ' + co10):
+        add('10.3/10.4', '10-B16', 'warning', s10[:120], 'Address flammable vapour-air mixtures / becoming flammable in use (EUH018, EUH209/209A)', 'EUH018, EUH209/209A wording')
+    if 'EUH207' in H and not re.search(r'fume|cadmium', dec10):
+        add('10.6', '10-B16', 'warning', slots.get('decomposition', ''), 'Fumes formed during use (EUH207)', 'EUH207 wording')
+    if re.search(r'combustible dust|dust explosion|explosible dust', s2t + ' ' + sx['9']) and not re.search(r'dust', re10 + ' ' + co10):
+        add('10.3/10.4', '10-B17', 'warning', s10[:120], 'Dust-explosion potential (10.3) and dust formation/accumulation and ignition sources (10.4)', '1910.1200(c); EU Annex II 9.2.2; ATEX/DSEAR')
 
     # ---- C: cross-section
     named = reaction_statements(sds)
@@ -408,6 +518,20 @@ def run(sds, lookup_dir, declared, sds_type):
         if cls == '5.1' and 'combustibles' not in have10:
             add('10 ↔ 14', '10-C6', 'warning', f'Class {cls}', 'Combustibles in 10.5', 'ADR / Section 14')
     nfpa = re.search(r'Instability\s+(?:Physical hazards\s+)?\d\s+\d\s+(\d)', full)
+    if nfpa:
+        inst = int(nfpa.group(1))
+        nf = []
+        if inst >= 2 and re.search(r'\bstable\b', low(slots.get('stability'))) and not re.search(r'unstable', low(slots.get('stability'))):
+            nf.append(('nfpa:inst', f'NFPA instability {inst}: 10.2 should not say "stable"'))
+        special = re.search(r'Instability\s+(?:Physical hazards\s+)?\d\s+\d\s+\d\s+(\S+)', full)
+        sp = special.group(1) if special else ''
+        if 'W' in sp and 'water' not in families_in(incompatible):
+            nf.append(('fam:water', 'NFPA W: water in 10.5'))
+        if 'OX' in sp and 'combustibles' not in have10:
+            nf.append(('fam:combustibles', 'NFPA OX: combustibles in 10.5'))
+        if nf:
+            add('10 ↔ NFPA', '10-C7', 'warning', f'NFPA instability {inst}, special {sp or "none"}', '; '.join(t for _, t in nf), 'NFPA 30 and NFPA 704',
+                items=[{'key': k, 'status': 'warning', 'text': t} for k, t in nf], prefix='')
     # linked checks owned by other sections
     s5 = ' '.join(sds['sections'].get('5', {}).get('text', '').split())
     suitable = re.split(r'unsuitable|must not be used', s5, flags=re.I)[0]
@@ -516,6 +640,40 @@ def run(sds, lookup_dir, declared, sds_type):
         suffix = (' ' + ' '.join(notes)) if notes else ''
         add('10.5', '10-D1', 'fail' if fails else 'warning', incompatible[:150], '; '.join(x['text'] for x in items) + suffix,
             ', '.join(sorted(set(srcs))), items=items, prefix='', suffix=suffix)
+    # 10-D4 / 10-D5 / 10-D6 from reference data
+    s52 = low(' '.join(sds['sections'].get('5', {}).get('text', '').split()))
+    d4, d5, d6, src456 = [], False, [], set()
+    PRODUCTS = {'chlorine': r'chlorine', 'hydrogen chloride': r'hydrogen chloride|\bhcl\b', 'nitrogen oxides': r'nitrogen oxides|\bnox\b',
+                'carbon monoxide': r'carbon monoxide', 'sulfur oxides': r'sulph?fur (?:di)?oxides?|\bsox\b', 'phosphine': r'phosphine',
+                'hydrogen cyanide': r'hydrogen cyanide', 'hydrogen fluoride': r'hydrogen fluoride|\bhf\b', 'phosgene': r'phosgene'}
+    for cas_, d in lk.items():
+        if cas_ == '7732-18-5':
+            continue
+        for src, txt, url in reference_statements(d):
+            t = low(txt)
+            for sent in sentences(' '.join(txt.split())):
+                if re.search(r'on heating|when heated|decomposes on heating|thermal decomposition|on combustion|burning', sent, re.I):
+                    tail = sent + ' '
+                    for name, rx in PRODUCTS.items():
+                        if re.search(rx, tail, re.I) and not re.search(rx, dec10 + ' ' + s52):
+                            d4.append(name); src456.add(src)
+            if re.search(r'stabili[sz]ed|inhibitor|inhibited', t):
+                d5 = True; src456.add(src)
+            if re.search(r'may form explosive peroxides|peroxide former|may polymeri[sz]e|polymeri[sz]able|polymerization', t):
+                d6.append('peroxide formation' if 'peroxide' in t else 'hazardous polymerisation'); src456.add(src)
+    if d4:
+        d4 = sorted(set(d4))
+        add('10.6', '10-D4', 'warning', slots.get('decomposition', '')[:120], 'Decomposition products recorded on heating, missing from 10.6/5.2: ' + ', '.join(d4),
+            ', '.join(sorted(src456)), items=[{'key': 'dec:' + x, 'status': 'warning', 'text': x} for x in d4], prefix='Decomposition products recorded on heating, missing from 10.6/5.2: ')
+    if d5 and not re.search(r'stabili[sz]|inhibit', st10):
+        st = 'fail' if EUGB else 'warning'
+        add('10.2', '10-D5', st, slots.get('stability', ''), 'Reference data record a stabilised/inhibited form: name the stabiliser', ', '.join(sorted(src456)),
+            items=[{'key': 'stab', 'status': st, 'text': 'name the stabiliser/inhibitor'}], prefix='Reference data record a stabilised/inhibited form: ')
+    for what in sorted(set(d6)):
+        word = 'peroxide' if 'peroxide' in what else 'polymeri'
+        if not re.search(word, st10 + ' ' + re10 + ' ' + co10):
+            add('10.2-10.4', '10-D6', 'warning', s10[:120], f'Reference data record {what}: address it in 10.2-10.4', ', '.join(sorted(src456)),
+                items=[{'key': 'react:peroxide' if word == 'peroxide' else 'react:polymer', 'status': 'warning', 'text': what}], prefix='Reference data record: ')
     for cas_, d in lk.items():
         for r in d['results']:
             if r['source'] == 'GESTIS' and r.get('entries') and cas_ != '7732-18-5':
@@ -532,7 +690,8 @@ def run(sds, lookup_dir, declared, sds_type):
             rest = [x for x in subs_a5 if x not in subs_b1]
             add(b1['section'], '10-A5+10-B1', 'fail', b1['sds_says'],
                 'No reason given for "no data" (10-A5) AND contradicts the classification (10-B1): ' + b1['expected'],
-                a5['source'] + '; ' + b1['source'])
+                a5['source'] + '; ' + b1['source'], items=b1.get('items'),
+                prefix='No reason given for "no data" (10-A5) AND contradicts the classification (10-B1): ' + (b1.get('prefix') or ''))
             if rest:
                 add('10', '10-A5', 'fail', '; '.join(r for r in a5['sds_says'].split('; ') if r.split(':')[0] in rest), a5['expected'], a5['source'])
     findings = dedupe(findings)
@@ -554,5 +713,8 @@ if __name__ == '__main__':
     print(f"jurisdiction: declared={j['declared']} detected={j['detected']} ({'; '.join(j['evidence'])})" + ('  ** MISMATCH **' if j['mismatch'] else ''))
     for f in res['findings']:
         print(f"  {f['check']:<16} {f['status']:<11} {f['sds_says'][:90]!r} -> {f['expected'][:110]}")
+    import coverage
+    have = any(not k.endswith('7732-18-5.json') for k in os.listdir(a.lookup_dir) if k.startswith('lookup_') and k[7:-5] in sds['codes_all']['CAS'])
+    coverage.print_not_run('10', a.declared or res['jurisdiction']['detected'], a.type, have)
     if a.out:
         json.dump(res, open(a.out, 'w'), indent=1, ensure_ascii=False)

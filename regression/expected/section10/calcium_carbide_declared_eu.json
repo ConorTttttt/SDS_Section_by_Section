@@ -33,6 +33,11 @@
    "section": "10.5"
   },
   {
+   "check": "10-J1",
+   "status": "warning",
+   "section": "All"
+  },
+  {
    "check": "5-C2",
    "status": "warning",
    "section": "5.2"

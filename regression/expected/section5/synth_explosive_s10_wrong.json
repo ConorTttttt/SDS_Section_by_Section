@@ -1,0 +1,10 @@
+{
+ "case": "synth_explosive_s10_wrong",
+ "section": "5",
+ "jurisdiction": {
+  "declared": "EU",
+  "detected": "EU",
+  "mismatch": false
+ },
+ "findings": []
+}
