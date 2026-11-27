@@ -26,7 +26,7 @@ Status per Checklist row is in the Checklist tab (column G), mirrored in `checkl
 
 | Section | Coded / total (27 Nov 2026) | Not coded | Manual (reason) |
 |---|---|---|---|
-| 10 (incl. linked 5-C1, 5-C2, 6-C1, 7-C1 and 10-J1) | 51 / 57 | — | D2 (Bretherick's is paid), D3 (CRW 4 is a desktop tool), D7 (ERG refuses automated access), D8 (C&L Inventory refuses automated access; GB MCL not yet parsed), D9 (ECHA CHEM refuses automated access), D10 (needs supplier test reports) |
+| 10 (incl. linked 5-C1, 5-C2, 6-C1, 7-C1 and 10-J1) | 50 / 56 | — | D2 (Bretherick's is paid), D3 (CRW 4 is a desktop tool), D7 (ERG refuses automated access), D8 (C&L Inventory refuses automated access; GB MCL not yet parsed), D9 (ECHA CHEM refuses automated access), D10 (needs supplier test reports) |
 | 4 (incl. 2-L1, 2-L2) | 26 / 27 | — | A11 (informational; its triggers are reported by 4-B7, 4-D2, 4-D3) |
 | 5 | 16 / 16 | — | — |
 | 6 | 14 / 15 | C3 (info) | — |
