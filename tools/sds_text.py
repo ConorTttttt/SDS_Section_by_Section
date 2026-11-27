@@ -13,8 +13,8 @@ import sys
 
 TITLES = {
     1: r'identification', 2: r'hazards?\s*(?:\(s\))?\s*identification', 3: r'composition',
-    4: r'first[\s-]*aid', 5: r'fire[\s-]*fighting', 6: r'accidental\s+release', 7: r'handling\s+and\s+storage',
-    8: r'exposure\s+controls?', 9: r'physical\s+and\s+chemical', 10: r'stability\s+and\s+reactivity',
+    4: r'first[\s-]*aid', 5: r'fire[\s-]*fighting', 6: r'accidental\s+release', 7: r'handling|storage',
+    8: r'exposure|personal\s+protection', 9: r'physical', 10: r'stability|reactivity',
     11: r'toxicologic', 12: r'ecologic', 13: r'disposal', 14: r'transport', 15: r'regulatory', 16: r'other\s+information',
 }
 
@@ -41,7 +41,7 @@ def to_text(src, work):
 
 def find_sections(text):
     cands = []
-    for m in re.finditer(r'(?im)^[ \t>*#|]*(?:section|sec\.?|abschnitt|rubrique)?[ \t]*(\d{1,2})[ \t]*[.:)\-–—]?[ \t]*(?:[.:\-–—][ \t]*)?([^\n]{3,120})$', text):
+    for m in re.finditer(r'(?im)^[ \t\f>*#|]*(?:section|sec\.?|abschnitt|rubrique)?[ \t]*(\d{1,2})[ \t]*[.:)\-–—]?[ \t]*(?:[.:\-–—][ \t]*)?([^\n]{3,120})$', text):
         n = int(m.group(1))
         if n in TITLES and re.search(TITLES[n], m.group(2), re.I) and not re.match(r'\s*\d', m.group(2)):
             cands.append((m.start(), n, m.group(0).strip()))
@@ -61,7 +61,7 @@ def find_sections(text):
         end = order[i + 1][1][0] if i + 1 < len(order) else len(text)
         body = text[pos:end]
         subs = {}
-        sub_iter = list(re.finditer(rf'(?m)^[ \t]*({n})\.(\d{{1,2}})\.?(?:\d\.?)?[ \t]+([^\n]*)$', body))
+        sub_iter = list(re.finditer(rf'(?m)^[ \t\f]*({n})\.(\d{{1,2}})\.?(?:\d\.?)?[ \t]+([^\n]*)$', body))
         for j, sm in enumerate(sub_iter):
             send = sub_iter[j + 1].start() if j + 1 < len(sub_iter) else len(body)
             key = f'{n}.{int(sm.group(2))}'
