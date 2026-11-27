@@ -54,12 +54,15 @@ These sources are always checked by hand:
 
 The lookups run at about one request per second. Keep it that way.
 
-## 3. Check a section: `tools/check_s10.py`, `tools/check_s4.py`
+## 3. Check a section: `tools/check_s10.py`, `tools/check_s4.py`, `tools/check_s567.py`
 
 ```bash
 python3 -I tools/check_s10.py out/my_sds/sds.json out/my_sds --declared GB --type substance --out out/my_sds/s10.json
 python3 -I tools/check_s4.py  out/my_sds/sds.json out/my_sds --declared GB --type substance --out out/my_sds/s4.json
+python3 -I tools/check_s567.py out/my_sds/sds.json out/my_sds --declared GB --type substance   # Sections 5, 6, 7 (or --section 6)
 ```
+
+Not every Checklist row is automated yet: [BACKLOG.md](BACKLOG.md) lists the rows with no code.
 
 Each script applies that section's checklist and prints every finding: check ID, status (fail/warning/info/not checked), what the SDS says and what's expected. A cross-section finding is counted under the section that needs fixing. For example, a bracketed P334 phrase in Section 2 is reported as `2-L1`.
 
@@ -78,7 +81,7 @@ Known limits:
 python3 -I tools/run_regression.py /path/to/test_sds_folder
 ```
 
-This runs Sections 10 and 4 for every case in `regression/cases.json`. Each case lists its file name and SHA-256, the declared jurisdiction and the SDS type. The cases are:
+This runs Sections 10, 4, 5, 6 and 7 for every case in `regression/cases.json`. Each case lists its file name and SHA-256, the declared jurisdiction and the SDS type. The cases are:
 
 - sodium hypochlorite solution (US, mixture)
 - acetone (GB, substance)
@@ -87,11 +90,16 @@ This runs Sections 10 and 4 for every case in `regression/cases.json`. Each case
 
 The PDFs themselves aren't committed, because they're supplier documents. Put them in one folder and pass its path.
 
-There are also three synthetic cases in `regression/synthetic/`, each clearly marked "SYNTHETIC TEST SDS — NOT A REAL PRODUCT". They are committed and need no folder. Each one triggers one rule:
+There are also eight synthetic cases in `regression/synthetic/`, each clearly marked "SYNTHETIC TEST SDS — NOT A REAL PRODUCT". They are committed and need no folder. Each one triggers one rule:
 
 - GHS Rev.10 codes → 2-L2
 - "induce vomiting" with Asp. Tox. 1 → 4-B1 fail
 - "induce vomiting" with Acute Tox. 4 oral only → 4-B1 warning
+- flammable gas with no leaking-gas caveat or ignition control → 5-B3, 6-B3, 7-B1 fail
+- the same flammable gas done right → no fails (checks for false fails)
+- explosive 1.1 with no evacuation advice and no P401 storage → 5-B2, 7-B8 fail
+- oxidising solid cat. 1 with no separation from combustibles → 5-B2, 7-B2 fail
+- organic peroxide with "Store at temperatures not exceeding 0 °C" on the label but no temperature in 7.2 → 7-B3 fail
 
 To regenerate them, run `SOURCE_DATE_EPOCH=1795737600 python3 -I regression/synthetic/make_synthetic.py`. If the files change, update their SHA-256 in `cases.json`.
 
@@ -101,6 +109,10 @@ Options:
 - `--write-expected` overwrites `regression/expected/section*/` with the current results.
 
 Use `--write-expected` only for an intended, reviewed rule change, and commit the new expectations together with that change. The exit code is 0 when everything matches and 1 on any difference.
+
+## Continuous integration
+
+`.github/workflows/regression.yml` runs `python3 -I tools/run_regression.py --synthetic-only` on every push and pull request, on Ubuntu 24.04 with pandoc 3.1.3, the version the expected results were generated with. Supplier SDSs stay local, so CI covers the synthetic cases only.
 
 ## Network access
 

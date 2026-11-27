@@ -33,6 +33,8 @@ def dedupe(findings):
                 keep.append(it)
             else:
                 kept = findings[o]
+                if kept['check'] == f['check']:
+                    continue
                 kept.setdefault('also_covers', [])
                 label = f"{f['check']} ({it['key'].split(':', 1)[-1]})"
                 if label not in kept['also_covers']:

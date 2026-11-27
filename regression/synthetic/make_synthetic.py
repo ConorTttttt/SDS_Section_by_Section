@@ -6,6 +6,11 @@ to run the checkers and is built to trigger one specific rule:
   synth_rev10_codes            GHS Rev.10 codes (P316/P317) on an EU SDS      -> 2-L2 warning, P316 matched as P310
   synth_asp_tox_vomiting       "induce vomiting" with Asp. Tox. 1 (H304, P331) -> 4-B1 fail (also covers 4-C1)
   synth_oral4_vomiting         "induce vomiting" with Acute Tox. 4 oral only   -> 4-B1 warning
+  synth_flam_gas_wrong         flammable gas, no leaking-gas caveat / ignition control -> 5-B3, 6-B3, 7-B1 fail
+  synth_flam_gas_correct       the same flammable gas done right                     -> no fails (false-fail check)
+  synth_explosive_wrong        explosive 1.1, no evacuation advice, no P401 storage  -> 5-B2, 7-B8 fail
+  synth_oxidiser_cat1_wrong    oxidising solid cat. 1, no combustibles separation    -> 5-B2, 7-B2 fail
+  synth_org_peroxide_ct_wrong  organic peroxide, P411 0 °C on label, none in 7.2     -> 7-B3 fail
 
 Usage: python3 -I regression/synthetic/make_synthetic.py   (writes .md and .docx next to this script; needs pandoc)
 """
@@ -112,6 +117,137 @@ CASES = {
         (11, 1): 'Acute toxicity (oral): Category 4 (synthetic fixture).',
     },
 }
+
+
+GOOD4 = {
+    (4, 1): ['General advice: If you feel unwell, get medical advice. First-aiders: wear protective gloves and eye protection.',
+             'Inhalation: Remove to fresh air and keep comfortable for breathing.',
+             'Skin contact: Take off contaminated clothing and shoes. Wash skin with plenty of water.',
+             'Eye contact: Rinse cautiously with water for several minutes. Remove contact lenses, if present and easy to do.',
+             'Ingestion: Rinse mouth. Get medical advice if you feel unwell.'],
+    (4, 2): 'No specific symptoms known beyond irritation (synthetic fixture).',
+    (4, 3): 'Treat symptomatically.',
+}
+GOOD7_HYGIENE = ('Do not eat, drink or smoke in work areas; wash hands after use; remove contaminated clothing and protective equipment '
+                 'before entering eating areas. Avoid release to the environment; keep away from drains. Avoid contact with incompatible materials (see Section 10.5).')
+FLAM_GAS = {
+    (2, 1): 'Flam. Gas 1A, H220. Press. Gas (Comp.), H280.',
+    (2, 2): 'Signal word: Danger. Hazard statements: H220 Extremely flammable gas. H280 Contains gas under pressure; may explode if heated. '
+            'Precautionary statements: P210 Keep away from heat, hot surfaces, sparks, open flames and other ignition sources. No smoking. '
+            'P377 Leaking gas fire: Do not extinguish, unless leak can be stopped safely. P381 In case of leakage, eliminate all ignition sources. '
+            'P410+P403 Protect from sunlight. Store in a well-ventilated place.',
+    (3, 1): 'Synthetic flammable gas (no CAS): 100 %. Flam. Gas 1A, H220; Press. Gas, H280.',
+    (9, 1): 'Physical state: gas. Colour: colourless. Lower explosion limit 2 vol% (synthetic).',
+    (10, 1): 'Extremely flammable gas; forms explosive mixtures with air (synthetic fixture).',
+    (10, 3): 'Forms explosive mixtures with air. Cylinders may burst or explode if heated.',
+    (10, 4): 'Heat, hot surfaces, sparks, open flames, static discharge and other ignition sources; direct sunlight; temperatures above 50 °C.',
+    (10, 5): 'Oxidising agents.',
+    (10, 6): 'None known under normal storage; on combustion, carbon oxides (see Section 5).',
+    (14, 1): 'Transport hazard class 2.1 (synthetic fixture).',
+}
+CASES.update({
+    'synth_flam_gas_wrong': {**GOOD4, **FLAM_GAS, 'tag': 'FGW',
+        (5, 1): 'Suitable extinguishing media: water spray, dry chemical. Unsuitable extinguishing media: water jet.',
+        (5, 2): 'Extremely flammable gas. Containers may burst if heated. Combustion produces carbon monoxide and carbon dioxide.',
+        (5, 3): 'Wear self-contained breathing apparatus. Cool containers with water spray.',
+        (6, 1): 'Evacuate the area. Wear protective equipment.',
+        (6, 2): 'Prevent entry to sewers and confined spaces.',
+        (6, 3): 'Stop the release; ventilate the area until the gas has dispersed.',
+        (6, 4): 'See Sections 8 and 13.',
+        (7, 1): 'Avoid contact with eyes. ' + GOOD7_HYGIENE,
+        (7, 2): 'Store in a dry place.',
+    },
+    'synth_flam_gas_correct': {**GOOD4, **FLAM_GAS, 'tag': 'FGC',
+        (5, 1): 'Suitable extinguishing media: dry chemical, carbon dioxide; water spray to cool containers. Unsuitable extinguishing media: water jet.',
+        (5, 2): 'Extremely flammable gas. Containers may burst when heated. Combustion produces carbon monoxide and carbon dioxide.',
+        (5, 3): 'Leaking gas fire: Do not extinguish, unless leak can be stopped safely. Eliminate all ignition sources. '
+                'Cool containers with water spray from a protected position. Wear self-contained breathing apparatus.',
+        (6, 1): '6.1.1 For non-emergency personnel: evacuate the danger area; eliminate all ignition sources; ventilate. '
+                '6.1.2 For emergency responders: chemically protective clothing of a suitable material (e.g. butyl rubber gloves) and breathing apparatus. '
+                'Small leaks: ventilate and let the gas disperse. Large leaks: evacuate and call the emergency services.',
+        (6, 2): 'Prevent gas from entering drains, sewers or confined spaces.',
+        (6, 3): 'Contain: stop the leak if safe to do so. Clean up: ventilate and allow the gas to disperse; collect leaking cylinders for return to the supplier. '
+                'Use non-sparking tools and explosion-proof equipment.',
+        (6, 4): 'See Sections 8 and 13.',
+        (7, 1): 'Keep away from heat, hot surfaces, sparks, open flames and other ignition sources. No smoking. Ground and bond container and receiving equipment; '
+                'take action to prevent static discharges; use explosion-proof electrical equipment and non-sparking tools. ' + GOOD7_HYGIENE,
+        (7, 2): 'Store in a well-ventilated place; keep cool. Protect from sunlight. Store cylinders upright and secured, away from oxidising agents (see Section 10.5).',
+        (7, 3): 'Industrial use as a fuel gas (synthetic fixture).',
+    },
+    'synth_explosive_wrong': {**GOOD4, 'tag': 'EXW',
+        (2, 1): 'Expl. 1.1, H201.',
+        (2, 2): 'Signal word: Danger. Hazard statements: H201 Explosive; mass explosion hazard. Precautionary statements: P210 Keep away from heat, hot surfaces, '
+                'sparks, open flames and other ignition sources. No smoking. P234 Keep only in original packaging. P250 Do not subject to grinding/shock/friction. '
+                'P370+P372+P380+P373 In case of fire: Explosion risk. Evacuate area. DO NOT fight fire when fire reaches explosives. P401 Store in accordance with local regulations.',
+        (3, 1): 'Synthetic explosive (no CAS): 100 %. Expl. 1.1, H201.',
+        (5, 1): 'Suitable extinguishing media: water spray. Unsuitable extinguishing media: none known.',
+        (5, 2): 'Mass explosion hazard. Combustion produces carbon monoxide and nitrogen oxides.',
+        (5, 3): 'Wear self-contained breathing apparatus. Cool containers with water.',
+        (6, 1): 'Remove all ignition sources; avoid shock and friction. Evacuate the area. Emergency responders: wear protective clothing of a suitable material (cotton, antistatic).',
+        (6, 2): 'Keep away from drains.', (6, 3): 'Contain the spill; collect carefully with non-sparking tools into the original packaging.', (6, 4): 'See Sections 8 and 13.',
+        (7, 1): 'Use non-sparking tools. ' + GOOD7_HYGIENE,
+        (7, 2): 'Store in a cool, dry place.',
+        (9, 1): 'Physical state: solid (powder). Colour: white.',
+        (10, 1): 'Explosive; mass explosion hazard (synthetic fixture).',
+        (10, 3): 'May explode on heating, shock or friction.',
+        (10, 4): 'Heat, sparks, flames, shock, friction, grinding and static discharge.',
+        (10, 5): 'Acids, metals, oxidising agents.',
+        (10, 6): 'On decomposition: nitrogen oxides and carbon oxides.',
+        (14, 1): 'UN classification 1.1D (synthetic fixture).',
+    },
+    'synth_oxidiser_cat1_wrong': {**GOOD4, 'tag': 'OXW',
+        (2, 1): 'Ox. Sol. 1, H271.',
+        (2, 2): 'Signal word: Danger. Hazard statements: H271 May cause fire or explosion; strong oxidiser. Precautionary statements: P210 Keep away from heat. '
+                'P220 Keep away from clothing and other combustible materials. P283 Wear fire resistant or flame retardant clothing. '
+                'P306+P360 IF ON CLOTHING: Rinse immediately contaminated clothing and skin with plenty of water before removing clothes. '
+                'P371+P380+P375 In case of major fire and large quantities: Evacuate area. Fight fire remotely due to the risk of explosion. '
+                'P370+P378 In case of fire: Use water to extinguish. P420 Store separately.',
+        (3, 1): 'Synthetic oxidising solid (no CAS): 100 %. Ox. Sol. 1, H271.',
+        (4, 1): ['General advice: If you feel unwell, get medical advice. First-aiders: wear protective gloves and eye protection.',
+                 'Inhalation: Remove to fresh air.',
+                 'Skin contact: Rinse immediately contaminated clothing and skin with plenty of water before removing clothes.',
+                 'Eye contact: Rinse cautiously with water for several minutes. Remove contact lenses, if present and easy to do.',
+                 'Ingestion: Rinse mouth. Get medical advice if you feel unwell.'],
+        (5, 1): 'Suitable extinguishing media: flooding quantities of water. Unsuitable extinguishing media: dry chemical and carbon dioxide (ineffective).',
+        (5, 2): 'Strong oxidiser: intensifies fire; may cause fire or explosion in contact with combustible materials. Releases oxygen when heated.',
+        (5, 3): 'Wear self-contained breathing apparatus and full protective clothing.',
+        (6, 1): 'Keep combustible materials away from the spill. Emergency responders: wear protective clothing of a suitable material (no combustible fabrics).',
+        (6, 2): 'Keep away from drains.', (6, 3): 'Sweep up into a clean, dry, non-combustible container. Do not use sawdust or other combustible absorbents.',
+        (6, 4): 'See Sections 8 and 13.',
+        (7, 1): 'Avoid dust formation. Wear protective equipment. ' + GOOD7_HYGIENE,
+        (7, 2): 'Store in a cool, dry place.',
+        (9, 1): 'Physical state: solid (crystals). Colour: white.',
+        (10, 1): 'Strong oxidiser: may cause fire or explosion with combustible materials (synthetic fixture).',
+        (10, 3): 'Violent reaction with combustible and reducing materials; may intensify fire.',
+        (10, 4): 'Heat; contamination with combustible materials.',
+        (10, 5): 'Combustible materials, reducing agents, organic materials.',
+        (10, 6): 'On heating: oxygen (supports combustion).',
+        (14, 1): 'Transport hazard class 5.1 (synthetic fixture).',
+    },
+    'synth_org_peroxide_ct_wrong': {**GOOD4, 'tag': 'OPW',
+        (2, 1): 'Org. Perox. D, H242.',
+        (2, 2): 'Signal word: Danger. Hazard statements: H242 Heating may cause a fire. Precautionary statements: P210 Keep away from heat, hot surfaces, sparks, '
+                'open flames and other ignition sources. No smoking. P234 Keep only in original packaging. '
+                'P370+P378 In case of fire: Use water spray to extinguish. P410 Protect from sunlight. P411 Store at temperatures not exceeding 0 °C. P420 Store separately.',
+        (3, 1): 'Synthetic organic peroxide (no CAS): 100 %. Org. Perox. D, H242.',
+        (5, 1): 'Suitable extinguishing media: water spray, foam. Unsuitable extinguishing media: water jet.',
+        (5, 2): 'Heating may cause a fire; self-accelerating decomposition above the SADT. Combustion produces carbon monoxide and carbon dioxide.',
+        (5, 3): 'Wear self-contained breathing apparatus. Cool containers with water spray from a safe distance.',
+        (6, 1): 'Remove all ignition sources. Emergency responders: wear protective clothing of a suitable material (e.g. neoprene).',
+        (6, 2): 'Keep away from drains.', (6, 3): 'Contain with inert, non-combustible absorbent (vermiculite); collect into a clean container. Do not use sawdust.',
+        (6, 4): 'See Sections 8 and 13.',
+        (7, 1): 'Keep away from heat, sparks and open flames. ' + GOOD7_HYGIENE,
+        (7, 2): 'Keep only in original packaging. Store separately. Protect from sunlight.',
+        (9, 1): 'Physical state: liquid. Colour: colourless. Decomposition temperature (SADT): 10 °C (synthetic value, 50 kg package).',
+        (10, 1): 'Organic peroxide: self-accelerating decomposition above the SADT (synthetic fixture).',
+        (10, 2): 'Stable only when stored at or below the control temperature of 0 °C.',
+        (10, 3): 'Self-accelerating decomposition with release of heat and flammable vapours if the temperature rises above the SADT.',
+        (10, 4): 'Temperatures above 0 °C (control temperature); heat, sources of ignition, contamination.',
+        (10, 5): 'Amines, accelerators, reducing agents, acids, bases, metal compounds.',
+        (10, 6): 'On decomposition: carbon dioxide and flammable organic vapours.',
+        (14, 1): 'Transport hazard class 5.2; control temperature 0 °C; emergency temperature 10 °C (synthetic fixture).',
+    },
+})
 
 
 def build(name, spec):

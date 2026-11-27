@@ -32,11 +32,17 @@
        "first_aid": "Rinse mouth. Do NOT induce vomiting. Give one or two glasses of water to drink. Refer immediately for medical attention."
       }
      },
+     "fire": {
+      "hazards": "Not combustible. Gives off irritating or toxic fumes (or gases) in a fire. Heating will cause rise in pressure with risk of bursting.",
+      "prevention": "",
+      "fire_fighting": "In case of fire in the surroundings, use appropriate extinguishing media."
+     },
      "chemical_dangers": "Decomposes on heating and on contact with acids. Decomposes under the influence of light. This produces toxic and corrosive gases including chlorine (see ICSC 0126). The substance is a strong oxidant. It reacts with combustible and reducing materials. The solution in water is a weak base. Attacks many metals.",
      "physical_dangers": "",
      "fire_and_explosion": "Not combustible. Gives off irritating or toxic fumes (or gases) in a fire. Heating will cause rise in pressure with risk of bursting. In case of fire in the surroundings, use appropriate extinguishing media. PREVENT GENERATION OF MISTS! SYMPTOMS",
      "storage": "Separated from acids. See Chemical Dangers. Cool. Keep in the dark. Well closed. Store only in original container.",
-     "spillage": "",
+     "spillage": "Personal protection: filter respirator for inorganic gases and vapours adapted to the airborne concentration of the substance. Do NOT let this chemical enter the environment. Ventilation. Collect leaking and spilled liquid in covered non-metallic containers as far as possible. Wash away remainder with plenty of water.",
+     "storage_cell": "Separated from acids. See Chemical Dangers. Cool. Keep in the dark. Well closed. Store only in original container.",
      "notes": "Household bleaches usually contain about 5% sodium hypochlorite (about pH11, irritant), and more concentrated bleaches contain 10-15% sodium hypochlorite (about pH13, corrosive). Rinse contaminated clothing with plenty of water because of fire hazard. Also consult ICSC #1119 (Sodium hypochlorite, active chlorine >10%)."
     },
     {
@@ -66,11 +72,17 @@
        "first_aid": "Rinse mouth. Do NOT induce vomiting. Give one or two glasses of water to drink. Refer immediately for medical attention."
       }
      },
+     "fire": {
+      "hazards": "Not combustible. Gives off irritating or toxic fumes (or gases) in a fire.",
+      "prevention": "",
+      "fire_fighting": "In case of fire in the surroundings, use appropriate extinguishing media. In case of fire: keep drums, etc., cool by spraying with water."
+     },
      "chemical_dangers": "Decomposes on heating and on contact with acids. Decomposes under the influence of light. This produces toxic and corrosive gases including chlorine (see ICSC 0126). The substance is a strong oxidant. It reacts violently with combustible and reducing materials. This generates fire and explosion hazard. The solution in water is a strong base. It reacts violently with acid and is corrosive. Attacks copper and its compounds and light metals.",
      "physical_dangers": "",
      "fire_and_explosion": "Not combustible. Gives off irritating or toxic fumes (or gases) in a fire. In case of fire in the surroundings, use appropriate extinguishing media. In case of fire: keep drums, etc., cool by spraying with water. STRICT HYGIENE! IN ALL CASES CONSULT A DOCTOR! SYMPTOMS",
      "storage": "Separated from combustible substances, reducing agents, acids and food and feedstuffs. See Chemical Dangers. Cool. Keep in the dark. Well closed. Store only in original container.",
-     "spillage": "",
+     "spillage": "Personal protection: complete protective clothing including self-contained breathing apparatus. Do NOT let this chemical enter the environment. Ventilation. Collect leaking and spilled liquid in sealable non-metallic containers as far as possible. Then wash away with plenty of water. Do NOT absorb in saw-dust or other combustible absorbents.",
+     "storage_cell": "Separated from combustible substances, reducing agents, acids and food and feedstuffs. See Chemical Dangers. Cool. Keep in the dark. Well closed. Store only in original container.",
      "notes": "Household bleaches usually contain about 5% sodium hypochlorite (about pH11, irritant), and more concentrated bleaches contain 10-15% sodium hypochlorite (about pH13, corrosive). The symptoms of lung oedema often do not become manifest until a few hours have passed and they are aggravated by physical effort. Rest and medical observation are therefore essential. Rinse contaminated clothing with plenty of water because of fire hazard. Also consult ICSC #0482 (Sodium hypochlorite, active chlorine <10%)."
     }
    ],
@@ -93,7 +105,10 @@
      "reactivity_profile": "Salts of hypochlorous acid, HClO. Generally toxic, irritants and powerful oxidizers, particularly in the presence of water or at higher temperature as they decompose to release oxygen and chlorine gases. On contact with urea they form the highly explosive NCl3. When heated or on contact with acids, they produce highly toxic fumes of chlorine gas [Sax, 9th ed., 1996, p. 1905]. Can react with sulfuric acid to produce heat and chlorine gas.",
      "reactive_groups": "Salts, Basic Oxidizing Agents, Strong Water and Aqueous Solutions",
      "incompatible_absorbents": "Use caution: Liquids with this reactive group classification have been known to react with the absorbents listed below. More info about absorbents, including situations to watch out for... Cellulose-Based Absorbents Expanded Polymeric Absorbents",
-     "first_aid": "INHALATION: Sips of milk or other demulcent. EYES: Flush with plenty of water for 15 minutes. SKIN: Wash contaminated area with soap and water. INGESTION: Induce vomiting, give water. (USCG, 1999)"
+     "first_aid": "INHALATION: Sips of milk or other demulcent. EYES: Flush with plenty of water for 15 minutes. SKIN: Wash contaminated area with soap and water. INGESTION: Induce vomiting, give water. (USCG, 1999)",
+     "firefighting": "Fire Extinguishing Agents Not to Be Used: Amines and oxidizable material such as oxalic acid. May produce explosive chloroamines with amines. Fire Extinguishing Agents: Chemical, CO2, foam, or water in flooding quantities. (USCG, 1999)",
+     "non_fire_response": "Neutralizing Agents for Acids and Caustics: Sodium disulfite; hypo isulfite. (USCG, 1999)",
+     "isolation_evacuation": "Excerpt from ERG Guide 154 [Substances - Toxic and/or Corrosive (Non-Combustible)]: IMMEDIATE PRECAUTIONARY MEASURE: Isolate spill or leak area in all directions for at least 50 meters (150 feet) for liquids and at least 25 meters (75 feet) for solids. SPILL: Increase the immediate precautionary measure distance, in the downwind direction, as necessary. FIRE: If tank, rail tank car or highway tank is involved in a fire, ISOLATE for 800 meters (1/2 mile) in all directions; also, consider initial evacuation for 800 meters (1/2 mile) in all directions. (ERG, 2024)"
     }
    ],
    "retrieved": "2026-11-27"

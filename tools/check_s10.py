@@ -177,7 +177,10 @@ def reaction_statements(sds):
         for s in sentences(re.sub(r'[ \t]+', ' ', txt)):
             if re.search(r'incompatib|keep away from|store away from|separat|avoid contact with|ensure no contact|'
                          r'do not store|mixing|contact with|reacts?|liberat|releases?', s, re.I):
-                head = re.split(PRODUCT_VERB, s, maxsplit=1, flags=re.I)[0] if re.search(r'mixing|contact with', s, re.I) else s
+                m_with = re.search(r'(?:contact with|mixing (?:this product )?with|mixed with|reacts? (?:\w+ )?with|away from|separated from|incompatible with)\s+(.*)', s, re.I)
+                head = re.split(PRODUCT_VERB, m_with.group(1) if m_with else s, maxsplit=1, flags=re.I)[0]
+                if not m_with and re.search(r'^(?:strong )?oxidi[sz]|^[^.]* is an? ', head, re.I):
+                    continue
                 for f in families_in(head) - {'air'}:
                     if f == 'water' and n == '7' and not re.search(r'contact with water|from water|ingress of water|protected against moisture', s, re.I):
                         continue
@@ -420,6 +423,23 @@ def run(sds, lookup_dir, declared, sds_type):
         elif 'C' in els and 'C' not in n52:
             add('5.2', '5-C2', 'warning', m52.group(1)[:150], 'Carbon oxides named (generic "toxic fumes" is not enough)', 'Annex II 5.2 / 10.6')
     s6 = ' '.join(sds['sections'].get('6', {}).get('text', '').split())
+    s63 = low(sds['sections'].get('6', {}).get('subsections', {}).get('6.3', s6))
+    clash = []
+    fam10 = families_in(incompatible)
+    m_neu = re.search(r'neutrali[sz]\w*[^.]{0,80}', s63)
+    if m_neu:
+        agent = m_neu.group(0)
+        for fam, rx in (('acids', r'acid|bisulphite|bisulfite'), ('bases', r'alkali|base|soda|lime|bicarbonate|carbonate|hydroxide')):
+            if re.search(rx, agent) and fam in fam10:
+                clash.append(f'neutralising agent ({fam}) is listed in 10.5')
+    if any(re.search(r'saw-?dust|wood chips|paper', x) and not re.search(r"\bdo not\b|\bnever\b|\bno\b|\bnot\b", x) for x in re.split(r'(?<=[.;])\s+', s63)) \
+            and ('combustibles' in fam10 or H & OXIDISER):
+        clash.append('combustible absorbent (sawdust/paper) with an oxidiser or 10.5 combustibles')
+    if re.search(r'(?<!no )(?<!not )(?:flush|wash|rinse|hose)\w* (?:\w+ ){0,3}(?:with )?water|water spray', s63) and 'water' in fam10 and not aqueous:
+        clash.append('water used in clean-up but water is listed in 10.5')
+    if clash:
+        add('6.3 ↔ 10.5', '6-C1', 'fail', s63[:150], 'Clean-up materials or neutralising agents listed as incompatible in 10.5: ' + '; '.join(clash),
+            'Annex II 6.3, 10.5; CRW 4 (absorbent check)', items=[{'key': 'spill:incompat', 'status': 'fail', 'text': '; '.join(clash)}], prefix='Clean-up materials or neutralising agents listed as incompatible in 10.5: ')
     absorb_bad = []
     for cas_, d in lk.items():
         for r in d['results']:

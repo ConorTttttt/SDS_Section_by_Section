@@ -1,0 +1,10 @@
+{
+ "case": "synth_flam_gas_wrong",
+ "section": "4",
+ "jurisdiction": {
+  "declared": "EU",
+  "detected": "EU",
+  "mismatch": false
+ },
+ "findings": []
+}

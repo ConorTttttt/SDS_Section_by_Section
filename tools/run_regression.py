@@ -1,7 +1,8 @@
-"""Re-run the regression set (Sections 10 and 4) and compare with the expected findings.
+"""Re-run the regression set (Sections 10, 4, 5, 6 and 7) and compare with the expected findings.
 
 Usage:
-  python3 -I tools/run_regression.py SDS_DIR [--live] [--section 10|4] [--write-expected]
+  python3 -I tools/run_regression.py SDS_DIR [--live] [--section 10|4|5|6|7] [--write-expected]
+  python3 -I tools/run_regression.py --synthetic-only          (no SDS_DIR needed; used by CI)
 
 SDS_DIR holds the supplier test SDSs named in regression/cases.json (not in the repo). Synthetic cases
 ("repo_file", regression/synthetic/) are in the repo and need no SDS_DIR.
@@ -26,8 +27,11 @@ REG = os.path.join(os.path.dirname(HERE), 'regression')
 sys.path.insert(0, HERE)
 import check_s10  # noqa: E402
 import check_s4  # noqa: E402
+import check_s567  # noqa: E402
 
-CHECKERS = {'10': check_s10, '4': check_s4}
+CHECKERS = {'10': check_s10.run, '4': check_s4.run, '5': check_s567.runner('5'),
+            '6': check_s567.runner('6'), '7': check_s567.runner('7')}
+ORDER = ['10', '4', '5', '6', '7']
 
 
 def summary(res):
@@ -37,13 +41,18 @@ def summary(res):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('sds_dir')
+    ap.add_argument('sds_dir', nargs='?', default=None)
+    ap.add_argument('--synthetic-only', action='store_true', help='run only the committed synthetic cases (used in CI)')
     ap.add_argument('--live', action='store_true')
-    ap.add_argument('--section', choices=sorted(CHECKERS))
+    ap.add_argument('--section', choices=ORDER)
     ap.add_argument('--write-expected', action='store_true')
     a = ap.parse_args()
     cases = json.load(open(os.path.join(REG, 'cases.json')))['cases']
-    sections = [a.section] if a.section else ['10', '4']
+    if a.synthetic_only:
+        cases = [c for c in cases if c.get('repo_file')]
+    elif not a.sds_dir:
+        ap.error('SDS_DIR is required unless --synthetic-only is given')
+    sections = [a.section] if a.section else ORDER
     failures = 0
     with tempfile.TemporaryDirectory() as tmp:
         for c in cases:
@@ -63,7 +72,7 @@ def main():
                 subprocess.run([sys.executable, '-I', os.path.join(HERE, 'lookup.py'), lk_dir] + sds['codes_all']['CAS'],
                                check=True, capture_output=True)
             for sec in sections:
-                res = CHECKERS[sec].run(sds, lk_dir, c['declared'], c['type'])
+                res = CHECKERS[sec](sds, lk_dir, c['declared'], c['type'])
                 got = summary(res)
                 exp_path = os.path.join(REG, 'expected', f'section{sec}', c['id'] + '.json')
                 if a.write_expected:

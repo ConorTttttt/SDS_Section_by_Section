@@ -1,5 +1,5 @@
 {
- "checklist": "Sections 10 and 4 (approved 2026-11-27)",
+ "checklist": "Sections 10, 4, 5, 6, 7 (Sections 5-7 pending Checklist approval)",
  "cases": [
   {
    "id": "hypochlorite_us_mixture",
@@ -66,6 +66,56 @@
    "type": "substance",
    "expected_detected": "EU",
    "sha256": "8725355f921de948433254bcee50bd5bc2f15de74dd0b7d7eafbdc459f804236"
+  },
+  {
+   "id": "synth_flam_gas_wrong",
+   "repo_file": "regression/synthetic/synth_flam_gas_wrong.docx",
+   "synthetic": true,
+   "product": "SYNTHETIC: flammable gas without leaking-gas caveat or ignition control -> 5-B3, 6-B3, 7-B1 fail",
+   "declared": "EU",
+   "type": "substance",
+   "expected_detected": "EU",
+   "sha256": "a67fb5f496002a5fbb33ba0c868341b3214f45a3d523ba86f602dfbad6e48726"
+  },
+  {
+   "id": "synth_flam_gas_correct",
+   "repo_file": "regression/synthetic/synth_flam_gas_correct.docx",
+   "synthetic": true,
+   "product": "SYNTHETIC: the same flammable gas done right -> no fails (false-fail check)",
+   "declared": "EU",
+   "type": "substance",
+   "expected_detected": "EU",
+   "sha256": "6f8b9a2a0214e940b118ba335e434441fba459f082d9bd28804f51f4c30f07d1"
+  },
+  {
+   "id": "synth_explosive_wrong",
+   "repo_file": "regression/synthetic/synth_explosive_wrong.docx",
+   "synthetic": true,
+   "product": "SYNTHETIC: explosive 1.1 without evacuation advice or P401 storage -> 5-B2, 7-B8 fail",
+   "declared": "EU",
+   "type": "substance",
+   "expected_detected": "EU",
+   "sha256": "0298d565e7476a948c65facb653b343304d4501b7e71a88133b1526ffba506c6"
+  },
+  {
+   "id": "synth_oxidiser_cat1_wrong",
+   "repo_file": "regression/synthetic/synth_oxidiser_cat1_wrong.docx",
+   "synthetic": true,
+   "product": "SYNTHETIC: oxidising solid cat. 1 without combustibles separation -> 5-B2, 7-B2 fail",
+   "declared": "EU",
+   "type": "substance",
+   "expected_detected": "EU",
+   "sha256": "10c62658eb7f61a84f7b71a230f7a0ae079381d8b733524f630074f6e326ba5b"
+  },
+  {
+   "id": "synth_org_peroxide_ct_wrong",
+   "repo_file": "regression/synthetic/synth_org_peroxide_ct_wrong.docx",
+   "synthetic": true,
+   "product": "SYNTHETIC: organic peroxide with P411 0 °C on label but no temperature in 7.2 -> 7-B3 fail",
+   "declared": "EU",
+   "type": "substance",
+   "expected_detected": "EU",
+   "sha256": "1d5d9a17fe27dc26b7be71bc57f58acb782ea8eeb85c962e4930025b772361bd"
   }
  ]
 }

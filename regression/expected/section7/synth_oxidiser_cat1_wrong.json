@@ -1,0 +1,26 @@
+{
+ "case": "synth_oxidiser_cat1_wrong",
+ "section": "7",
+ "jurisdiction": {
+  "declared": "EU",
+  "detected": "EU",
+  "mismatch": false
+ },
+ "findings": [
+  {
+   "check": "7-B2",
+   "status": "fail",
+   "section": "7.1/7.2"
+  },
+  {
+   "check": "7-B2",
+   "status": "warning",
+   "section": "7.2"
+  },
+  {
+   "check": "7-C4",
+   "status": "info",
+   "section": "7.2 ↔ 15"
+  }
+ ]
+}

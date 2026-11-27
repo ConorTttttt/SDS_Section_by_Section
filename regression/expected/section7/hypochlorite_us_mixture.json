@@ -1,0 +1,16 @@
+{
+ "case": "hypochlorite_us_mixture",
+ "section": "7",
+ "jurisdiction": {
+  "declared": "US",
+  "detected": "US",
+  "mismatch": false
+ },
+ "findings": [
+  {
+   "check": "7-B11",
+   "status": "info",
+   "section": "7.1"
+  }
+ ]
+}

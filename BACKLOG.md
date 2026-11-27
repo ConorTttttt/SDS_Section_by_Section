@@ -20,6 +20,18 @@ These are findings and open items that fall outside the sections built so far. E
 - **PubChem** intermittently refuses requests with "server busy", so elemental-composition checks fall back to the formulas given in the SDS.
 - **GESTIS** article text needs an API key we don't hold, so it stays a manual link.
 
+## Engine coverage: Checklist rows that have no code yet
+
+The regression set tests only the rows that are coded, so rows with no code don't show up as failures. They're listed here.
+
+| Section | Coded | Not coded yet | Manual by design (source paid, desktop-only, or refuses automated access) |
+|---|---|---|---|
+| 10 | 26 / 56 | A6, A8, A10, A11, A13–A16; B3–B9, B13–B17; C7; D4–D6 | D2 (Bretherick's), D3 (CRW 4), D7 (ERG), D8/D9 (ECHA), D10 (test reports, info) |
+| 4 | 24 / 27 | A5 (US "no applicable information"), A10, A11 (info) | — |
+| 5–7 | all draft rows except those at right | — | 6-C3 (info), 7-D2 (ECHA), 7-D3 (HSE guidance, info) |
+
+Priority: the Section 10 B rows (B3–B9, B13–B17). The synthetic flammable gas, explosive, oxidiser and organic peroxide SDSs already provide test input for most of them.
+
 ## Other
 
 - The Sheet title still reads "(Sections 4-8)". It can only be renamed in the Sheet page.

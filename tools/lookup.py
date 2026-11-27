@@ -64,6 +64,26 @@ def icsc_first_aid(html):
     return out
 
 
+def icsc_fire(html):
+    """The FIRE & EXPLOSION row: acute hazards, prevention, fire fighting."""
+    for tr in BeautifulSoup(html, 'html.parser').find_all('tr'):
+        cells = [' '.join(td.get_text(' ').split()) for td in tr.find_all(['td', 'th'])]
+        if len(cells) == 4 and cells[0].upper().startswith('FIRE'):
+            return {'hazards': cells[1], 'prevention': cells[2], 'fire_fighting': cells[3]}
+    return {}
+
+
+def icsc_block(html, header):
+    """Text in the table cell under a header cell such as 'SPILLAGE DISPOSAL' or 'STORAGE'."""
+    rows = [[' '.join(td.get_text(' ').split()) for td in tr.find_all(['td', 'th'])] for tr in BeautifulSoup(html, 'html.parser').find_all('tr')]
+    for i, cells in enumerate(rows):
+        if cells and header in cells and i + 1 < len(rows):
+            col = cells.index(header)
+            nxt = rows[i + 1]
+            return nxt[col] if col < len(nxt) else None
+    return None
+
+
 def icsc(cas, work):
     url = f'https://chemicalsafety.ilo.org/dyn/icsc/showcard.listCards3?p_lang=en&p_cas_number={cas}'
     code, html = curl(url, os.path.join(work, f'icsc_list_{cas}.html'))
@@ -81,11 +101,13 @@ def icsc(cas, work):
             'card': cid, 'url': curl_url, 'http': code,
             'name': (re.search(r'ICSC \d{4} - (.*?) «', t) or [None, None])[1],
             'first_aid': icsc_first_aid(card),
+            'fire': icsc_fire(card),
             'chemical_dangers': between(t, 'Chemical dangers', ['Formula:', 'Molecular mass', 'Occupational exposure']),
             'physical_dangers': between(t, 'Physical dangers', ['Chemical dangers']),
             'fire_and_explosion': between(t, 'FIRE & EXPLOSION', ['PREVENTION', 'Prevent build-up'], 600),
             'storage': between(t, 'STORAGE', ['PACKAGING', 'Prepared by']),
-            'spillage': between(t, 'SPILLAGE DISPOSAL', ['CLASSIFICATION', 'STORAGE', 'PACKAGING']),
+            'spillage': icsc_block(card, 'SPILLAGE DISPOSAL') or between(t, 'SPILLAGE DISPOSAL', ['CLASSIFICATION', 'STORAGE', 'PACKAGING']),
+            'storage_cell': icsc_block(card, 'STORAGE'),
             'notes': between(t, 'NOTES', ['ADDITIONAL INFORMATION', 'IPCS', 'Legal Notice', 'Legal notice']),
         })
     return {'source': 'ICSC', 'status': 'ok', 'cards': out, 'retrieved': TODAY}
@@ -144,6 +166,9 @@ def cameo(cas, work):
             'reactive_groups': between(t, 'Belongs to the Following Reactive Group(s)', ['Potentially Incompatible Absorbents']),
             'incompatible_absorbents': between(t, 'Potentially Incompatible Absorbents', ['Response Recommendations']),
             'first_aid': between(t, 'First Aid', ['Physical Properties', 'Regulatory Information'], 2500),
+            'firefighting': between(t, 'Firefighting', ['Non-Fire Response'], 2000),
+            'non_fire_response': between(t, 'Non-Fire Response', ['Protective Clothing'], 2000),
+            'isolation_evacuation': between(t, 'Isolation and Evacuation', ['Firefighting'], 1500),
         })
     return {'source': 'CAMEO Chemicals', 'status': 'ok', 'datasheets': out, 'retrieved': TODAY}
 

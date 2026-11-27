@@ -1,0 +1,26 @@
+{
+ "case": "synth_asp_tox_vomiting",
+ "section": "7",
+ "jurisdiction": {
+  "declared": "EU",
+  "detected": "EU",
+  "mismatch": false
+ },
+ "findings": [
+  {
+   "check": "7-A4",
+   "status": "warning",
+   "section": "7.1"
+  },
+  {
+   "check": "7-A5",
+   "status": "warning",
+   "section": "7.1"
+  },
+  {
+   "check": "7-C4",
+   "status": "info",
+   "section": "7.2 ↔ 15"
+  }
+ ]
+}
