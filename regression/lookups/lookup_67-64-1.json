@@ -1,0 +1,93 @@
+{
+ "cas": "67-64-1",
+ "results": [
+  {
+   "source": "ICSC",
+   "status": "ok",
+   "cards": [
+    {
+     "card": "0087",
+     "url": "https://chemicalsafety.ilo.org/dyn/icsc/showcard.display?p_lang=en&p_card_id=0087&p_version=2",
+     "http": "200",
+     "name": "ACETONE",
+     "first_aid": {
+      "inhalation": {
+       "symptoms": "Sore throat. Cough. Headache. Dizziness. Confusion. Drowsiness. Unconsciousness.",
+       "prevention": "Use ventilation, local exhaust or breathing protection.",
+       "first_aid": "Fresh air, rest. Refer for medical attention."
+      },
+      "skin": {
+       "symptoms": "Dry skin.",
+       "prevention": "Protective gloves.",
+       "first_aid": "Remove contaminated clothes. Rinse skin with plenty of water or shower."
+      },
+      "eyes": {
+       "symptoms": "Redness. Pain. Blurred vision.",
+       "prevention": "Wear safety spectacles.",
+       "first_aid": "Rinse with plenty of water (remove contact lenses if easily possible). Refer for medical attention."
+      },
+      "ingestion": {
+       "symptoms": "See Inhalation.",
+       "prevention": "Do not eat, drink, or smoke during work.",
+       "first_aid": "Rinse mouth. Do NOT induce vomiting. Refer for medical attention ."
+      }
+     },
+     "chemical_dangers": "Contact with strong oxidants such as acetic acid, nitric acid and hydrogen peroxide generates explosive peroxides. Reacts with chloroform and bromoform under basic conditions. This generates fire and explosion hazard. Attacks plastics.",
+     "physical_dangers": "The vapour is heavier than air and may travel along the ground; distant ignition possible.",
+     "fire_and_explosion": "Highly flammable. Vapour/air mixtures are explosive. Heating will cause rise in pressure with risk of bursting. NO open flames, NO sparks and NO smoking. Closed system, ventilation, explosion-proof electrical equipment and lighting. Do NOT use compressed air for filling, discharging, or handling. Use non-sparking handtools. Use powder, alcohol-resistant foam, water, carbon dioxide. In case of fire: keep drums, etc., cool by spraying with water. SYMPTOMS",
+     "storage": "Fireproof. Separated from : see Chemical Dangers. Store in an area without drain or sewer access.",
+     "spillage": "",
+     "notes": ""
+    }
+   ],
+   "retrieved": "2026-11-27"
+  },
+  {
+   "source": "NIOSH Pocket Guide",
+   "status": "ok",
+   "http": "200",
+   "url": "https://www.cdc.gov/niosh/npg/npgd0004.html",
+   "incompatibilities": "Oxidizers, acids",
+   "first_aid": "Eye: Irrigate immediately Skin: Soap wash immediately Breathing: Respiratory support Swallow: Medical attention immediately",
+   "retrieved": "2026-11-27"
+  },
+  {
+   "source": "CAMEO Chemicals",
+   "status": "ok",
+   "datasheets": [
+    {
+     "id": "8",
+     "url": "https://cameochemicals.noaa.gov/chemical/8",
+     "http": "200",
+     "name": null,
+     "air_water_reactions": "Highly flammable. Water soluble.",
+     "reactivity_profile": "It was reported that a mixture of ACETONE and chloroform, in a residue bottle, exploded. Since addition of acetone to chloroform in the presence of base will result in a highly exothermic reaction, it is thought that a base was in the bottle [MCA Case History 1661. 1970]. Also, Nitrosyl chloride, sealed in a tube with a residue of acetone in the presence of platinum catalyst, gave an explosive reaction [Chem. Eng. News 35(43):60. 1967]. The reaction of nitrosyl perchlorate and acetone ignites and explodes. Explosions occur with mixtures of nitrosyl perchlorate and primary amine [Ann. Chem. 42:2031. 1909]. Reacts violently with nitric acid. Also causes exothermic reaction when in contact with aldehydes.",
+     "reactive_groups": "Ketones",
+     "incompatible_absorbents": "No information available.",
+     "first_aid": "EYES: First check the victim for contact lenses and remove if present. Flush victim's eyes with water or normal saline solution for 20 to 30 minutes while simultaneously calling a hospital or poison control center. Do not put any ointments, oils, or medication in the victim's eyes without specific instructions from a physician. IMMEDIATELY transport the victim after flushing eyes to a hospital even if no symptoms (such as redness or irritation) develop. SKIN: IMMEDIATELY flood affected skin with water while removing and isolating all contaminated clothing. Gently wash all affected skin areas thoroughly with soap and water. If symptoms such as redness or irritation develop, IMMEDIATELY call a physician and be prepared to transport the victim to a hospital for treatment. INHALATION: IMMEDIATELY leave the contaminated area; take deep breaths of fresh air. If symptoms (such as wheezing, coughing, shortness of breath, or burning in the mouth, throat, or chest) develop, call a physician and be prepared to transport the victim to a hospital. Provide proper respiratory protection to rescuers entering an unknown atmosphere. Whenever possible, Self-Contained Breathing Apparatus (SCBA) should be used; if not available, use a level of protection greater than or equal to that advised under Protective Clothing. INGESTION: DO NOT INDUCE VOMITING. Volatile chemicals have a high risk of being aspirated into the victim's lungs during vomiting which increases the medical problems. If the victim is conscious and not convulsing, give 1 or 2 glasses of water to dilute the chemical and IMMEDIATELY call a hospital or poison control center. IMMEDIATELY transport the victim to a hospital. If the victim is convulsing or unconscious, do not give anything by mouth, ensure that the victim's airway is open and lay the victim on his/her side with the head lower than the body. DO NOT INDUCE VOMITING. IMMEDIATELY transport the victim to a hospital. (NTP, 1992)"
+    }
+   ],
+   "retrieved": "2026-11-27"
+  },
+  {
+   "source": "GESTIS",
+   "status": "search only (article text needs authorisation; check manually)",
+   "entries": [
+    {
+     "name": "Acetone",
+     "zvg": "011230",
+     "url": "https://gestis.dguv.de/data?name=011230&lang=en"
+    }
+   ]
+  },
+  {
+   "source": "PubChem",
+   "status": "ok",
+   "cid": 180,
+   "formula": "C3H6O",
+   "name": "propan-2-one",
+   "url": "https://pubchem.ncbi.nlm.nih.gov/compound/180",
+   "retrieved": "2026-11-27"
+  }
+ ]
+}

@@ -37,6 +37,13 @@ REAGENTS = {  # named reagents: missing ones are warnings
     'iron (III) chloride / oxide': r'iron \(?iii\)? (?:chloride|oxide)|iron (?:oxide|chloride)',
     'tin (II) chloride': r'tin \(?ii\)? chloride', 'methanol': r'methanol', 'aldehydes': r'aldehydes?',
 }
+SPECIFIC = {  # named materials -> the families they belong to (a family already in 10.5 => 'name explicitly' warning)
+    'nitric acid': {'acids', 'oxidisers'}, 'perchloric acid': {'acids', 'oxidisers'}, 'sulfuric acid': {'acids'},
+    'acetic acid': {'acids'}, 'hydrogen chloride': {'acids'}, 'hydrochloric acid': {'acids'},
+    'hydrogen peroxide': {'oxidisers'}, 'sodium peroxide': {'oxidisers'}, 'chlorine': {'halogens', 'oxidisers'},
+    'bromine': {'halogens', 'oxidisers'}, 'fluorine': {'halogens', 'oxidisers'}, 'iodine': {'halogens'},
+    'chloroform': {'halogenated compounds'}, 'bromoform': {'halogenated compounds'},
+}
 VIOLENT = r'violent|explo|fire|ignit|incandesc|toxic|poison|flammable gas|shock[- ]sensitive|detonat|burns? fiercely|burns? violently'
 PRODUCT_VERB = r'\b(?:produces?|produced|producing|releas(?:es|ed|ing|e)|evolv(?:es|ed|ing|e)|forms?|formed|forming|generat(?:es|ed|ing|e)|liberat(?:es|ed|ing|e)|gives?|giving|to give|into|liberation of|decomposes? to)\b'
 
@@ -231,8 +238,12 @@ def reacting_families(text):
             continue
         s2 = re.sub(r'(\b(?:oxidants?|oxidi[sz]ers?|oxidi[sz]ing agents?|acids?|bases?)\s+such as\b)[^.]*', r'\1', s, flags=re.I)
         head = re.split(PRODUCT_VERB, s2, maxsplit=1, flags=re.I)[0]
-        if re.search(r'^(?:an? (?:base|acid|oxidi|reduc)|the (?:substance|solution)[^.]* is an? |generally|salts of)', head, re.I) and not re.search(VIOLENT, head, re.I):
+        if re.search(r'^(?:an? (?:base|acid|oxidi|reduc)|the (?:substance|solution)[^.]* is an? |[\w ,()\-]+ is an? (?:\w+ )?(?:reduc|oxidi|base|acid)|generally|salts of)', head, re.I) and not re.search(VIOLENT, head, re.I):
             head = ''
+        for name in SPECIFIC:
+            if re.search(r'\b' + name + r'\b', head, re.I):
+                res[('specific', name)] = res.get(('specific', name), False) or violent
+                head = re.sub(r'\b' + name + r'\b', ' ', head, flags=re.I)
         for f in families_in(head) | {('reagent', k) for k in families_in(head, REAGENTS)}:
             res[f] = res.get(f, False) or violent
     return res
@@ -420,13 +431,28 @@ def run(sds, lookup_dir, declared, sds_type):
 
     # ---- D: data spot-checks
     reported = {f for x in findings if x['check'] in ('10-C1', '10-C8') for f in re.findall(r'[a-z ]+', x['sds_says'].split(':', 1)[-1].split('|')[0]) for f in [f.strip()]}
-    fails, warns, srcs = set(), set(), []
+    fails, warns, explicit, srcs, fail_cards = {}, set(), set(), [], {}
+    PRIMARY = ['halogens', 'acids', 'oxidisers', 'halogenated compounds']
     for cas_, d in lk.items():
         if cas_ == '7732-18-5':  # water as diluent: its own reactivity is not the product's
             continue
         for src, txt, url in reference_statements(d):
             for f, violent in reacting_families(txt).items():
                 name = f[1] if isinstance(f, tuple) else f
+                if isinstance(f, tuple) and f[0] == 'specific':
+                    fams = SPECIFIC[name]
+                    if re.search(r'\b' + name + r'\b', low(incompatible)) or fams & reported:
+                        continue
+                    if fams & have10:
+                        explicit.add(name); srcs.append(src)
+                    elif violent and src != 'NIOSH':
+                        fam = next(x for x in PRIMARY if x in fams)
+                        fails.setdefault(fam, set()).add(name); srcs.append(src)
+                        if src.startswith('ICSC'):
+                            fail_cards.setdefault(cas_, set()).add(src)
+                    else:
+                        warns.add(name); srcs.append(src)
+                    continue
                 if name in have10 or name in reported:
                     continue
                 if name == 'water' and aqueous:
@@ -436,20 +462,48 @@ def run(sds, lookup_dir, declared, sds_type):
                         warns.add(name)
                         srcs.append(src)
                 elif violent and src != 'NIOSH':
-                    fails.add(name)
+                    fails.setdefault(name, set())
                     srcs.append(src)
+                    if src.startswith('ICSC'):
+                        fail_cards.setdefault(cas_, set()).add(src)
                 else:
                     warns.add(name)
                     srcs.append(src)
-    warns -= fails
-    if fails or warns:
+    warns -= set(fails)
+    notes = []
+    s3 = ' '.join(sds['sections'].get('3', {}).get('text', '').split())
+    for cas_, d in lk.items():
+        cards = [c for r in d['results'] if r['source'] == 'ICSC' and r['status'] == 'ok' for c in r['cards']]
+        if len(cards) > 1:
+            mc = re.search(re.escape(cas_) + r'\s*([^A-Za-z]{0,25})', s3)
+            conc = mc.group(1).strip() if mc else 'not stated'
+            used = sorted(fail_cards.get(cas_, set())) or ['all cards (none stricter)']
+            notes.append(f"ICSC has {len(cards)} cards for {cas_}: " + '; '.join(f"{c['card']} ({c['name']})" for c in cards)
+                         + f". SDS concentration {conc} %; the stricter card was used: {', '.join(used)}.")
+    if fails or warns or explicit:
         add('10.5', '10-D1', 'fail' if fails else 'warning', incompatible[:150],
-            ('Recorded violent/explosive/gas-releasing reaction with: ' + ', '.join(sorted(fails)) + '. ' if fails else '')
-            + ('Also listed: ' + ', '.join(sorted(warns)) if warns else ''), ', '.join(sorted(set(srcs))))
+            ('Recorded violent/explosive/gas-releasing reaction with: ' + ', '.join(k + (f" ({', '.join(sorted(v))})" if v else '') for k, v in sorted(fails.items())) + '. ' if fails else '')
+            + ('Name explicitly (its family is already listed): ' + ', '.join(sorted(explicit)) + '. ' if explicit else '')
+            + ('Also listed: ' + ', '.join(sorted(warns)) + '. ' if warns else '') + ' '.join(notes), ', '.join(sorted(set(srcs))))
     for cas_, d in lk.items():
         for r in d['results']:
             if r['source'] == 'GESTIS' and r.get('entries') and cas_ != '7732-18-5':
                 add('10', '10-D1 (GESTIS)', 'not checked', '', 'Manual review: ' + r['entries'][0]['url'], 'GESTIS (manual link)')
+    # merge 10-A5 and 10-B1 when they fire on the same text
+    a5 = next((x for x in findings if x['check'] == '10-A5'), None)
+    b1 = next((x for x in findings if x['check'] == '10-B1'), None)
+    if a5 and b1:
+        subs_a5 = re.findall(r'(10\.\d):', a5['sds_says'])
+        subs_b1 = set(re.findall(r'(10\.\d):', b1['sds_says']))
+        shared = [x for x in subs_a5 if x in subs_b1]
+        if shared:
+            findings.remove(a5); findings.remove(b1)
+            rest = [x for x in subs_a5 if x not in subs_b1]
+            add(b1['section'], '10-A5+10-B1', 'fail', b1['sds_says'],
+                'No reason given for "no data" (10-A5) AND contradicts the classification (10-B1): ' + b1['expected'],
+                a5['source'] + '; ' + b1['source'])
+            if rest:
+                add('10', '10-A5', 'fail', '; '.join(r for r in a5['sds_says'].split('; ') if r.split(':')[0] in rest), a5['expected'], a5['source'])
     return {'jurisdiction': juris, 'H': sorted(H), 'elements': sorted(els), 'slots': slots, 'findings': findings}
 
 

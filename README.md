@@ -52,17 +52,21 @@ These sources are always checked by hand:
 
 The lookups run at about one request per second. Keep it that way.
 
-## 3. Check Section 10: `tools/check_s10.py`
+## 3. Check a section: `tools/check_s10.py`, `tools/check_s4.py`
 
 ```bash
-python3 -I tools/check_s10.py out/my_sds/sds.json out/my_sds --declared GB --type substance --out out/my_sds/findings.json
+python3 -I tools/check_s10.py out/my_sds/sds.json out/my_sds --declared GB --type substance --out out/my_sds/s10.json
+python3 -I tools/check_s4.py  out/my_sds/sds.json out/my_sds --declared GB --type substance --out out/my_sds/s4.json
 ```
 
-It applies the tuned Section 10 checklist and prints each finding: check ID, status (fail/warning/info/not checked) and what the SDS says against what's expected.
+Each script applies that section's checklist and prints every finding: check ID, status (fail/warning/info/not checked), what the SDS says and what's expected. A cross-section finding is counted under the section that needs fixing. For example, a bracketed P334 phrase in Section 2 is reported as `2-L1`.
 
-It also works out the jurisdiction from the SDS itself: the regulation cited and the supplier address. If that differs from `--declared`, it says `** MISMATCH **`, but it still runs the checks under the declared jurisdiction.
+Both scripts work out the jurisdiction from the SDS itself: the regulation cited and the supplier address. If that differs from `--declared`, they print `** MISMATCH **` and still run under the declared jurisdiction.
 
-The rules are keyword heuristics tuned on the regression set below. Read every finding: the output is a review aid, not a verdict.
+Known limits:
+- US precautionary-statement wording (OSHA App C) is published only as images, so US text is matched against the CLP wording.
+- GHS Rev.10 codes P316–P319 are matched as equivalents of P310–P315. That mapping has not been checked against the GHS Rev.10 text, because unece.org isn't reachable from here.
+- The rules are keyword heuristics tuned on the regression set. Read every finding: the output is a review aid, not a verdict.
 
 ## 4. Re-run the regression set: `tools/run_regression.py`
 
@@ -70,7 +74,7 @@ The rules are keyword heuristics tuned on the regression set below. Read every f
 python3 -I tools/run_regression.py /path/to/test_sds_folder
 ```
 
-`regression/section10/cases.json` lists the test SDSs, each with its SHA-256, declared jurisdiction and SDS type:
+This runs Sections 10 and 4 for every case in `regression/cases.json`. Each case lists its file name and SHA-256, the declared jurisdiction and the SDS type. The cases are:
 
 - sodium hypochlorite solution (US, mixture)
 - acetone (GB, substance)
@@ -79,9 +83,12 @@ python3 -I tools/run_regression.py /path/to/test_sds_folder
 
 The PDFs themselves aren't committed, because they're supplier documents. Put them in one folder and pass its path.
 
-By default the runner uses the stored lookup snapshots in `regression/section10/lookups/`, so results stay repeatable. Add `--live` to query the sources again. Results can drift as the sources change.
+Options:
+- `--section 10` or `--section 4` runs one section only.
+- `--live` re-queries the sources instead of using the snapshots in `regression/lookups/`.
+- `--write-expected` overwrites `regression/expected/section*/` with the current results.
 
-Expected findings per check are in `regression/section10/expected/`. The exit code is 0 when every case matches and 1 on any difference. Run it after every rule change. When a change is intended, update the expected file in the same commit.
+Use `--write-expected` only for an intended, reviewed rule change, and commit the new expectations together with that change. The exit code is 0 when everything matches and 1 on any difference.
 
 ## Network access
 

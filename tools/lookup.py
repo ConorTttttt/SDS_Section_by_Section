@@ -54,6 +54,16 @@ def between(text, start, ends, limit=1500):
     return text[i + len(start):min(j, i + limit)].strip(' :')
 
 
+def icsc_first_aid(html):
+    """Route -> {'symptoms','prevention','first_aid'} from the ICSC table."""
+    out = {}
+    for tr in BeautifulSoup(html, 'html.parser').find_all('tr'):
+        cells = [' '.join(td.get_text(' ').split()) for td in tr.find_all(['td', 'th'])]
+        if len(cells) == 4 and cells[0] in ('Inhalation', 'Skin', 'Eyes', 'Ingestion'):
+            out[cells[0].lower()] = {'symptoms': cells[1], 'prevention': cells[2], 'first_aid': cells[3]}
+    return out
+
+
 def icsc(cas, work):
     url = f'https://chemicalsafety.ilo.org/dyn/icsc/showcard.listCards3?p_lang=en&p_cas_number={cas}'
     code, html = curl(url, os.path.join(work, f'icsc_list_{cas}.html'))
@@ -69,12 +79,14 @@ def icsc(cas, work):
         t = flat(card)
         out.append({
             'card': cid, 'url': curl_url, 'http': code,
-            'name': (re.search(r'ICSC:\s*\d+\s*(.*?)\s*(?:CAS|Date)', t) or [None, None])[1],
+            'name': (re.search(r'ICSC \d{4} - (.*?) «', t) or [None, None])[1],
+            'first_aid': icsc_first_aid(card),
             'chemical_dangers': between(t, 'Chemical dangers', ['Formula:', 'Molecular mass', 'Occupational exposure']),
             'physical_dangers': between(t, 'Physical dangers', ['Chemical dangers']),
             'fire_and_explosion': between(t, 'FIRE & EXPLOSION', ['PREVENTION', 'Prevent build-up'], 600),
             'storage': between(t, 'STORAGE', ['PACKAGING', 'Prepared by']),
             'spillage': between(t, 'SPILLAGE DISPOSAL', ['CLASSIFICATION', 'STORAGE', 'PACKAGING']),
+            'notes': between(t, 'NOTES', ['ADDITIONAL INFORMATION', 'IPCS', 'Legal Notice', 'Legal notice']),
         })
     return {'source': 'ICSC', 'status': 'ok', 'cards': out, 'retrieved': TODAY}
 
@@ -104,6 +116,7 @@ def niosh(cas, work):
     t = flat(html)
     return {'source': 'NIOSH Pocket Guide', 'status': 'ok' if code == '200' else 'unreachable', 'http': code, 'url': url,
             'incompatibilities': between(t, 'Incompatibilities & Reactivities', ['Exposure Routes']),
+            'first_aid': between(t, 'First Aid ( See procedures )', ['Respirator Recommendations', 'Important additional']),
             'retrieved': TODAY}
 
 
@@ -130,6 +143,7 @@ def cameo(cas, work):
             'reactivity_profile': between(t, 'Reactivity Profile', ['Belongs to the Following Reactive Group'], 2500),
             'reactive_groups': between(t, 'Belongs to the Following Reactive Group(s)', ['Potentially Incompatible Absorbents']),
             'incompatible_absorbents': between(t, 'Potentially Incompatible Absorbents', ['Response Recommendations']),
+            'first_aid': between(t, 'First Aid', ['Physical Properties', 'Regulatory Information'], 2500),
         })
     return {'source': 'CAMEO Chemicals', 'status': 'ok', 'datasheets': out, 'retrieved': TODAY}
 

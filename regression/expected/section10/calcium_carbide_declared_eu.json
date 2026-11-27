@@ -1,24 +1,20 @@
 {
- "case": "calcium_carbide_gb_substance",
+ "case": "calcium_carbide_declared_eu",
+ "section": "10",
  "jurisdiction": {
-  "declared": "GB",
+  "declared": "EU",
   "detected": "GB",
-  "mismatch": false
+  "mismatch": true
  },
  "findings": [
   {
-   "check": "10-A5",
+   "check": "10-A5+10-B1",
    "status": "fail",
    "section": "10"
   },
   {
    "check": "10-A7",
    "status": "warning",
-   "section": "10"
-  },
-  {
-   "check": "10-B1",
-   "status": "fail",
    "section": "10"
   },
   {
