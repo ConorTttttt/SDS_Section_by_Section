@@ -91,13 +91,13 @@ class Gating(unittest.TestCase):
         self.assertEqual(self.g.allow('108-01-0', {'high_hazard', 'reactivity'}, 'fail'), 'warning')
 
     def test_kinds_of(self):
-        self.assertIn('high_hazard', refgate.kinds_of('The substance can presumably form explosive peroxides in contact with air.'))
+        self.assertIn('high_hazard', refgate.kinds_of('Test sentence: this ether may form explosive peroxides when kept in air.'))
         self.assertIn('toxic_gas', refgate.kinds_of('Reacts with acids. This produces toxic gas (chlorine).'))
         self.assertNotIn('high_hazard', refgate.kinds_of('Reacts with acids. This produces toxic gas (chlorine).'))
         self.assertEqual(refgate.kinds_of('Reacts with strong oxidants.'), {'reactivity'})
         self.assertEqual(refgate.kinds_of('Incompatible with: Strong oxidizers, acetaldehyde, chlorine, acids'), {'reactivity'})
-        self.assertEqual(refgate.kinds_of('May be incompatible with isocyanates, halogenated organics, peroxides, epoxides.'), {'reactivity'})
-        self.assertIn('high_hazard', refgate.kinds_of('May undergo autoxidation upon exposure to the air to form explosive peroxides.'))
+        self.assertEqual(refgate.kinds_of('Test sentence: keep apart from isocyanates, peroxides and epoxides.'), {'reactivity'})
+        self.assertIn('high_hazard', refgate.kinds_of('Test sentence: autoxidation in air can give explosive peroxides.'))
 
 
 class PeroxideFormers(unittest.TestCase):
@@ -110,19 +110,19 @@ class Form(unittest.TestCase):
     def test_gas_record_not_applied_to_liquid(self):
         g = refgate.Gate(sds('Hydrochloric acid 7647-01-0 1.6%'), set(), 'mixture')
         self.assertEqual(g.form, 'liquid')
-        self.assertFalse(g.card_applies('7647-01-0', 'ICSC 0163', 'The gas is heavier than air. ON CONTACT WITH LIQUID: FROSTBITE.'))
-        self.assertTrue(g.card_applies('7647-01-0', 'CAMEO 3598', 'HYDROCHLORIC ACID is an aqueous solution of hydrogen chloride.'))
+        self.assertFalse(g.card_applies('7647-01-0', 'ICSC 0163', 'Test record: the gas is heavier than air; refrigerated liquid.'))
+        self.assertTrue(g.card_applies('7647-01-0', 'CAMEO 3598', 'Test record: an aqueous solution of the acid.'))
 
     def test_gas_record_applies_to_aerosol(self):
         g = refgate.Gate(sds('butane 106-97-8 10-20 %', s1='Type of product : Aerosol.'), {'H222'}, 'mixture')
         self.assertEqual(g.form, 'aerosol')
-        self.assertTrue(g.card_applies('106-97-8', 'ICSC 0232', 'The gas is heavier than air and may travel along the ground.'))
+        self.assertTrue(g.card_applies('106-97-8', 'ICSC 0232', 'Test record: the gas is heavier than air.'))
 
     def test_dust_statement_only_for_solids(self):
         g = refgate.Gate(sds('Carbon black 1333-86-4 0.9-5.0%'), set(), 'mixture')
-        self.assertFalse(g.statement_applies('1333-86-4', 'ICSC 0471', 'Dust explosion possible if in powder or granular form, mixed with air.'))
+        self.assertFalse(g.statement_applies('1333-86-4', 'ICSC 0471', 'Test sentence: a dust explosion is possible if finely dispersed in air.'))
         g2 = refgate.Gate(sds('Carbon black 1333-86-4 100 %', s9='Physical state: solid powder'), set(), 'mixture')
-        self.assertTrue(g2.statement_applies('1333-86-4', 'ICSC 0471', 'Dust explosion possible if in powder or granular form, mixed with air.'))
+        self.assertTrue(g2.statement_applies('1333-86-4', 'ICSC 0471', 'Test sentence: a dust explosion is possible if finely dispersed in air.'))
 
 
 if __name__ == '__main__':

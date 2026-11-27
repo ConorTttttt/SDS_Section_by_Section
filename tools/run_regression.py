@@ -12,7 +12,8 @@ supplier documents and so stay in the git-ignored local/ folder.
 SDS_DIR holds the supplier test SDSs named in regression/cases.json (not in the repo). Synthetic cases
 ("repo_file", regression/synthetic/) are in the repo and need no SDS_DIR.
 Each file is checked against its recorded SHA-256 first.
-By default the stored lookup snapshots in regression/lookups are used, so results are repeatable;
+By default the stored lookup snapshots in local/regression_lookups are used (git-ignored: they quote ICSC/CAMEO
+text), so results are repeatable;
 --live re-queries ICSC/NIOSH/CAMEO/PubChem instead (results can drift as those sources change).
 --write-expected overwrites regression/expected/ with the current results. Use it only for an intended,
 reviewed rule change, and commit it together with that change.
@@ -29,6 +30,7 @@ import tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REG = os.path.join(os.path.dirname(HERE), 'regression')
+LOCAL_LOOKUPS = os.path.join(os.path.dirname(HERE), 'local', 'regression_lookups')
 sys.path.insert(0, HERE)
 import check_s10  # noqa: E402
 import check_s4  # noqa: E402
@@ -82,7 +84,9 @@ def main():
             subprocess.run([sys.executable, '-I', os.path.join(HERE, 'sds_text.py'), path, work], check=True, capture_output=True)
             sds = json.load(open(os.path.join(work, 'sds.json')))
             sds['_path'] = os.path.join(work, 'sds.json')
-            lk_dir = c.get('_lookups') or os.path.join(REG, 'lookups')
+            # supplier cases: lookup snapshots quote ICSC/CAMEO text, which may not be redistributed, so they live in the
+            # git-ignored local/ folder (regression/lookups/ until 28 Nov 2026)
+            lk_dir = c.get('_lookups') or (LOCAL_LOOKUPS if os.path.isdir(LOCAL_LOOKUPS) else os.path.join(REG, 'lookups'))
             if a.live:
                 lk_dir = os.path.join(work, 'lookups')
                 subprocess.run([sys.executable, '-I', os.path.join(HERE, 'lookup.py'), lk_dir] + sds['codes_all']['CAS'],

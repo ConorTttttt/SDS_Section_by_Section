@@ -143,7 +143,7 @@ To regenerate them, run `SOURCE_DATE_EPOCH=1795737600 python3 -I regression/synt
 
 Options:
 - `--section 10` or `--section 4` runs one section only.
-- `--live` re-queries the sources instead of using the snapshots in `regression/lookups/`.
+- `--live` re-queries the sources instead of using the snapshots in `local/regression_lookups/` (git-ignored, because they quote ICSC and CAMEO text).
 - `--write-expected` overwrites `regression/expected/section*/` with the current results.
 
 Use `--write-expected` only for an intended, reviewed rule change, and commit the new expectations together with that change. The exit code is 0 when everything matches and 1 on any difference.

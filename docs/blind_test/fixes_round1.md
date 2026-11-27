@@ -69,10 +69,10 @@ its "Materials to avoid"); 5-C2 and 4-A10 on the aerosol.
   - 3 (Nautra 10-A3): confirmed; Section 10 has only Stability, Conditions to avoid, Materials to avoid, Decomposition.
   - 7 (Domino 10-D1): confirmed; HDDA (50-60 %) autoxidises in air to explosive peroxides (CAMEO 20479), isodecyl acrylate
     (10-20 %) reacts vigorously with strong oxidising acids (CAMEO 8752); 10.5 names nothing.
-  - 11 (remover 10-D1): confirmed; methylal (10-25 %) "reacts vigorously with strong oxidants and strong bases. This generates
-    fire and explosion hazard" (ICSC 1152); 10.5 lists only oxidising materials.
-  - 12 (aerosol 10-D1): **edited**. The only fail item ("air") came from "BUTANE can explode ... when mixed with
-    (nickel carbonyl + oxygen)" (CAMEO 5668), a specific reagent combination. Parenthetical combinations are no longer read as
+  - 11 (remover 10-D1): confirmed; ICSC 1152 records a vigorous reaction of methylal (10-25 %) with strong oxidants and
+    strong bases, with a fire and explosion hazard; 10.5 lists only oxidising materials.
+  - 12 (aerosol 10-D1): **edited**. The only fail item ("air") came from a CAMEO 5668 sentence about butane exploding when
+    mixed with a nickel carbonyl and oxygen combination, a specific reagent combination. Parenthetical combinations are no longer read as
     families; the finding is now a warning (oxidisers and other incompatibles not listed in 10.5).
 - 10-D6 keeps every statement in a record (peroxide formation and polymerisation). The Domino ink's acrylate polymerisation is
   now flagged. Polymerisation counts only when the substance itself polymerises ("may initiate the polymerization of
