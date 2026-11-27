@@ -1,0 +1,60 @@
+# Fix round 1 (27 Nov 2026): results on the 8 tuning SDSs
+
+These 8 SDSs (blind batches 1 and 2) were used to design the fixes, so the numbers below show that the fixes do
+what they were meant to. They are not a fair accuracy measure: that is the job of the fresh holdout batch.
+Verdicts are Claude's; the user reviews the fails below before any blind-test expectations are frozen.
+
+## What changed
+
+1. Concentration and physical-form gating of reference data (`tools/refgate.py`, `config/reference_gating.json`).
+2. One text-interpretation module used by every rule (`tools/textinterp.py`): negation, "no data" phrases,
+   cross-references, synonyms, "such as" lists. Unit tests in `tests/`.
+3. The six bugs (Section 14 class, H304 read as H300, "delayed effects: Not available", ERG caveats, Section 12
+   prose as classification, 10-C4 without PubChem formulas) and layout parsing (page furniture, UFI fragments,
+   label-style first-aid routes, heading and text on one line, sub-subsections, non-standard Section 10 numbering).
+4. Report: product name, revision/issue/preparation date, reference-data coverage warnings, list of gated data.
+
+## Before and after (fails + warnings)
+
+| | Before | After |
+|---|---|---|
+| Findings (fail + warning) | 90 | 56 |
+| Clearly wrong (Claude's verdict) | 32 (36 %) | 0 |
+| Debatable | 11 | 5 (Nautra 6-A6; cleaner 10-D1; Epoxyline 10-D1, 10-D6, 7-D1) |
+| Correct but low value | 1 | 1 (Nautra 10-D1, "name fluorine") |
+| Fails | 14 (6 wrong) | 10 (0 wrong, 1 debatable) |
+
+No finding judged correct before the fixes was lost, except two low-value ICSC storage items from ingredients
+below 1 % (ATF ICSC 1431; remover ICSC 0654).
+
+Real gaps found only after the fixes: 10-A5 on the aerosol ("No additional information available") and on
+Epoxyline ("No specific data" in 10.4/10.5); 7-C1 on the Nautra film (no segregation in 7.2 from the oxidisers in
+its "Materials to avoid"); 5-C2 and 4-A10 on the aerosol.
+
+## Fails for the user's review (14 from the blind test, plus 2 new)
+
+| # | SDS | Check | What the engine said (blind test) | Claude's verdict | After the fixes |
+|---|---|---|---|---|---|
+| 1 | Vickers (1.6 % HCl) | 10-A5 | 10.1 and 10.3 "No data available" with no reason | correct | fail (unchanged) |
+| 2 | Vickers | 10-D1 | 10.5 lists only alkalis; violent reactions recorded with acids, ammonia, metals | wrong (gas card; 1.6 %) | info |
+| 3 | Nautra film | 10-A3 | US elements missing: "incompatible, decomposition" | right verdict, wrong elements | fail: "reactivity, reactions" |
+| 4 | Nautra film | 10-A9 | stability not stated | wrong (stated under 10.1) | removed |
+| 5 | Nautra film | 5-C2 | 40-45 % PVC, but no hydrogen chloride among combustion products | correct | fail (unchanged) |
+| 6 | Nautra film | 5-A3 | US firefighter element missing | wrong (protective suit + SCBA given) | removed |
+| 7 | Domino ink | 10-D1 | 10.5 names nothing; acids, air, oxidisers, combustibles recorded | right verdict; air/combustibles from carbon black | fail, families from the main acrylates only |
+| 8 | Domino ink | 4-B7 | 4.3 lacks the specific treatment P321 refers to | wrong (P321 via skin classes) | removed |
+| 9 | Cleaner | 10-A5 | 10.1 "not available" (10.3 "Unknown") with no reason | correct | fail (unchanged) |
+| 10 | Epoxyline | 10-D1 | 10.5 "No specific data"; air, acids, oxidisers recorded | debatable (1-methoxy-2-propanol ≤10 % counts as ≥10 %) | fail |
+| 11 | Remover | 10-D1 | 10.5 oxidisers only; air, bases recorded | right verdict; acids from ≤0.3 % ingredient | fail, from dioxolane and methylal only |
+| 12 | Aerosol | 10-D1 | 10.5 "No additional information available"; butane etc. react with oxidisers | correct | fail (unchanged) |
+| 13 | Aerosol | 5-D1 | ERG "DO NOT USE water" vs foam | wrong (LNG caveat) | removed |
+| 14 | ATF | 4-A6 | ingestion route missing | wrong (label not parsed) | removed |
+| 15 | Aerosol | 10-A5 | 10.1 and 10.5 "No additional information available", no reason | correct (missed before) | new fail |
+| 16 | Epoxyline | 10-A5 | 10.4 and 10.5 "No specific data", no reason | correct (missed before) | new fail |
+
+## Still open
+
+- Domino ink: CAMEO records exothermic addition polymerisation for the main acrylate, and 10.3 says "No potentially
+  hazardous reactions known"; 10-D6 reports only peroxide formation because it keeps one reference statement per
+  record. Not changed in this round.
+- Threshold edge: "≤ 10 %" counts as 10 % and so as a main ingredient (config/reference_gating.json).

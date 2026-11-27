@@ -74,13 +74,18 @@ class Gating(unittest.TestCase):
 
     def test_trace_dropped_unless_high_hazard(self):
         self.assertIsNone(self.g.allow('108-01-0', 'reactivity', 'fail'))
+        self.assertIsNone(self.g.allow('108-01-0', {'toxic_gas'}, 'fail'))       # toxic gas: kept for minor, not for trace
+        self.assertEqual(self.g.allow('67-56-1', {'toxic_gas'}, 'fail'), 'warning')
         self.assertEqual(self.g.allow('108-01-0', {'high_hazard', 'reactivity'}, 'fail'), 'warning')
 
     def test_kinds_of(self):
         self.assertIn('high_hazard', refgate.kinds_of('The substance can presumably form explosive peroxides in contact with air.'))
-        self.assertIn('high_hazard', refgate.kinds_of('Reacts with acids. This produces toxic gas (chlorine).'))
+        self.assertIn('toxic_gas', refgate.kinds_of('Reacts with acids. This produces toxic gas (chlorine).'))
+        self.assertNotIn('high_hazard', refgate.kinds_of('Reacts with acids. This produces toxic gas (chlorine).'))
         self.assertEqual(refgate.kinds_of('Reacts with strong oxidants.'), {'reactivity'})
         self.assertEqual(refgate.kinds_of('Incompatible with: Strong oxidizers, acetaldehyde, chlorine, acids'), {'reactivity'})
+        self.assertEqual(refgate.kinds_of('May be incompatible with isocyanates, halogenated organics, peroxides, epoxides.'), {'reactivity'})
+        self.assertIn('high_hazard', refgate.kinds_of('May undergo autoxidation upon exposure to the air to form explosive peroxides.'))
 
 
 class Form(unittest.TestCase):

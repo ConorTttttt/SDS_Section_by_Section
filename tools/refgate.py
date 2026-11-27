@@ -8,7 +8,7 @@ finding asks the Gate first:
   gate.allow(cas, kind, severity, label) the severity this finding may have (capped), or None (dropped)
   gate.notes                             what was capped or dropped, and why (shown in the report)
 
-Kinds: 'high_hazard' (explosive, peroxide-forming, water-reactive, toxic gas with acids), 'reactivity' (incompatible
+Kinds: 'high_hazard' (explosive, peroxide-forming, water-reactive), 'toxic_gas' (a reaction releases a toxic gas), 'reactivity' (incompatible
 families), 'flammability', 'inhalation', 'skin', 'eyes', 'ingestion', 'delayed_health', 'environment', 'oxidiser',
 'water_reactive'. Unit tests: tests/test_refgate.py.
 """
@@ -21,11 +21,12 @@ CFG = json.load(open(os.path.join(ROOT, 'config', 'reference_gating.json'), enco
 SEV = {'info': 0, 'warning': 1, 'fail': 2}
 CAS_RX = r'(?<![\d-])\d{2,7}-\d{2}-\d(?![\d-])'
 
-HIGH_HAZARD = (r'explo|detonat|peroxide|reacts? violently with water|in contact with water|water[- ]reactive|'
-               r'flammable gas(?:es)? (?:on|in) contact with water|'
-               # a toxic gas counts only when a reaction releases it ("liberates chlorine"), not when listed as a reagent
-               r'(?:releas|liberat|evolv|produc|form|generat|gives? off|emit)\w*[^.]{0,60}(?:toxic (?:gas|fumes?|vapou?r)|chlorine|'
-               r'hydrogen cyanide|hydrogen sulfide|hydrogen sulphide|phosgene|phosphine)')
+HIGH_HAZARD = (r'explo|detonat|(?:form|forms|forming|formation of)\b[^.]{0,40}peroxides?|peroxide[- ]form|autoxid|'
+               r'reacts? violently with water|in contact with water|water[- ]reactive|'
+               r'flammable gas(?:es)? (?:on|in) contact with water')
+# a toxic gas counts only when a reaction releases it ("liberates chlorine"), not when it is listed as a reagent
+TOXIC_GAS = (r'(?:releas|liberat|evolv|produc|form|generat|gives? off|emit)\w*[^.]{0,60}(?:toxic (?:gas|fumes?|vapou?r)|chlorine|'
+             r'hydrogen cyanide|hydrogen sulfide|hydrogen sulphide|phosgene|phosphine)')
 FLAMMABILITY = r'ignit|flammab|fire|fireproof|spark|flame|combust|vapou?r[- ]air|explosive mixture'
 DUST = r'\bdusts?\b|powder|granul|dust explosion|finely (?:divided|dispersed)'
 GAS_CARD = (r'\bthe gas\b|gas is heavier|gas mixes|compressed gas|liquefied gas|refrigerated liquid|\(gas\)|anhydrous|'
@@ -146,6 +147,8 @@ def kinds_of(statement):
     k = set()
     if re.search(HIGH_HAZARD, s):
         k.add('high_hazard')
+    if re.search(TOXIC_GAS, s):
+        k.add('toxic_gas')
     if re.search(FLAMMABILITY, s):
         k.add('flammability')
     return k or {'reactivity'}
@@ -203,7 +206,7 @@ class Gate:
         if band == 'major':
             cap = CFG['major']['max_severity']
         elif band == 'minor':
-            if 'high_hazard' in kinds:
+            if kinds & {'high_hazard', 'toxic_gas'}:
                 cap = CFG['minor']['max_severity']
             else:
                 fitting = [k for k in kinds if k in CFG['kind_fits'] and self.H & set(CFG['kind_fits'][k])]
