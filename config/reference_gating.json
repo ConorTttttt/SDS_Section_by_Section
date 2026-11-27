@@ -1,0 +1,41 @@
+{
+ "_about": "How much an ingredient's own reference data (ICSC, CAMEO, NIOSH) counts, by its concentration in the product. Edit the numbers here; tools/refgate.py reads this file. Approved 27 Nov 2026 as a starting point.",
+ "concentration_basis": "top of the Section 3 range (e.g. 5-<16 % counts as 16 %); a single value counts as itself; '>= x' alone counts as x",
+ "bands": {
+  "major_min_percent": 10,
+  "minor_min_percent": 1
+ },
+ "major": {
+  "_about": ">= major_min_percent: reference data can drive fails and warnings as before.",
+  "max_severity": "fail"
+ },
+ "minor": {
+  "_about": "minor_min_percent to < major_min_percent: warning or info only, and only where the data fits the mixture's own classification (kind_fits). General reactivity data (incompatible families) fits every mixture but is capped at general_reactivity_max.",
+  "max_severity": "warning",
+  "general_reactivity_max": "info"
+ },
+ "trace": {
+  "_about": "< minor_min_percent: ignored, except highly hazardous reactivity (explosive, peroxide-forming, water-reactive, toxic gas on contact with acids), capped at max_severity.",
+  "max_severity": "warning",
+  "keep_kinds": ["high_hazard"]
+ },
+ "unknown_concentration_band": "minor",
+ "substance_band": "major",
+ "kind_fits": {
+  "_about": "kind of reference statement -> hazard codes in the MIXTURE's own classification that make it relevant. A minor ingredient's statement of that kind is dropped unless the mixture carries at least one of these codes.",
+  "flammability": ["H220", "H221", "H222", "H223", "H224", "H225", "H226", "H228", "H229", "H240", "H241", "H242", "H250", "H251", "H252", "H260", "H261", "H270", "H271", "H272", "EUH018", "EUH209"],
+  "inhalation": ["H330", "H331", "H332", "H334", "H335", "H336", "H314", "H370", "H371", "H372", "H373", "EUH071"],
+  "skin": ["H310", "H311", "H312", "H314", "H315", "H317", "EUH066"],
+  "eyes": ["H314", "H318", "H319"],
+  "ingestion": ["H300", "H301", "H302", "H304", "H314"],
+  "delayed_health": ["H330", "H331", "H332", "H334", "H335", "H314", "H370", "H371", "H372", "H373", "EUH071"],
+  "environment": ["H400", "H410", "H411", "H412", "H413"],
+  "oxidiser": ["H270", "H271", "H272"],
+  "water_reactive": ["H260", "H261", "EUH014", "EUH029"]
+ },
+ "physical_form": {
+  "_about": "Data for a gas (or liquefied/refrigerated gas) apply only if the product is a gas or an aerosol; dust/powder statements apply only if the product is a solid.",
+  "gas_compatible_product_forms": ["gas", "aerosol"],
+  "dust_compatible_product_forms": ["solid"]
+ }
+}
