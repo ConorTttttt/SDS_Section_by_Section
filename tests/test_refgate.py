@@ -49,6 +49,18 @@ class Concentrations(unittest.TestCase):
         g = refgate.Gate(sds('Oil  CAS-No.: 64741-88-4  ≥ 0.3 – < 1  Not classified\n'), set(), 'mixture')
         self.assertEqual(g.band('64741-88-4'), 'trace')
 
+    def test_ten_percent_is_minor(self):
+        g = refgate.Gate(sds('1-methoxy-2-propanol  REACH #: ≤10  CAS: 107-98-2\n'), set(), 'mixture')
+        self.assertEqual(g.band('107-98-2'), 'minor')
+        g = refgate.Gate(sds('Solvent  CAS: 64-17-5  10-20 %\n'), set(), 'mixture')
+        self.assertEqual(g.band('64-17-5'), 'major')
+
+    def test_unclassified_mixture_capped_at_warning(self):
+        g = refgate.Gate(sds(ROW_BEFORE), set(), 'mixture')
+        self.assertTrue(g.unclassified)
+        self.assertEqual(g.allow('646-06-0', 'reactivity', 'fail'), 'warning')
+        self.assertFalse(refgate.Gate(sds(ROW_BEFORE), set(), 'substance').unclassified)
+
     def test_substance_and_unknown(self):
         self.assertEqual(refgate.Gate(sds('Acetone 67-64-1'), set(), 'substance').band('67-64-1'), 'major')
         self.assertEqual(refgate.Gate(sds('Acetone 67-64-1'), set(), 'mixture').band('67-64-1'),

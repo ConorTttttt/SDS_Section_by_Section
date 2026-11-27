@@ -3,6 +3,11 @@
 Usage:
   python3 -I tools/run_regression.py SDS_DIR [--live] [--section 10|4|5|6|7] [--write-expected]
   python3 -I tools/run_regression.py --synthetic-only          (no SDS_DIR needed; used by CI)
+  python3 -I tools/run_regression.py --cases local/blind_test/cases.json   (a local case set: real SDSs kept out of git)
+
+A --cases file lists its own SDS files, lookup folders and expected-results folder, all relative to the file
+(fields 'file', 'lookups'; top-level 'expected_dir'). It is used for the blind-test SDSs, whose reports quote
+supplier documents and so stay in the git-ignored local/ folder.
 
 SDS_DIR holds the supplier test SDSs named in regression/cases.json (not in the repo). Synthetic cases
 ("repo_file", regression/synthetic/) are in the repo and need no SDS_DIR.
@@ -46,17 +51,28 @@ def main():
     ap.add_argument('--live', action='store_true')
     ap.add_argument('--section', choices=ORDER)
     ap.add_argument('--write-expected', action='store_true')
+    ap.add_argument('--cases', help='a local case file (see above) instead of regression/cases.json')
     a = ap.parse_args()
-    cases = json.load(open(os.path.join(REG, 'cases.json')))['cases']
+    exp_root = os.path.join(REG, 'expected')
+    if a.cases:
+        doc = json.load(open(a.cases))
+        base = os.path.dirname(os.path.abspath(a.cases))
+        cases = doc['cases']
+        for c in cases:
+            c['_path'] = os.path.join(base, c['file'])
+            c['_lookups'] = os.path.join(base, c['lookups'])
+        exp_root = os.path.join(base, doc['expected_dir'])
+    else:
+        cases = json.load(open(os.path.join(REG, 'cases.json')))['cases']
     if a.synthetic_only:
         cases = [c for c in cases if c.get('repo_file')]
-    elif not a.sds_dir:
+    elif not a.sds_dir and not a.cases:
         ap.error('SDS_DIR is required unless --synthetic-only is given')
     sections = [a.section] if a.section else ORDER
     failures = 0
     with tempfile.TemporaryDirectory() as tmp:
         for c in cases:
-            path = os.path.join(os.path.dirname(REG), c['repo_file']) if c.get('repo_file') else os.path.join(a.sds_dir, c['file'])
+            path = c.get('_path') or (os.path.join(os.path.dirname(REG), c['repo_file']) if c.get('repo_file') else os.path.join(a.sds_dir, c['file']))
             print(f"== {c['id']}  ({c['declared']}, {c['type']})")
             if not os.path.exists(path):
                 print('   MISSING FILE', path); failures += 1; continue
@@ -66,7 +82,7 @@ def main():
             subprocess.run([sys.executable, '-I', os.path.join(HERE, 'sds_text.py'), path, work], check=True, capture_output=True)
             sds = json.load(open(os.path.join(work, 'sds.json')))
             sds['_path'] = os.path.join(work, 'sds.json')
-            lk_dir = os.path.join(REG, 'lookups')
+            lk_dir = c.get('_lookups') or os.path.join(REG, 'lookups')
             if a.live:
                 lk_dir = os.path.join(work, 'lookups')
                 subprocess.run([sys.executable, '-I', os.path.join(HERE, 'lookup.py'), lk_dir] + sds['codes_all']['CAS'],
@@ -74,7 +90,7 @@ def main():
             for sec in sections:
                 res = CHECKERS[sec](sds, lk_dir, c['declared'], c['type'])
                 got = summary(res)
-                exp_path = os.path.join(REG, 'expected', f'section{sec}', c['id'] + '.json')
+                exp_path = os.path.join(exp_root, f'section{sec}', c['id'] + '.json')
                 if a.write_expected:
                     os.makedirs(os.path.dirname(exp_path), exist_ok=True)
                     json.dump({'case': c['id'], 'section': sec,

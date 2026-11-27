@@ -101,11 +101,11 @@ The thresholds are in `config/reference_gating.json`; edit them there:
 
 | Band | Default | What the data can drive |
 |---|---|---|
-| main | ≥ 10 % (or a substance SDS) | fails and warnings, as before |
-| minor | 1–10 % | warnings only where the data fits the mixture's own classification (e.g. flammability advice only if the mixture is classified flammable); general incompatibility data at most info |
+| main | > 10 % (or a substance SDS) | fails and warnings, as before |
+| minor | 1–10 % (so "≤ 10 %" is minor) | warnings only where the data fits the mixture's own classification (e.g. flammability advice only if the mixture is classified flammable); general incompatibility data at most info |
 | trace | < 1 % | nothing, except explosive, peroxide-forming, water-reactive or toxic-gas data, at most a warning |
 
-Data for a gas apply only to a gas or aerosol product, and dust/powder statements only to a solid. Each report lists what was capped or not applied. It also gives a coverage warning for any main ingredient with no ICSC, CAMEO or NIOSH record. Unit tests are in `tests/test_refgate.py`.
+For a mixture with no hazard classification, findings based only on reference data are capped at warning. Data for a gas apply only to a gas or aerosol product, and dust/powder statements only to a solid. Each report lists what was capped or not applied. It also gives a coverage warning for any main ingredient with no ICSC, CAMEO or NIOSH record. Unit tests are in `tests/test_refgate.py`.
 
 ## 4. Re-run the regression set: `tools/run_regression.py`
 
@@ -147,6 +147,16 @@ Options:
 - `--write-expected` overwrites `regression/expected/section*/` with the current results.
 
 Use `--write-expected` only for an intended, reviewed rule change, and commit the new expectations together with that change. The exit code is 0 when everything matches and 1 on any difference.
+
+### Blind-test SDSs (local only)
+
+The 8 blind-test SDSs and their frozen expectations live in the git-ignored `local/blind_test/` folder, because they are supplier documents. Run them with:
+
+```bash
+python3 -I tools/run_regression.py --cases local/blind_test/cases.json
+```
+
+Summaries of the reviews are committed in `docs/blind_test/`.
 
 ## Checklist status and coverage
 

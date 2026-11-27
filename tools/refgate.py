@@ -163,6 +163,8 @@ class Gate:
         self.form = product_form(sds, self.H)
         self.notes = []
         self._noted = set()
+        # a mixture with no hazard classification: reference-data findings capped (config 'unclassified_mixture')
+        self.unclassified = sds_type == 'mixture' and not any(re.match(r'(?:EU)?H\d', h) for h in self.H)
 
     def band(self, cas):
         if self.type == 'substance':
@@ -170,7 +172,7 @@ class Gate:
         top = (self.conc.get(cas) or {}).get('top')
         if top is None:
             return CFG['unknown_concentration_band']
-        if top >= CFG['bands']['major_min_percent']:
+        if top > CFG['bands']['major_above_percent']:
             return 'major'
         if top >= CFG['bands']['minor_min_percent']:
             return 'minor'
@@ -222,9 +224,12 @@ class Gate:
                 self._note(f'{label}: {self.describe(cas)} is below {CFG["bands"]["minor_min_percent"]} %: not applied')
                 return None
             cap = CFG['trace']['max_severity']
+        if self.unclassified and SEV[cap] > SEV[CFG['unclassified_mixture']['max_severity']]:
+            cap = CFG['unclassified_mixture']['max_severity']
         out = severity if SEV[severity] <= SEV[cap] else cap
         if out != severity:
-            self._note(f'{label}: {self.describe(cas)} is {band}: {severity} capped at {out}')
+            why = 'mixture not classified' if self.unclassified and out == CFG['unclassified_mixture']['max_severity'] and SEV[severity] > SEV[out] and band == 'major' else band
+            self._note(f'{label}: {self.describe(cas)} is {why}: {severity} capped at {out}')
         return out
 
 

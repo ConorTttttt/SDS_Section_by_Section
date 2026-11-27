@@ -299,6 +299,8 @@ def reacting_families(text):
         if re.match(r'This\b', s) or re.search(r'\b(?:in)?solub|miscib', s, re.I):
             continue
         s2 = re.sub(r'(\b(?:oxidants?|oxidi[sz]ers?|oxidi[sz]ing agents?|acids?|bases?)\s+such as\b)[^.]*', r'\1', s, flags=re.I)
+        # "(nickel carbonyl + oxygen)" is one specific reagent combination, not the families of its parts
+        s2 = re.sub(r'\([^()]*\+[^()]*\)', ' a specific reagent combination ', s2)
         head = re.split(PRODUCT_VERB, s2, maxsplit=1, flags=re.I)[0]
         if re.search(r'^(?:an? (?:base|acid|oxidi|reduc)|the (?:substance|solution)[^.]* is an? |[\w ,()\-]+ is an? (?:\w+ )?(?:reduc|oxidi|base|acid)|generally|salts of)', head, re.I) and not re.search(VIOLENT, head, re.I):
             head = ''
@@ -700,6 +702,8 @@ def run(sds, lookup_dir, declared, sds_type):
                                 (warns if sev == 'warning' else infos).add(name); srcs.append(src)
                         continue
                     sev = gate.allow(cas_, kinds, 'fail' if violent and src != 'NIOSH' else 'warning', src)
+                    if name == 'metals' and sev == 'info' and 'H290' in H:   # corrosive to metals: metals matter (user decision)
+                        sev = 'warning'
                     if sev == 'fail':
                         fails.setdefault(name, set()); srcs.append(src)
                         if src.startswith('ICSC'):
@@ -749,12 +753,17 @@ def run(sds, lookup_dir, declared, sds_type):
                             d4.append(name); src456.add(src)
             if re.search(r'stabili[sz]ed|inhibitor|inhibited', t) and gate.allow(cas_, 'reactivity', 'fail', src) in ('fail', 'warning'):
                 d5 = True; src456.add(src)
-            if re.search(r'may form explosive peroxides|peroxide former|may polymeri[sz]e|polymeri[sz]able|polymerization', t):
-                what = 'peroxide formation' if 'peroxide' in t else 'hazardous polymerisation'
-                sev = gate.allow(cas_, {'high_hazard'} if what == 'peroxide formation' else {'reactivity'}, 'warning', src)
-                if sev:
-                    d6.append(what); src456.add(src)
-                    d6_sev[what] = refgate.strongest(d6_sev.get(what), sev)
+            # every statement in the record counts: one record can describe both peroxide formation and polymerisation
+            for what, rx, kind in (('peroxide formation', r'(?:form|forms|forming)\b[^.]{0,40}peroxides|peroxide former|autoxid', {'high_hazard'}),
+                                   # the substance itself polymerises; "may initiate the polymerization of isocyanates" does not count
+                                   ('hazardous polymerisation', r'may polymeri[sz]e|polymeri[sz]es (?:readily|violently|exothermically|explosively|rapidly|spontaneously)|'
+                                    r'undergo (?:very )?(?:exothermic |violent |hazardous )?(?:addition )?polymeri[sz]ation|hazardous polymeri[sz]ation|'
+                                    r'polymeri[sz]able|self-polymeri[sz]', {'reactivity'})):
+                if re.search(rx, t):
+                    sev = gate.allow(cas_, kind, 'warning', src)
+                    if sev:
+                        d6.append(what); src456.add(src)
+                        d6_sev[what] = refgate.strongest(d6_sev.get(what), sev)
     if d4:
         d4 = sorted(set(d4))
         add('10.6', '10-D4', 'warning', slots.get('decomposition', '')[:120], 'Decomposition products recorded on heating, missing from 10.6/5.2: ' + ', '.join(d4),

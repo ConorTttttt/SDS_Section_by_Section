@@ -58,3 +58,27 @@ its "Materials to avoid"); 5-C2 and 4-A10 on the aerosol.
   hazardous reactions known"; 10-D6 reports only peroxide formation because it keeps one reference statement per
   record. Not changed in this round.
 - Threshold edge: "≤ 10 %" counts as 10 % and so as a main ingredient (config/reference_gating.json).
+
+## User review of the 16 fails (27 Nov 2026) and resulting changes
+
+- Agreed: rows 1, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16.
+- Row 2: info agreed; the metals item becomes a warning when the product is classified corrosive to metals (H290).
+- Row 10: disagreed. Threshold changed to "> 10 %" (so "≤ 10 %" is a 1-10 % ingredient), and a new rule: for a mixture
+  with no hazard classification, findings based only on reference data are capped at warning. Row 10 is now a warning.
+- Rows 3, 7, 11, 12 checked against the SDS text by Claude, as asked:
+  - 3 (Nautra 10-A3): confirmed; Section 10 has only Stability, Conditions to avoid, Materials to avoid, Decomposition.
+  - 7 (Domino 10-D1): confirmed; HDDA (50-60 %) autoxidises in air to explosive peroxides (CAMEO 20479), isodecyl acrylate
+    (10-20 %) reacts vigorously with strong oxidising acids (CAMEO 8752); 10.5 names nothing.
+  - 11 (remover 10-D1): confirmed; methylal (10-25 %) "reacts vigorously with strong oxidants and strong bases. This generates
+    fire and explosion hazard" (ICSC 1152); 10.5 lists only oxidising materials.
+  - 12 (aerosol 10-D1): **edited**. The only fail item ("air") came from "BUTANE can explode ... when mixed with
+    (nickel carbonyl + oxygen)" (CAMEO 5668), a specific reagent combination. Parenthetical combinations are no longer read as
+    families; the finding is now a warning (oxidisers and other incompatibles not listed in 10.5).
+- 10-D6 keeps every statement in a record (peroxide formation and polymerisation). The Domino ink's acrylate polymerisation is
+  now flagged. Polymerisation counts only when the substance itself polymerises ("may initiate the polymerization of
+  isocyanates" does not count).
+
+Side effects to note: with peroxide formation kept for 1-10 % ingredients (as agreed for high-hazard data), 10-D6 now also
+fires for propan-2-ol (≤ 5 %) in the cleaner and 2-butoxyethanol (≤ 2.5 %) in the aerosol. Claude counts both as debatable.
+
+Expectations for these 8 SDSs are frozen in local/blind_test/ (git-ignored): `python3 -I tools/run_regression.py --cases local/blind_test/cases.json`.
