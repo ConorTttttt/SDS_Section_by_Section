@@ -6,5 +6,11 @@
   "detected": "EU",
   "mismatch": false
  },
- "findings": []
+ "findings": [
+  {
+   "check": "10-A15",
+   "status": "info",
+   "section": "9/10"
+  }
+ ]
 }

@@ -81,6 +81,32 @@ Known limits:
 - GHS Rev.10 codes P316–P319 are matched as equivalents of P310–P315. That mapping has not been checked against the GHS Rev.10 text, because unece.org isn't reachable from here.
 - The rules are keyword heuristics tuned on the regression set. Read every finding: the output is a review aid, not a verdict.
 
+### How rules read the SDS text: `tools/textinterp.py`
+
+Every rule asks one shared module how to read wording, instead of matching raw keywords:
+
+- **negation**: "does not contain nanomaterials" is not a nanoform;
+- **"no data" statements**, including "No additional information available", and whether a reason is given;
+- **cross-references**: "(see section 7)" counts as covering Section 7;
+- **synonyms**: flush = rinse = wash with water; "obtain medical attention" = "get medical advice";
+- **"such as" lists**: they are examples, not a checklist; any one of them, or general wording, meets the requirement.
+
+Unit tests are in `tests/test_textinterp.py`. Run them with `python3 -I -m unittest discover -s tests`.
+
+### How much an ingredient's reference data counts: `tools/refgate.py`
+
+Reference data (ICSC, CAMEO, NIOSH) describe a pure substance. Before such data can drive a finding, the rule checks the ingredient's concentration in Section 3 (the top of any range; "< 1" counts as just below 1) and the product's physical form.
+
+The thresholds are in `config/reference_gating.json`; edit them there:
+
+| Band | Default | What the data can drive |
+|---|---|---|
+| main | ≥ 10 % (or a substance SDS) | fails and warnings, as before |
+| minor | 1–10 % | warnings only where the data fits the mixture's own classification (e.g. flammability advice only if the mixture is classified flammable); general incompatibility data at most info |
+| trace | < 1 % | nothing, except explosive, peroxide-forming, water-reactive or toxic-gas data, at most a warning |
+
+Data for a gas apply only to a gas or aerosol product, and dust/powder statements only to a solid. Each report lists what was capped or not applied. It also gives a coverage warning for any main ingredient with no ICSC, CAMEO or NIOSH record. Unit tests are in `tests/test_refgate.py`.
+
 ## 4. Re-run the regression set: `tools/run_regression.py`
 
 ```bash
@@ -133,7 +159,7 @@ The Checklist tab of the Sheet is the master copy. `checklist/coverage.csv` is g
 
 ## Continuous integration
 
-`.github/workflows/regression.yml` runs the Sheet-export check and the coverage check, then `python3 -I tools/run_regression.py --synthetic-only` on every push and pull request, on Ubuntu 24.04 with pandoc 3.1.3, the version the expected results were generated with. Supplier SDSs stay local, so CI covers the synthetic cases only.
+`.github/workflows/regression.yml` runs the unit tests, the Sheet-export check and the coverage check, then `python3 -I tools/run_regression.py --synthetic-only` on every push and pull request, on Ubuntu 24.04 with pandoc 3.1.3, the version the expected results were generated with. Supplier SDSs stay local, so CI covers the synthetic cases only.
 
 ## Network access
 

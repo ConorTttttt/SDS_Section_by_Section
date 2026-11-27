@@ -103,20 +103,24 @@ def families_in(text, vocab=FAMILIES):
 
 # ------------------------------------------------------------------ jurisdiction
 def detect_jurisdiction(full):
-    t = full[:6000] + full[-3000:]
+    head = full[:6000] + full[-3000:]
     score = {'US': 0, 'GB': 0, 'EU': 0}
     why = {'US': [], 'GB': [], 'EU': []}
-    for j, rx, w, label in [
-        ('US', r'29 CFR 1910\.1200|Hazard Communication Standard|\bOSHA\b', 3, 'cites OSHA HazCom'),
-        ('US', r'\b[A-Z]{2} \d{5}\b|\bUSA\b|United States', 1, 'US address'),
-        ('GB', r'UK SI 2019/758|UK SI 2020/1577|GB[- ]CLP|GB REACH|UK SI 2019/720|UK SI 2020/1567', 3, 'cites GB REACH/CLP'),
-        ('GB', r'UNITED KINGDOM|\b[A-Z]{1,2}\d{1,2}[A-Z]? \d[A-Z]{2}\b', 1, 'UK address'),
-        ('EU', r'2020/878', 3, 'cites Reg. 2020/878'),
-        ('EU', r'2015/830', 1, 'cites Reg. 2015/830 (old EU format)'),
+    for j, rx, w, label, anywhere in [
+        ('US', r'29 CFR 1910\.1200|Hazard Communication Standard', 3, 'cites OSHA HazCom', True),
+        ('US', r'\bOSHA\b', 1, 'mentions OSHA (e.g. in an abbreviations list)', False),
+        ('US', r'\b[A-Z]{2} \d{5}\b|\bUSA\b|United States', 1, 'US address', False),
+        ('GB', r'UK SI 2019/758|UK SI 2020/1577|GB[- ]CLP|GB REACH|UK SI 2019/720|UK SI 2020/1567', 3, 'cites GB REACH/CLP', True),
+        ('GB', r'UNITED KINGDOM|\b[A-Z]{1,2}\d{1,2}[A-Z]? \d[A-Z]{2}\b', 1, 'UK address', False),
+        ('EU', r'2020/878', 3, 'cites Reg. 2020/878', True),
+        ('EU', r'2015/830', 1, 'cites Reg. 2015/830 (old EU format)', True),
     ]:
-        if re.search(rx, t):
-            score[j] += w
-            why[j].append(label)
+        # explicit regulation citations count wherever they are (repeated page footers are removed, so the one kept
+        # copy may sit mid-document); a bare "OSHA" and addresses count only near the start or end
+        if j not in why or label not in why[j]:
+            if re.search(rx, full if anywhere else head):
+                score[j] += w
+                why[j].append(label)
     best = max(score, key=score.get)
     return best, score, why
 
@@ -357,7 +361,7 @@ def run(sds, lookup_dir, declared, sds_type):
         if absent:
             add('10', '10-A3', 'fail', 'Elements missing: ' + ', '.join(absent), 'All six App D elements', 'App D Table D.1 s.10')
     r1 = slots.get('reactivity', '')
-    if len(r1) < 60 and not (families_in(r1) or re.search(r'react|decompos|explo|flammab|corros', low(r1)) and len(r1) > 25):
+    if 'reactivity' in slots and len(r1) < 60 and not (families_in(r1) or re.search(r'react|decompos|explo|flammab|corros', low(r1)) and len(r1) > 25):
         add('10', '10-A7', 'warning', r1 or '(empty)', 'Reactivity hazards described for this product', 'Annex II 10.1.1 / App D s.10(a)')
     if not re.search(r'\bstable\b|\bunstable\b|stability', low(slots.get('stability', ''))):
         add('10', '10-A9', 'fail', slots.get('stability', '(empty)'), 'Stable/unstable under normal conditions stated', 'Annex II 10.2 / App D s.10(b)')
@@ -552,7 +556,9 @@ def run(sds, lookup_dir, declared, sds_type):
     thermal = m or re.search(r'thermal decomposition|on heating|excess heat|\bheat\b', low(s10 + ' ' + sds['sections'].get('5', {}).get('text', '')))
     if thermal and els:
         miss = []
-        if 'C' in els and 'C' not in need and not (H & FLAMMABLE and False):
+        s5co = re.search(r'carbon (?:mon|di)oxide|carbon oxides|\bco2?\b', low(sds['sections'].get('5', {}).get('text', '')))
+        none_normal = re.search(r'none known|not expected|should not be (?:produced|formed)|none under normal|not (?:produced|formed) under normal', dec)
+        if 'C' in els and 'C' not in need and not (s5co and none_normal):
             miss.append('C → CO/CO₂')
         for x in ('N', 'S', 'P'):
             if x in els and x not in need:
@@ -592,14 +598,15 @@ def run(sds, lookup_dir, declared, sds_type):
     if (H & WATER_REACTIVE or 'water' in families_in(incompatible) and not aqueous):
         if not re.search(r'water', re.split(r'suitable extinguishing media|extinguishing media', s5, flags=re.I)[-1], re.I) or re.search(r'water spray|water jet|foam', low(suitable)):
             add('5.1 ↔ 10', '5-C1', 'fail', s5[:150], 'Water listed as unsuitable; no water/water-based foam as suitable', 'Annex II 5.1 / App D s.5(a)')
+    sub52 = sds['sections'].get('5', {}).get('subsections', {}).get('5.2')
     m52 = re.search(r'(?:hazardous combustion products|special hazards arising|specific hazards arising)(.{0,400})', s5, re.I)
-    if m52:
-        p52 = low(m52.group(1))
+    if m52 or sub52:
+        p52 = low(' '.join(sub52.split()) if sub52 else m52.group(1))
         n52 = {e for rx, e in PRODUCT_ELEMENTS if re.search(rx, p52)}
         if els & {'Cl', 'F', 'Br', 'I'} and not n52 & {'Cl', 'F', 'Br', 'I'}:
-            add('5.2', '5-C2', 'fail', m52.group(1)[:150], 'A halogen-containing combustion product (HX or X₂)', 'Annex II 5.2 / 10.6')
+            add('5.2', '5-C2', 'fail', p52[:150], 'A halogen-containing combustion product (HX or X₂)', 'Annex II 5.2 / 10.6')
         elif 'C' in els and 'C' not in n52:
-            add('5.2', '5-C2', 'warning', m52.group(1)[:150], 'Carbon oxides named (generic "toxic fumes" is not enough)', 'Annex II 5.2 / 10.6')
+            add('5.2', '5-C2', 'warning', p52[:150], 'Carbon oxides named (generic "toxic fumes" is not enough)', 'Annex II 5.2 / 10.6')
     s6 = ' '.join(sds['sections'].get('6', {}).get('text', '').split())
     s63 = low(sds['sections'].get('6', {}).get('subsections', {}).get('6.3', s6))
     clash = []

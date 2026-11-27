@@ -17,6 +17,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import check_s10 as s10  # noqa: E402
 import check_s4 as s4  # noqa: E402
 from dedupe import dedupe  # noqa: E402
+import refgate  # noqa: E402
+import textinterp as ti  # noqa: E402
+from sds_text import sub_body, transport_class  # noqa: E402
 
 # Checklist rows this engine implements (checked against checklist/coverage.csv by tools/check_coverage.py).
 # 5/6/7-A1..A3 are produced by structure().
@@ -59,8 +62,10 @@ def norm(t):
 
 
 def classification(sds):
+    """Section 2 only. Section 12 prose ("Harmful to aquatic life...") is not a classification: a contradiction
+    between Section 12 and Section 2 belongs to those sections' checks (blind test, MPM aerosol)."""
     H = s4.classification(sds)
-    t = low(norm(sds['sections'].get('2', {}).get('text', '')) + ' ' + norm(sds['sections'].get('12', {}).get('text', '')))
+    t = low(norm(sds['sections'].get('2', {}).get('text', '')))
     for rx, code in H_EXTRA:
         if re.search(rx, t):
             H.add(code)
@@ -76,7 +81,7 @@ def media_in(text):
 
 
 class Ctx:
-    def __init__(self, sds, lookup_dir, declared):
+    def __init__(self, sds, lookup_dir, declared, sds_type='mixture'):
         self.sds = sds
         self.full = open(os.path.join(os.path.dirname(sds['_path']), 'sds.txt'), encoding='utf-8').read()
         det, _, why = s10.detect_jurisdiction(self.full)
@@ -88,15 +93,17 @@ class Ctx:
         self.Psingle = {c for combo in self.P for c in combo.split('+')}
         self.s2 = low(norm(sds['sections'].get('2', {}).get('text', '')))
         self.lk = s10.lookups(sds['codes_all']['CAS'], lookup_dir)
+        self.gate = refgate.Gate(sds, self.H, sds_type)
         self.findings = []
 
     def sec(self, n):
         return self.sds['sections'].get(str(n))
 
     def sub(self, key):
+        """Subsection text without number and title; text on the heading line is kept (two-column layouts)."""
         n = key.split('.')[0]
         s = self.sec(n) or {}
-        return norm(re.sub(r'^\s*' + re.escape(key) + r'\.?[^\n]*\n', '', s.get('subsections', {}).get(key, '')))
+        return norm(sub_body(s.get('subsections', {}).get(key, ''), key))
 
     def text(self, n):
         return low(norm((self.sec(n) or {}).get('text', '')))
@@ -117,14 +124,20 @@ class Ctx:
             for r in d['results']:
                 if r['source'] == 'ICSC' and r['status'] == 'ok':
                     for card in r['cards']:
-                        yield c, card
+                        form_txt = ' '.join(str(x) for x in (card.get('name'), card.get('physical_dangers'), card.get('first_aid'), card.get('fire_and_explosion')) if x)
+                        if self.gate.card_applies(c, f"ICSC {card['card']}", form_txt):
+                            yield c, card
 
     def cameo(self):
         for c, d in self.lk.items():
             for r in d['results']:
                 if r['source'] == 'CAMEO Chemicals' and r['status'] == 'ok':
                     for ds in r['datasheets']:
-                        yield c, ds
+                        if self.gate.card_applies(c, f"CAMEO {ds['id']}", (ds.get('name') or '') + ' ' + (ds.get('reactivity_profile') or '')[:200]):
+                            yield c, ds
+
+    def allow(self, cas, kind, severity, label):
+        return self.gate.allow(cas, kind, severity, label)
 
 
 def structure(ctx, n, title_rx, subs_eu, us_labels, refs):
@@ -150,7 +163,7 @@ def structure(ctx, n, title_rx, subs_eu, us_labels, refs):
 def run5(ctx):
     if not structure(ctx, 5, 'fire', ['5.1', '5.2', '5.3'],
                      [('(a) extinguishing media', r'extinguishing media'), ('(b) specific hazards', r'hazards? arising|specific hazard|special hazard'),
-                      ('(c) firefighter protection', r'fire-?fighter|protective equipment')], 'Annex II Part B'):
+                      ('(c) firefighter protection', ti.SYNONYMS['firefighting'] + '|' + ti.SYNONYMS['firefighter_ppe'])], 'Annex II Part B'):
         return
     s5 = ctx.text(5)
     s51 = low(ctx.sub('5.1')) if '5.1' in ctx.sec(5).get('subsections', {}) else s5
@@ -162,7 +175,7 @@ def run5(ctx):
         ctx.add('5.1', '5-A4', 'warning', s51[:150], 'Unsuitable extinguishing media stated (or "none known")', 'Annex II 5.1; App D s.5(a)')
     if not re.search(r'produc|fumes|gas|smoke|oxides|decompos|vapou?r|burst|explo|hazard', s52):
         ctx.add('5.2', '5-A5', 'warning', s52[:150], 'Hazards named, incl. hazardous combustion products', 'Annex II 5.2; App D s.5(b)')
-    if not re.search(r'breathing apparatus|scba|self-contained|respirat|protective (?:gear|clothing|equipment|suit)', s53):
+    if not re.search(ti.SYNONYMS['firefighter_ppe'], s53):
         ctx.add('5.3', '5-A6', 'warning', s53[:150], 'Special protective equipment for firefighters', 'Annex II 5.3; App D s.5(c)')
     H = ctx.H
     # 5-B1 label media vs 5.1
@@ -207,20 +220,26 @@ def run5(ctx):
     if H & AQUATIC_HIGH and not re.search(r'run-?off|fire-?water|extinguishing water|contaminated water|drains', s5 + ' ' + ctx.text(6)):
         ctx.one('5.3/6.2', '5-C5', 'warning' if ctx.EUGB else 'info', s53[:150], 'Contain fire-water run-off (aquatic hazard)',
                 'Annex II 5.3, 6.2; NetRegs GPP 18 (GB, good practice)' + ('' if ctx.EUGB else '; HazCom does not cover environmental hazards'), 'env:firewater')
-    m14 = re.search(r'(?:hazard class|transport hazard class(?:es)?|un classification)\s*\(?e?s?\)?\s*(\d(?:\.\d)?)', ctx.text(14))
-    if m14 and m14.group(1).startswith('1') and not re.search(r'evacuat', s5):
+    cls14 = transport_class((ctx.sec(14) or {}).get('text', ''), (ctx.sec(14) or {}).get('subsections'))
+    if cls14 and cls14.split('.')[0] == '1' and not re.search(r'evacuat', s5):
         ctx.one('5 ↔ 14', '5-C6', 'warning', '', 'Class 1 (explosives) in Section 14: evacuation advice expected in Section 5', 'ADR; Section 14', 'fire:explosion')
-    if m14 and m14.group(1) == '2.1' and not re.search(r'leak', s5):
+    if cls14 == '2.1' and not H & {'H222', 'H223', 'H229'} and not re.search(r'leak', s5):   # P377 is not assigned to aerosols
         ctx.one('5 ↔ 14', '5-C6', 'warning', '', 'Class 2.1 (flammable gas) in Section 14: leaking-gas-fire advice expected', 'ADR; Section 14', 'fire:leaking-gas')
     # 5-D1 reference data
     for c, card in ctx.icsc():
         ff = low((card.get('fire') or {}).get('fire_fighting'))
         if re.search(r'no water|no direct contact with water|do not use water', ff) and media_in(suitable) & {'water', 'water spray', 'foam'}:
-            ctx.one('5.1', '5-D1', 'fail', suitable[:150], f'ICSC {card["card"]}: "{ff[:120]}" but 5.1 lists water or foam as suitable', f'ICSC {card["card"]}', 'media:water')
+            st = ctx.allow(c, {'high_hazard'}, 'fail', f'ICSC {card["card"]}')
+            if st:
+                ctx.one('5.1', '5-D1', st, suitable[:150], f'ICSC {card["card"]}: "{ff[:120]}" but 5.1 lists water or foam as suitable', f'ICSC {card["card"]}', 'media:water')
     for c, ds in ctx.cameo():
-        ff = low(ds.get('firefighting'))
+        # ERG excerpts carry caveats for other materials ("CAUTION: For LNG (UN1972) pool fires, DO NOT USE water"): drop them
+        sents = [x for x in s10.sentences(ds.get('firefighting') or '') if not re.search(r'\bfor\b[^.]{0,80}\(\s*UN\s?\d{4}\s*\)|^caution:\s*for\b', x, re.I)]
+        ff = low(' '.join(sents))
         if re.search(r'do not use water', ff) and media_in(suitable) & {'water', 'water spray', 'foam'}:
-            ctx.one('5.1', '5-D1', 'fail', suitable[:150], f'CAMEO {ds["id"]} (ERG excerpt): "DO NOT USE WATER" but 5.1 lists water or foam', f'CAMEO {ds["id"]}', 'media:water')
+            st = ctx.allow(c, {'high_hazard'}, 'fail', f'CAMEO {ds["id"]}')
+            if st:
+                ctx.one('5.1', '5-D1', st, suitable[:150], f'CAMEO {ds["id"]} (ERG excerpt): "DO NOT USE WATER" but 5.1 lists water or foam', f'CAMEO {ds["id"]}', 'media:water')
 
 
 # ------------------------------------------------------------------ Section 6
@@ -239,9 +258,9 @@ def run6(ctx):
             ctx.add('6', '6-A4', 'warning', '', 'Large and small spills distinguished where volume changes the hazard', 'Annex II s.6 preamble')
         if not re.search(r'emergency responders?|6\.1\.2', s6) or not re.search(r'butyl|neoprene|nitrile|pvc|viton|tychem|fabric|material|chemical(?:ly)? (?:resistant|protective) (?:suit|clothing)', s6):
             ctx.add('6.1', '6-A5', 'warning', s61[:150], 'Suitable fabric for emergency responders\' protective clothing (6.1.2)', 'Annex II 6.1.2')
-    if not re.search(r'dike|dyke|bund|contain|cover (?:the )?drains|prevent (?:further )?(?:spread|leak)|absorb|soak up|dam', s6):
+    if not re.search(ti.SYNONYMS['contain_spill'], s6):
         ctx.add('6.3', '6-A6', 'warning', s63[:150], 'How to contain the spill', 'Annex II 6.3.1; App D s.6(b)')
-    if not re.search(r'collect|sweep|soak up|absorb|shovel|vacuum|pick up|clean', s63):
+    if not re.search(ti.SYNONYMS['clean_spill'], s63):
         ctx.add('6.3', '6-A6', 'warning', s63[:150], 'How to clean up the spill', 'Annex II 6.3.2; App D s.6(b)')
     if ctx.EUGB and not re.search(r'section 8|section 13|sections 8|8 and 13', s6):
         ctx.add('6.4', '6-A7', 'info', '', 'Reference to Sections 8 and 13', 'Annex II 6.4')
@@ -263,7 +282,7 @@ def run6(ctx):
         if H & {'H224', 'H225'} and not re.search(r'non-sparking|spark-proof|explosion-proof|anti-static|ex-protected', s6):
             ctx.one('6.3', '6-B3', 'warning', s63[:150], 'Non-sparking tools / explosion-proof equipment where applicable', 'Annex II 6.3.2; CLP IV P241/P242', 'ign:tools')
     if H & (WATER_REACT | PYRO):
-        if re.search(r'(?<!no )(?<!not )(?:flush|wash|rinse|hose)\w* (?:\w+ ){0,3}(?:with )?water|water spray|dilute with water', s63) and not re.search(r'do not use water|no water|never use water', s6):
+        if ti.affirmed(s63, r'(?:flush|wash|rinse|hose)\w* (?:\w+ ){0,3}(?:with )?water|water spray|dilute with water') and not re.search(r'do not use water|no water|never use water', s6):
             ctx.one('6.3', '6-B4', 'fail', s63[:150], 'No water on a water-reactive/pyrophoric spill; keep dry and cover', 'CLP IV P223, P231+P232', 'spill:water')
         elif not re.search(r'dry|cover|inert|do not use water|no water|without water|no contact with water|avoid (?:all )?contact with water', s6):
             ctx.one('6.3', '6-B4', 'warning', s63[:150], 'Keep the spill dry (no water) and use dry containers', 'CLP IV P223, P402+P404', 'spill:water')
@@ -275,22 +294,30 @@ def run6(ctx):
     if ctx.EUGB and re.search(r'\bsolid|powder|dust|crystal|granul|flake|rock', state) and not re.search(r'\bliquid|\bgas\b', state) and not re.search(r'dust', s6):
         ctx.one('6.1/6.3', '6-B5', 'warning', s61[:150], 'Control of dust (avoid raising dust)', 'Annex II 6.1.1 ("control of dust")', 'spill:dust')
     s82 = low(ctx.sub('8.2')) if ctx.sec(8) and '8.2' in ctx.sec(8).get('subsections', {}) else ctx.text(8)
-    if re.search(r'respirat', s82) and not re.search(r'respirat|personal protective|ppe|section 8|protective equipment', s61):
+    if re.search(r'respirat', s82) and not (re.search(r'respirat|personal protective|ppe|protective equipment', s61) or ti.refers_to(s61, '8')
+                                             or re.search(r'sections? (?:7 and )?8\b|section 8', s61)):
         ctx.one('6.1 ↔ 8', '6-C2', 'warning', s61[:150], 'PPE in 6.1 consistent with 8.2 (8.2 calls for respiratory protection)', 'Annex II 6.1.1, 8.2', 'ppe:resp')
     for c, card in ctx.icsc():
         sp = low(card.get('spillage'))
         if not sp:
             continue
-        if re.search(r'do not use water|no water', sp) and re.search(r'(?:flush|wash|rinse|hose)\w* (?:\w+ ){0,3}(?:with )?water|water spray', s63):
-            ctx.one('6.3', '6-D1', 'fail', s63[:150], f'ICSC {card["card"]} spillage: "Do NOT use water"', f'ICSC {card["card"]}', 'spill:water')
-        if 'remove all ignition sources' in sp and not re.search(r'ignition', s6):
-            ctx.one('6.1', '6-D1', 'warning', s61[:150], f'ICSC {card["card"]}: remove all ignition sources', f'ICSC {card["card"]}', 'ign:remove')
-        if re.search(r'do not let this chemical enter the environment', sp) and not re.search(r'drain|sewer|environment|water', s62 + ' ' + s6):
-            ctx.one('6.2', '6-D1', 'warning' if ctx.EUGB else 'info', s62[:150], f'ICSC {card["card"]}: do not let the chemical enter the environment', f'ICSC {card["card"]}', 'env:drains')
-        if re.search(r'saw-?dust|combustible absorbents', sp) and re.search(r'saw-?dust', s63):
-            ctx.one('6.3', '6-D1', 'fail', s63[:150], f'ICSC {card["card"]}: no sawdust or other combustible absorbents', f'ICSC {card["card"]}', 'spill:absorbent')
-        if 'dry' in sp and H & WATER_REACT and 'dry' not in s6:
-            ctx.one('6.3', '6-D1', 'warning', s63[:150], f'ICSC {card["card"]}: collect into dry containers', f'ICSC {card["card"]}', 'spill:water')
+        lab = f'ICSC {card["card"]}'
+        checks = (
+            (re.search(r'do not use water|no water', sp) and ti.affirmed(s63, r'(?:flush|wash|rinse|hose)\w* (?:\w+ ){0,3}(?:with )?water|water spray'),
+             '6.3', 'fail', {'high_hazard'}, f'{lab} spillage: "Do NOT use water"', 'spill:water', s63),
+            ('remove all ignition sources' in sp and not re.search(r'ignition', s6),
+             '6.1', 'warning', {'flammability'}, f'{lab}: remove all ignition sources', 'ign:remove', s61),
+            (re.search(r'do not let this chemical enter the environment', sp) and not re.search(r'drain|sewer|environment|water', s62 + ' ' + s6),
+             '6.2', 'warning' if ctx.EUGB else 'info', {'environment'}, f'{lab}: do not let the chemical enter the environment', 'env:drains', s62),
+            (re.search(r'saw-?dust|combustible absorbents', sp) and ti.affirmed(s63, r'saw-?dust'),
+             '6.3', 'fail', {'oxidiser', 'high_hazard'}, f'{lab}: no sawdust or other combustible absorbents', 'spill:absorbent', s63),
+            ('dry' in sp and H & WATER_REACT and 'dry' not in s6,
+             '6.3', 'warning', {'water_reactive'}, f'{lab}: collect into dry containers', 'spill:water', s63))
+        for hit, sec, sev, kind, text, key, says in checks:
+            if hit:
+                st = ctx.allow(c, kind, sev, lab)
+                if st:
+                    ctx.one(sec, '6-D1', st, says[:150], text, lab, key)
 
 
 # ------------------------------------------------------------------ Section 7
@@ -314,16 +341,15 @@ def run7(ctx):
             ctx.add('7.1', '7-A4', 'warning', s71[:150], '7.1.1 recommendations missing: ' + '; '.join(gaps), 'Annex II 7.1.1',
                     items=[{'key': 'env:release' if 'environment' in g else 'h:incompat', 'status': 'warning', 'text': g} for g in gaps],
                     prefix='7.1.1 recommendations missing: ')
-        hyg = []
-        if not re.search(r'eat|drink|smok', s7):
-            hyg.append('no eating, drinking or smoking')
-        if not re.search(r'wash (?:your )?hands|hands (?:before|after)|wash .{0,20}hands', s7):
-            hyg.append('wash hands')
-        if not re.search(r'contaminated cloth|remove (?:and wash )?contaminated|before entering eating', s7):
-            hyg.append('remove contaminated clothing before eating areas')
-        if hyg:
-            ctx.add('7.1', '7-A5', 'warning', s71[:150], 'Hygiene advice missing: ' + '; '.join(hyg), 'Annex II 7.1.2')
-        if s73 and re.search(r'^\W*(?:see (?:section|subsection) 1\.2|no data|not available|none)\W*\.?$', s73):
+        # Annex II 7.1.2: "Advice on general occupational hygiene shall be provided, such as: ..." - the list is examples
+        met, _ = ti.covers_examples(s7, {'no eating, drinking or smoking': r'\beat|drink|smok',
+                                         'wash hands': ti.SYNONYMS['wash_hands'],
+                                         'remove contaminated clothing before eating areas': r'contaminated cloth|remove (?:and wash )?contaminated|before entering eating'},
+                                    ti.SYNONYMS['hygiene_generic'])
+        if not met:
+            ctx.add('7.1', '7-A5', 'warning', s71[:150], 'No general occupational hygiene advice (e.g. no eating, drinking or smoking; wash hands; '
+                    'remove contaminated clothing before eating areas)', 'Annex II 7.1.2')
+        if s73 and (ti.is_no_data(s73) or re.search(r'^\W*(?:see (?:section|subsection) 1\.2|none)\W*\.?$', s73)):
             ctx.add('7.3', '7-A7', 'info', s73[:100], 'Specific end use recommendations (or reference to an attached exposure scenario)', 'Annex II 7.3')
     if ctx.EUGB and not re.search(r'closed|cool|ventilat|dry|temperature|original container|original packaging', s72):
         ctx.add('7.2', '7-A6', 'warning', s72[:150], 'Basic storage conditions (closed container, temperature, ventilation, humidity)', 'Annex II 7.2; App D s.7(b)')
@@ -413,7 +439,7 @@ def run7(ctx):
     if sadt and st and float(st.group(1).replace(',', '.')) >= float(sadt.group(1).replace(',', '.')):
         ctx.one('7.2 ↔ 9', '7-C2', 'fail', s72[:150], f'Storage limit {st.group(1)} °C is not below the SADT {sadt.group(1)} °C in Section 9', 'Annex II 7.2 ("consistent with … section 9")', 'store:temp')
     s82 = ctx.text(8)
-    if re.search(r'local exhaust|exhaust ventilation|fume hood|extraction', s82) and not re.search(r'ventilat|exhaust|fume hood|extraction', s71):
+    if re.search(r'local exhaust|exhaust ventilation|fume hood|extraction', s82) and not (re.search(ti.SYNONYMS['ventilation'], s71) or ti.refers_to(s71, '8')):
         ctx.one('7.1 ↔ 8', '7-C3', 'warning', s71[:150], 'Handling controls consistent with 8.2 engineering controls (ventilation/LEV)', 'Annex II 7, 8.2', 'h:vent')
     seveso = H & (EXPLOSIVE | FLAM_GAS | {'H224', 'H225', 'H240', 'H241', 'H242', 'H250', 'H260', 'H271', 'H272', 'H300', 'H310', 'H330', 'H331', 'H400', 'H410', 'H411'})
     if ctx.EUGB and seveso and not re.search(r'seveso|2012/18|comah', low(ctx.full)):
@@ -431,23 +457,27 @@ def run7(ctx):
             if re.search(rx, stc) and not re.search(rx72, s72):
                 want.append((key, lab))
         for fam in sorted(s10.families_in(re.split(r'see chemical dangers', stc)[0].split('separated from', 1)[1] if 'separated from' in stc else '') - {'air'}):
-            if fam not in s10.families_in(s72) and not re.search(r'section 10|10\.5|incompatible materials', s72):
+            if fam not in s10.families_in(s72) and not (ti.refers_to(s72, '10') or re.search(r'10\.5|incompatible materials', s72)):
                 want.append(('fam:' + fam, 'separated from ' + fam))
-        if want:
-            env_only = all(k.startswith('env') for k, _ in want)
-            st = 'info' if (env_only and not ctx.EUGB) else 'warning'
-            ctx.add('7.2', '7-D1', st, s72[:150], f'ICSC {card["card"]} storage: ' + '; '.join(lab for _, lab in want), f'ICSC {card["card"]}',
-                    items=[{'key': k, 'status': ('info' if (k.startswith('env') and not ctx.EUGB) else 'warning'), 'text': lab} for k, lab in want],
-                    prefix=f'ICSC {card["card"]} storage: ')
+        kind_of = {'store:fire': {'flammability'}, 'env:drains-store': {'environment'}, 'store:dry': {'water_reactive'}}
+        items = []
+        for k, lab in want:
+            base = 'info' if (k.startswith('env') and not ctx.EUGB) else 'warning'
+            st = ctx.allow(c, kind_of.get(k, {'reactivity'}), base, f'ICSC {card["card"]}')
+            if st:
+                items.append({'key': k, 'status': st, 'text': lab})
+        if items:
+            ctx.add('7.2', '7-D1', refgate.strongest(*[x['status'] for x in items]), s72[:150], f'ICSC {card["card"]} storage: ' + '; '.join(x['text'] for x in items),
+                    f'ICSC {card["card"]}', items=items, prefix=f'ICSC {card["card"]} storage: ')
 
 
 RUNNERS = {'5': run5, '6': run6, '7': run7}
 
 
 def run(sds, lookup_dir, declared, sds_type, section='5'):
-    ctx = Ctx(sds, lookup_dir, declared)
+    ctx = Ctx(sds, lookup_dir, declared, sds_type)
     RUNNERS[section](ctx)
-    return {'jurisdiction': ctx.juris, 'H': sorted(ctx.H), 'findings': dedupe(ctx.findings)}
+    return {'jurisdiction': ctx.juris, 'H': sorted(ctx.H), 'findings': dedupe(ctx.findings), 'gating': ctx.gate.notes}
 
 
 def runner(section):

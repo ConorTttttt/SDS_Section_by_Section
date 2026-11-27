@@ -80,6 +80,7 @@ class Gating(unittest.TestCase):
         self.assertIn('high_hazard', refgate.kinds_of('The substance can presumably form explosive peroxides in contact with air.'))
         self.assertIn('high_hazard', refgate.kinds_of('Reacts with acids. This produces toxic gas (chlorine).'))
         self.assertEqual(refgate.kinds_of('Reacts with strong oxidants.'), {'reactivity'})
+        self.assertEqual(refgate.kinds_of('Incompatible with: Strong oxidizers, acetaldehyde, chlorine, acids'), {'reactivity'})
 
 
 class Form(unittest.TestCase):

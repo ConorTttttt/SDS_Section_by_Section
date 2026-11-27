@@ -22,8 +22,10 @@ SEV = {'info': 0, 'warning': 1, 'fail': 2}
 CAS_RX = r'(?<![\d-])\d{2,7}-\d{2}-\d(?![\d-])'
 
 HIGH_HAZARD = (r'explo|detonat|peroxide|reacts? violently with water|in contact with water|water[- ]reactive|'
-               r'flammable gas(?:es)? (?:on|in) contact with water|toxic (?:gas|fumes?|vapou?r)|chlorine|hydrogen cyanide|'
-               r'hydrogen sulfide|hydrogen sulphide|phosgene|phosphine')
+               r'flammable gas(?:es)? (?:on|in) contact with water|'
+               # a toxic gas counts only when a reaction releases it ("liberates chlorine"), not when listed as a reagent
+               r'(?:releas|liberat|evolv|produc|form|generat|gives? off|emit)\w*[^.]{0,60}(?:toxic (?:gas|fumes?|vapou?r)|chlorine|'
+               r'hydrogen cyanide|hydrogen sulfide|hydrogen sulphide|phosgene|phosphine)')
 FLAMMABILITY = r'ignit|flammab|fire|fireproof|spark|flame|combust|vapou?r[- ]air|explosive mixture'
 DUST = r'\bdusts?\b|powder|granul|dust explosion|finely (?:divided|dispersed)'
 GAS_CARD = (r'\bthe gas\b|gas is heavier|gas mixes|compressed gas|liquefied gas|refrigerated liquid|\(gas\)|anhydrous|'

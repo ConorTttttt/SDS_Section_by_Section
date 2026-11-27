@@ -80,7 +80,7 @@ ATF: 7-C1, 4-A7, 7-A4, 7-D1 (separate from oxidisers).
 ## Possible misses
 
 - Aerosol: 10.1 and 10.5 say "No additional information available" with no reason; 10-A5 (agreed fail) did not fire.
-- Remover: 1,3-dioxolane (50-75%) has no ICSC/CAMEO/NIOSH record by CAS, so no reference data at all for the main ingredient; reported only as "not found".
+- ~~Remover: 1,3-dioxolane (50-75%) has no reference data.~~ **Correction (27 Nov 2026):** this was wrong. ICSC and NIOSH have no record, but CAMEO does (CAMEO 618), and its data was used in 10-D1.
 
 ## Tool issues
 

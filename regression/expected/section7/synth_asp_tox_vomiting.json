@@ -16,11 +16,6 @@
    "check": "7-A5",
    "status": "warning",
    "section": "7.1"
-  },
-  {
-   "check": "7-C4",
-   "status": "info",
-   "section": "7.2 ↔ 15"
   }
  ]
 }

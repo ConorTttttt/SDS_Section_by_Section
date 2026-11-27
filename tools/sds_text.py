@@ -91,11 +91,18 @@ def find_sections(text):
         rest = '\n'.join(ln for ln in rest.split('\n') if ' '.join(ln.split()).lower() != hk)
         body = first + '\n' + rest
         subs = {}
-        sub_iter = list(re.finditer(rf'(?m)^[ \t\f]*({n})\.(\d{{1,2}})\.?(?:\d\.?)?[ \t]+([^\n]*)$', body))
-        for j, sm in enumerate(sub_iter):
-            send = sub_iter[j + 1].start() if j + 1 < len(sub_iter) else len(body)
+        # n.k starts a subsection; n.k.m (sub-subsection) stays inside its parent n.k
+        sub_iter = list(re.finditer(rf'(?m)^[ \t\f]*({n})\.(\d{{1,2}})(\.\d{{1,2}})?\.?[ \t]+([^\n]*)$', body))
+        starts = [sm for sm in sub_iter if not sm.group(3)]
+        for j, sm in enumerate(starts):
+            send = starts[j + 1].start() if j + 1 < len(starts) else len(body)
             key = f'{n}.{int(sm.group(2))}'
             subs.setdefault(key, body[sm.start():send].strip())
+        for sm in sub_iter:   # a sub-subsection with no parent heading printed still defines its parent
+            key = f'{n}.{int(sm.group(2))}'
+            if sm.group(3) and key not in subs:
+                nxt = [x.start() for x in starts if x.start() > sm.start()]
+                subs[key] = body[sm.start():nxt[0] if nxt else len(body)].strip()
         sections[n] = {'heading': head, 'text': body.strip(), 'subsections': subs}
     return sections
 
