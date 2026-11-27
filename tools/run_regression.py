@@ -3,7 +3,8 @@
 Usage:
   python3 -I tools/run_regression.py SDS_DIR [--live] [--section 10|4] [--write-expected]
 
-SDS_DIR holds the test SDS files named in regression/cases.json (not in the repo: supplier documents).
+SDS_DIR holds the supplier test SDSs named in regression/cases.json (not in the repo). Synthetic cases
+("repo_file", regression/synthetic/) are in the repo and need no SDS_DIR.
 Each file is checked against its recorded SHA-256 first.
 By default the stored lookup snapshots in regression/lookups are used, so results are repeatable;
 --live re-queries ICSC/NIOSH/CAMEO/PubChem instead (results can drift as those sources change).
@@ -46,7 +47,7 @@ def main():
     failures = 0
     with tempfile.TemporaryDirectory() as tmp:
         for c in cases:
-            path = os.path.join(a.sds_dir, c['file'])
+            path = os.path.join(os.path.dirname(REG), c['repo_file']) if c.get('repo_file') else os.path.join(a.sds_dir, c['file'])
             print(f"== {c['id']}  ({c['declared']}, {c['type']})")
             if not os.path.exists(path):
                 print('   MISSING FILE', path); failures += 1; continue

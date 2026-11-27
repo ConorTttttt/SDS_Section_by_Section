@@ -14,6 +14,10 @@ import glob
 import json
 import os
 import re
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from dedupe import dedupe  # noqa: E402
 
 # ------------------------------------------------------------------ vocabularies
 FAMILIES = {  # common material families: a recorded violent reaction with one of these missing from 10.5 is a fail
@@ -254,8 +258,11 @@ def run(sds, lookup_dir, declared, sds_type):
     full = open(os.path.join(os.path.dirname(sds['_path']), 'sds.txt'), encoding='utf-8').read()
     findings = []
 
-    def add(section, cid, status, says, expected, source):
-        findings.append({'section': section, 'check': cid, 'status': status, 'sds_says': says[:300], 'expected': expected, 'source': source})
+    def add(section, cid, status, says, expected, source, items=None, prefix=None, suffix=''):
+        f = {'section': section, 'check': cid, 'status': status, 'sds_says': says[:300], 'expected': expected, 'source': source}
+        if items:
+            f.update(items=items, prefix=prefix, suffix=suffix)
+        findings.append(f)
 
     detected, score, why = detect_jurisdiction(full)
     juris = {'declared': declared, 'detected': detected, 'scores': score, 'evidence': why[detected],
@@ -310,7 +317,7 @@ def run(sds, lookup_dir, declared, sds_type):
     for sl, label in (('reactivity', '10.1'), ('reactions', '10.3')):
         if reactive and re.search(CONTRADICT, low(slots.get(sl))):
             bad.append(f'{label}: "{slots.get(sl, "")[:70]}"')
-    if re.search(r'\byes\b|\breactive\b', low(r1)) and re.search(r'none|no hazardous', low(slots.get('reactions', ''))):
+    if re.search(r'^\W*yes\b|reactive hazard\W*yes|(?<!not )\bis reactive\b', low(r1)) and re.search(r'^\W*none\b|none under normal|no hazardous reactions?|(?<!polymerization )does not occur\W*$', low(slots.get('reactions', ''))):
         bad.append('10.1 says reactive but 10.3 says none')
     if H & UNSTABLE_CLASS and re.fullmatch(r'\W*stable under normal conditions\W*', low(slots.get('stability', ''))):
         bad.append('10.2 unqualified "stable"')
@@ -325,7 +332,7 @@ def run(sds, lookup_dir, declared, sds_type):
             add('10.4', '10-B2', 'fail', slots.get('conditions', ''), 'Heat and ignition sources (P210)', 'CLP Annex IV P210')
         elif H & {'H224', 'H225', 'H226'} and not re.search(r'static|electrostatic', low(s10)) and re.search(r'static', low(full)):
             add('10.4', '10-B2', 'warning', slots.get('conditions', ''), 'Static discharge (volatile liquid; P240/P243 conditions)',
-                'CLP Annex IV P240/P243')
+                'CLP Annex IV P240/P243', items=[{'key': 'cond:static discharge', 'text': 'static discharge'}], prefix='Static discharge (volatile liquid; P240/P243 conditions): ')
     if H & WATER_REACTIVE:
         if 'water' not in families_in(incompatible):
             add('10.5', '10-B10', 'fail', incompatible, 'Water listed in 10.5', 'Annex II 10.5; H260/H261/EUH014/EUH029')
@@ -343,11 +350,13 @@ def run(sds, lookup_dir, declared, sds_type):
     c1 = sorted(f for f, secs in named.items() if '7' in secs and f not in have10)
     if c1:
         add('10.5 ↔ 7', '10-C1', 'fail', 'Section 7 names: ' + ', '.join(c1) + ' | 10.5: ' + incompatible[:120],
-            'Everything Section 7 keeps the product away from is in 10.5', 'Annex II 7.2, 10.5 / App D s.7(b), s.10(e)')
+            'Everything Section 7 keeps the product away from is in 10.5. Missing: ' + ', '.join(c1), 'Annex II 7.2, 10.5 / App D s.7(b), s.10(e)',
+            items=[{'key': 'fam:' + f, 'text': f, 'status': 'fail'} for f in c1], prefix='Everything Section 7 keeps the product away from is in 10.5. Missing: ')
     c8 = sorted(f for f, secs in named.items() if not ('7' in secs) and f not in have10 and not (f == 'water' and aqueous))
     if c8:
         add('10.5 ↔ 2/5/6', '10-C8', 'fail', 'Named in Section(s) ' + ', '.join(sorted({s for f in c8 for s in named[f]})) + ': ' + ', '.join(c8),
-            'Every material the SDS names as reactive appears in 10.5/10.3', 'SDS Sections 2, 5, 6')
+            'Every material the SDS names as reactive appears in 10.5/10.3. Missing: ' + ', '.join(c8), 'SDS Sections 2, 5, 6',
+            items=[{'key': 'fam:' + f, 'text': f, 'status': 'fail'} for f in c8], prefix='Every material the SDS names as reactive appears in 10.5/10.3. Missing: ')
     s7 = low(' '.join(sds['sections'].get('7', {}).get('text', '').split()))
     c2 = []
     for cond, rx7, rx10 in (('light/sunlight', r'sunlight|\blight\b|dark', r'sunlight|\blight\b'),
@@ -355,11 +364,10 @@ def run(sds, lookup_dir, declared, sds_type):
                             ('heat', r'\bcool\b|refrigerat|heat', r'heat|temperature'),
                             ('static discharge', r'static', r'static')):
         if re.search(rx7, s7) and not re.search(rx10, low(s10)):
-            if cond == 'static discharge' and any(f['check'] == '10-B2' for f in findings):
-                continue
             c2.append(cond)
     if c2:
-        add('10.4 ↔ 7', '10-C2', 'warning', 'Section 7 sets: ' + ', '.join(c2), 'Same conditions named in Section 10', 'Annex II 7, 10.4')
+        add('10.4 ↔ 7', '10-C2', 'warning', 'Section 7 sets: ' + ', '.join(c2), 'Same conditions named in Section 10. Missing: ' + ', '.join(c2), 'Annex II 7, 10.4',
+            items=[{'key': 'cond:' + c, 'text': c, 'status': 'warning'} for c in c2], prefix='Same conditions named in Section 10. Missing: ')
     s9 = ' '.join(sds['sections'].get('9', {}).get('text', '').split())
     m = re.search(r'decomposition temperature\s*([<>≥≤]?\s*-?\d+(?:\.\d+)?)\s*°?\s*C', s9, re.I)
     if m and re.search(r'\bstable\b', low(slots.get('stability', ''))):
@@ -430,7 +438,7 @@ def run(sds, lookup_dir, declared, sds_type):
         add('7.2', '7-C1', 'warning', ' '.join(s72.split())[:150], 'Segregation for: ' + ', '.join(sorted(fam10)) + ' (or a cross-reference to 10.5)', 'Annex II 7.2')
 
     # ---- D: data spot-checks
-    reported = {f for x in findings if x['check'] in ('10-C1', '10-C8') for f in re.findall(r'[a-z ]+', x['sds_says'].split(':', 1)[-1].split('|')[0]) for f in [f.strip()]}
+    reported = set()  # overlap with 10-C1/10-C8 is now handled by the engine-wide duplicate rule
     fails, warns, explicit, srcs, fail_cards = {}, set(), set(), [], {}
     PRIMARY = ['halogens', 'acids', 'oxidisers', 'halogenated compounds']
     for cas_, d in lk.items():
@@ -481,10 +489,13 @@ def run(sds, lookup_dir, declared, sds_type):
             notes.append(f"ICSC has {len(cards)} cards for {cas_}: " + '; '.join(f"{c['card']} ({c['name']})" for c in cards)
                          + f". SDS concentration {conc} %; the stricter card was used: {', '.join(used)}.")
     if fails or warns or explicit:
-        add('10.5', '10-D1', 'fail' if fails else 'warning', incompatible[:150],
-            ('Recorded violent/explosive/gas-releasing reaction with: ' + ', '.join(k + (f" ({', '.join(sorted(v))})" if v else '') for k, v in sorted(fails.items())) + '. ' if fails else '')
-            + ('Name explicitly (its family is already listed): ' + ', '.join(sorted(explicit)) + '. ' if explicit else '')
-            + ('Also listed: ' + ', '.join(sorted(warns)) + '. ' if warns else '') + ' '.join(notes), ', '.join(sorted(set(srcs))))
+        items = [{'key': 'fam:' + k, 'status': 'fail', 'text': k + (f" ({', '.join(sorted(v))})" if v else '') + ': violent/explosive/gas-releasing reaction recorded'}
+                 for k, v in sorted(fails.items())]
+        items += [{'key': 'name:' + n, 'status': 'warning', 'text': 'name explicitly (family already listed): ' + n} for n in sorted(explicit)]
+        items += [{'key': ('fam:' if n in FAMILIES else 'name:') + n, 'status': 'warning', 'text': 'also listed: ' + n} for n in sorted(warns)]
+        suffix = (' ' + ' '.join(notes)) if notes else ''
+        add('10.5', '10-D1', 'fail' if fails else 'warning', incompatible[:150], '; '.join(x['text'] for x in items) + suffix,
+            ', '.join(sorted(set(srcs))), items=items, prefix='', suffix=suffix)
     for cas_, d in lk.items():
         for r in d['results']:
             if r['source'] == 'GESTIS' and r.get('entries') and cas_ != '7732-18-5':
@@ -504,6 +515,7 @@ def run(sds, lookup_dir, declared, sds_type):
                 a5['source'] + '; ' + b1['source'])
             if rest:
                 add('10', '10-A5', 'fail', '; '.join(r for r in a5['sds_says'].split('; ') if r.split(':')[0] in rest), a5['expected'], a5['source'])
+    findings = dedupe(findings)
     return {'jurisdiction': juris, 'H': sorted(H), 'elements': sorted(els), 'slots': slots, 'findings': findings}
 
 

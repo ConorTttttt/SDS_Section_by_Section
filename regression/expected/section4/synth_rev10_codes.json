@@ -1,0 +1,16 @@
+{
+ "case": "synth_rev10_codes",
+ "section": "4",
+ "jurisdiction": {
+  "declared": "EU",
+  "detected": "EU",
+  "mismatch": false
+ },
+ "findings": [
+  {
+   "check": "2-L2",
+   "status": "warning",
+   "section": "2.2"
+  }
+ ]
+}

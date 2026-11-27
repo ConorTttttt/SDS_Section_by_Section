@@ -1,5 +1,5 @@
 {
- "checklist": "Section 10 (tuned, approved 2026-11-27)",
+ "checklist": "Sections 10 and 4 (approved 2026-11-27)",
  "cases": [
   {
    "id": "hypochlorite_us_mixture",
@@ -36,6 +36,36 @@
    "type": "substance",
    "expected_detected": "GB",
    "sha256": "aa49b3f043edd596419fea3bb04ce5565af2346df688d7d10006f630cbea28ae"
+  },
+  {
+   "id": "synth_rev10_codes",
+   "repo_file": "regression/synthetic/synth_rev10_codes.docx",
+   "synthetic": true,
+   "product": "SYNTHETIC: GHS Rev.10 codes P316/P317 on an EU SDS -> 2-L2 warning; P316 matched as P310",
+   "declared": "EU",
+   "type": "substance",
+   "expected_detected": "EU",
+   "sha256": "9819a90590c3b00508fcaf0c6cd012b0ff37c8f2515f81ecb9d0d6f36438348c"
+  },
+  {
+   "id": "synth_asp_tox_vomiting",
+   "repo_file": "regression/synthetic/synth_asp_tox_vomiting.docx",
+   "synthetic": true,
+   "product": "SYNTHETIC: \"induce vomiting\" with Asp. Tox. 1 -> 4-B1 fail (also covers 4-C1)",
+   "declared": "EU",
+   "type": "substance",
+   "expected_detected": "EU",
+   "sha256": "3d174322b4afe06548bf2d1eb82c55db38337d6abc2c8d096adbf2cbe8228fcd"
+  },
+  {
+   "id": "synth_oral4_vomiting",
+   "repo_file": "regression/synthetic/synth_oral4_vomiting.docx",
+   "synthetic": true,
+   "product": "SYNTHETIC: \"induce vomiting\" with Acute Tox. 4 oral only -> 4-B1 warning",
+   "declared": "EU",
+   "type": "substance",
+   "expected_detected": "EU",
+   "sha256": "8725355f921de948433254bcee50bd5bc2f15de74dd0b7d7eafbdc459f804236"
   }
  ]
 }

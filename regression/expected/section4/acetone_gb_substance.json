@@ -8,11 +8,6 @@
  },
  "findings": [
   {
-   "check": "4-A7",
-   "status": "warning",
-   "section": "4.1"
-  },
-  {
    "check": "4-B2",
    "status": "warning",
    "section": "4.1"

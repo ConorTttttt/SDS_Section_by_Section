@@ -1,5 +1,7 @@
 # SDS section checker: helper tools
 
+Open items and out-of-scope findings are listed in [BACKLOG.md](BACKLOG.md).
+
 Review aid for Safety Data Sheets (SDS), Sections 4–8 and 10. It is not sign-off: a competent person must verify every finding.
 
 The checklist and the reference sources live in the "SDS Resources by Section" Sheet (Resources and By Section tabs). This repo holds the scripts that feed a run.
@@ -63,6 +65,8 @@ Each script applies that section's checklist and prints every finding: check ID,
 
 Both scripts work out the jurisdiction from the SDS itself: the regulation cited and the supplier address. If that differs from `--declared`, they print `** MISMATCH **` and still run under the declared jurisdiction.
 
+Duplicate rule (all sections, `tools/dedupe.py`): when two findings report the same gap (for example the same P-statement action or the same condition), only one is kept. That is the higher-severity one; on a tie, the more specific layer (B before A, C, D). The kept finding says which checks it also covers, e.g. `[also covers 4-C1 (P338)]`.
+
 Known limits:
 - US precautionary-statement wording (OSHA App C) is published only as images, so US text is matched against the CLP wording.
 - GHS Rev.10 codes P316–P319 are matched as equivalents of P310–P315. That mapping has not been checked against the GHS Rev.10 text, because unece.org isn't reachable from here.
@@ -82,6 +86,14 @@ This runs Sections 10 and 4 for every case in `regression/cases.json`. Each case
 - the same calcium carbide SDS declared as EU, which must flag the mismatch
 
 The PDFs themselves aren't committed, because they're supplier documents. Put them in one folder and pass its path.
+
+There are also three synthetic cases in `regression/synthetic/`, each clearly marked "SYNTHETIC TEST SDS — NOT A REAL PRODUCT". They are committed and need no folder. Each one triggers one rule:
+
+- GHS Rev.10 codes → 2-L2
+- "induce vomiting" with Asp. Tox. 1 → 4-B1 fail
+- "induce vomiting" with Acute Tox. 4 oral only → 4-B1 warning
+
+To regenerate them, run `SOURCE_DATE_EPOCH=1795737600 python3 -I regression/synthetic/make_synthetic.py`. If the files change, update their SHA-256 in `cases.json`.
 
 Options:
 - `--section 10` or `--section 4` runs one section only.

@@ -1,0 +1,16 @@
+{
+ "case": "synth_oral4_vomiting",
+ "section": "4",
+ "jurisdiction": {
+  "declared": "EU",
+  "detected": "EU",
+  "mismatch": false
+ },
+ "findings": [
+  {
+   "check": "4-B1",
+   "status": "warning",
+   "section": "4.1"
+  }
+ ]
+}
