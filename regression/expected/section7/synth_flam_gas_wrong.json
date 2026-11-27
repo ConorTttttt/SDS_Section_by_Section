@@ -1,0 +1,31 @@
+{
+ "case": "synth_flam_gas_wrong",
+ "section": "7",
+ "jurisdiction": {
+  "declared": "EU",
+  "detected": "EU",
+  "mismatch": false
+ },
+ "findings": [
+  {
+   "check": "7-B1",
+   "status": "fail",
+   "section": "7.1/7.2"
+  },
+  {
+   "check": "7-B1",
+   "status": "warning",
+   "section": "7.1/7.2"
+  },
+  {
+   "check": "7-B7",
+   "status": "warning",
+   "section": "7.2"
+  },
+  {
+   "check": "7-C4",
+   "status": "info",
+   "section": "7.2 ↔ 15"
+  }
+ ]
+}

@@ -1,0 +1,10 @@
+{
+ "case": "calcium_carbide_declared_eu",
+ "section": "5",
+ "jurisdiction": {
+  "declared": "EU",
+  "detected": "GB",
+  "mismatch": true
+ },
+ "findings": []
+}

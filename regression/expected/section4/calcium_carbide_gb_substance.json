@@ -1,0 +1,56 @@
+{
+ "case": "calcium_carbide_gb_substance",
+ "section": "4",
+ "jurisdiction": {
+  "declared": "GB",
+  "detected": "GB",
+  "mismatch": false
+ },
+ "findings": [
+  {
+   "check": "2-L1",
+   "status": "fail",
+   "section": "2.2"
+  },
+  {
+   "check": "4-A4",
+   "status": "info",
+   "section": "4"
+  },
+  {
+   "check": "4-A9",
+   "status": "warning",
+   "section": "4.1"
+  },
+  {
+   "check": "4-B3",
+   "status": "warning",
+   "section": "4.1"
+  },
+  {
+   "check": "4-B6",
+   "status": "fail",
+   "section": "4.1"
+  },
+  {
+   "check": "4-C2",
+   "status": "fail",
+   "section": "4.2 ↔ 2/11"
+  },
+  {
+   "check": "4-D1",
+   "status": "warning",
+   "section": "4.1"
+  },
+  {
+   "check": "4-D2",
+   "status": "warning",
+   "section": "4.3"
+  },
+  {
+   "check": "4-D3",
+   "status": "warning",
+   "section": "4.2/4.3"
+  }
+ ]
+}

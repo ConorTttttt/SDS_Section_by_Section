@@ -1,0 +1,31 @@
+{
+ "case": "acetone_gb_substance",
+ "section": "4",
+ "jurisdiction": {
+  "declared": "GB",
+  "detected": "GB",
+  "mismatch": false
+ },
+ "findings": [
+  {
+   "check": "4-B2",
+   "status": "warning",
+   "section": "4.1"
+  },
+  {
+   "check": "4-B3",
+   "status": "warning",
+   "section": "4.1"
+  },
+  {
+   "check": "4-C2",
+   "status": "warning",
+   "section": "4.2 ↔ 2/11"
+  },
+  {
+   "check": "4-D1",
+   "status": "warning",
+   "section": "4.1"
+  }
+ ]
+}

@@ -1,0 +1,10 @@
+{
+ "case": "synth_asp_tox_vomiting",
+ "section": "10",
+ "jurisdiction": {
+  "declared": "EU",
+  "detected": "EU",
+  "mismatch": false
+ },
+ "findings": []
+}

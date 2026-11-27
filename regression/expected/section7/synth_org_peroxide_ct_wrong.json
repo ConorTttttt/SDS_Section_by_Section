@@ -1,0 +1,21 @@
+{
+ "case": "synth_org_peroxide_ct_wrong",
+ "section": "7",
+ "jurisdiction": {
+  "declared": "EU",
+  "detected": "EU",
+  "mismatch": false
+ },
+ "findings": [
+  {
+   "check": "7-B3",
+   "status": "fail",
+   "section": "7.2"
+  },
+  {
+   "check": "7-C4",
+   "status": "info",
+   "section": "7.2 ↔ 15"
+  }
+ ]
+}

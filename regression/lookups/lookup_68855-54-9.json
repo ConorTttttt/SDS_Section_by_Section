@@ -1,0 +1,35 @@
+{
+ "cas": "68855-54-9",
+ "results": [
+  {
+   "source": "ICSC",
+   "status": "not found",
+   "url": "https://chemicalsafety.ilo.org/dyn/icsc/showcard.listCards3?p_lang=en&p_cas_number=68855-54-9"
+  },
+  {
+   "source": "NIOSH Pocket Guide",
+   "status": "not found"
+  },
+  {
+   "source": "CAMEO Chemicals",
+   "status": "not found"
+  },
+  {
+   "source": "GESTIS",
+   "status": "search only (article text needs authorisation; check manually)",
+   "entries": [
+    {
+     "name": "Diatomaceous silica, flux-calcined",
+     "zvg": "491121",
+     "url": "https://gestis.dguv.de/data?name=491121&lang=en"
+    }
+   ]
+  },
+  {
+   "source": "PubChem",
+   "status": "unreachable",
+   "http": "404",
+   "note": "{\n  \"Fault\": {\n    \"Code\": \"PUGREST.NotFound\",\n    \"Message\": \"No CID found\",\n    \"Details\": [\n      \"No CID found that matches the given name\"\n    ]\n  }\n}\n"
+  }
+ ]
+}

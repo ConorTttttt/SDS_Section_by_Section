@@ -1,0 +1,46 @@
+{
+ "case": "calcium_carbide_declared_eu",
+ "section": "10",
+ "jurisdiction": {
+  "declared": "EU",
+  "detected": "GB",
+  "mismatch": true
+ },
+ "findings": [
+  {
+   "check": "10-A5+10-B1",
+   "status": "fail",
+   "section": "10"
+  },
+  {
+   "check": "10-A7",
+   "status": "warning",
+   "section": "10"
+  },
+  {
+   "check": "10-C1",
+   "status": "fail",
+   "section": "10.5 ↔ 7"
+  },
+  {
+   "check": "10-C4",
+   "status": "warning",
+   "section": "10.6 ↔ 3"
+  },
+  {
+   "check": "10-D1",
+   "status": "fail",
+   "section": "10.5"
+  },
+  {
+   "check": "10-J1",
+   "status": "warning",
+   "section": "All"
+  },
+  {
+   "check": "5-C2",
+   "status": "warning",
+   "section": "5.2"
+  }
+ ]
+}

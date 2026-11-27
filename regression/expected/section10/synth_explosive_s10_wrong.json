@@ -1,0 +1,16 @@
+{
+ "case": "synth_explosive_s10_wrong",
+ "section": "10",
+ "jurisdiction": {
+  "declared": "EU",
+  "detected": "EU",
+  "mismatch": false
+ },
+ "findings": [
+  {
+   "check": "10-B5",
+   "status": "fail",
+   "section": "10.1/10.4"
+  }
+ ]
+}

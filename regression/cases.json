@@ -1,0 +1,191 @@
+{
+ "checklist": "Sections 10, 4, 5, 6, 7 (Sections 5-7 pending Checklist approval)",
+ "cases": [
+  {
+   "id": "hypochlorite_us_mixture",
+   "file": "1fda6848-SODIUM-HYPOCHLORITE-2C-13-25-500ML.pdf",
+   "product": "Sodium hypochlorite solution 5-<16% (Fisher/Acros, rev 11, 19-Dec-2025)",
+   "declared": "US",
+   "type": "mixture",
+   "expected_detected": "US",
+   "sha256": "f7f75369c60c72567c64577ba6ebdc49c8b670fdeebfd4e6e3fe399a8288d462"
+  },
+  {
+   "id": "acetone_gb_substance",
+   "file": "2da7065e-10131560.pdf",
+   "product": "Acetone (Fisher, rev 14, 19-Oct-2023)",
+   "declared": "GB",
+   "type": "substance",
+   "expected_detected": "GB",
+   "sha256": "d3a57318b809a2a62b2c3b5b2b690d75399687e4028c17e255a75d7dc4e77b1e"
+  },
+  {
+   "id": "calcium_carbide_gb_substance",
+   "file": "f98aa1d4-Safety_Data_Sheets_c_che1468_S.pdf",
+   "product": "Calcium carbide tech. (SLS CHE1468, rev 1.1, 20-Apr-2021)",
+   "declared": "GB",
+   "type": "substance",
+   "expected_detected": "GB",
+   "sha256": "aa49b3f043edd596419fea3bb04ce5565af2346df688d7d10006f630cbea28ae"
+  },
+  {
+   "id": "calcium_carbide_declared_eu",
+   "file": "f98aa1d4-Safety_Data_Sheets_c_che1468_S.pdf",
+   "product": "Same SDS declared as EU: must flag the jurisdiction mismatch",
+   "declared": "EU",
+   "type": "substance",
+   "expected_detected": "GB",
+   "sha256": "aa49b3f043edd596419fea3bb04ce5565af2346df688d7d10006f630cbea28ae"
+  },
+  {
+   "id": "synth_rev10_codes",
+   "repo_file": "regression/synthetic/synth_rev10_codes.docx",
+   "synthetic": true,
+   "product": "SYNTHETIC: GHS Rev.10 codes P316/P317 on an EU SDS -> 2-L2 warning; P316 matched as P310",
+   "declared": "EU",
+   "type": "substance",
+   "expected_detected": "EU",
+   "sha256": "9819a90590c3b00508fcaf0c6cd012b0ff37c8f2515f81ecb9d0d6f36438348c"
+  },
+  {
+   "id": "synth_asp_tox_vomiting",
+   "repo_file": "regression/synthetic/synth_asp_tox_vomiting.docx",
+   "synthetic": true,
+   "product": "SYNTHETIC: \"induce vomiting\" with Asp. Tox. 1 -> 4-B1 fail (also covers 4-C1)",
+   "declared": "EU",
+   "type": "substance",
+   "expected_detected": "EU",
+   "sha256": "3d174322b4afe06548bf2d1eb82c55db38337d6abc2c8d096adbf2cbe8228fcd"
+  },
+  {
+   "id": "synth_oral4_vomiting",
+   "repo_file": "regression/synthetic/synth_oral4_vomiting.docx",
+   "synthetic": true,
+   "product": "SYNTHETIC: \"induce vomiting\" with Acute Tox. 4 oral only -> 4-B1 warning",
+   "declared": "EU",
+   "type": "substance",
+   "expected_detected": "EU",
+   "sha256": "8725355f921de948433254bcee50bd5bc2f15de74dd0b7d7eafbdc459f804236"
+  },
+  {
+   "id": "synth_flam_gas_wrong",
+   "repo_file": "regression/synthetic/synth_flam_gas_wrong.docx",
+   "synthetic": true,
+   "product": "SYNTHETIC: flammable gas without leaking-gas caveat or ignition control -> 5-B3, 6-B3, 7-B1 fail",
+   "declared": "EU",
+   "type": "substance",
+   "expected_detected": "EU",
+   "sha256": "a67fb5f496002a5fbb33ba0c868341b3214f45a3d523ba86f602dfbad6e48726"
+  },
+  {
+   "id": "synth_flam_gas_correct",
+   "repo_file": "regression/synthetic/synth_flam_gas_correct.docx",
+   "synthetic": true,
+   "product": "SYNTHETIC: the same flammable gas done right -> no fails (false-fail check)",
+   "declared": "EU",
+   "type": "substance",
+   "expected_detected": "EU",
+   "sha256": "6f8b9a2a0214e940b118ba335e434441fba459f082d9bd28804f51f4c30f07d1"
+  },
+  {
+   "id": "synth_explosive_wrong",
+   "repo_file": "regression/synthetic/synth_explosive_wrong.docx",
+   "synthetic": true,
+   "product": "SYNTHETIC: explosive 1.1 without evacuation advice or P401 storage -> 5-B2, 7-B8 fail",
+   "declared": "EU",
+   "type": "substance",
+   "expected_detected": "EU",
+   "sha256": "0298d565e7476a948c65facb653b343304d4501b7e71a88133b1526ffba506c6"
+  },
+  {
+   "id": "synth_oxidiser_cat1_wrong",
+   "repo_file": "regression/synthetic/synth_oxidiser_cat1_wrong.docx",
+   "synthetic": true,
+   "product": "SYNTHETIC: oxidising solid cat. 1 without combustibles separation -> 5-B2, 7-B2 fail",
+   "declared": "EU",
+   "type": "substance",
+   "expected_detected": "EU",
+   "sha256": "10c62658eb7f61a84f7b71a230f7a0ae079381d8b733524f630074f6e326ba5b"
+  },
+  {
+   "id": "synth_org_peroxide_ct_wrong",
+   "repo_file": "regression/synthetic/synth_org_peroxide_ct_wrong.docx",
+   "synthetic": true,
+   "product": "SYNTHETIC: organic peroxide with P411 0 °C on label but no temperature in 7.2 -> 7-B3 fail",
+   "declared": "EU",
+   "type": "substance",
+   "expected_detected": "EU",
+   "sha256": "1d5d9a17fe27dc26b7be71bc57f58acb782ea8eeb85c962e4930025b772361bd"
+  },
+  {
+   "id": "synth_unstable_gas_s10_wrong",
+   "repo_file": "regression/synthetic/synth_unstable_gas_s10_wrong.docx",
+   "synthetic": true,
+   "product": "SYNTHETIC: chemically unstable gas with 10.2 \"stable\" -> 10-B4 fail",
+   "declared": "EU",
+   "type": "substance",
+   "expected_detected": "EU",
+   "sha256": "cea79a18e812a405e8cd5441b55f633feb2d212601409f16a66584df439ea87c"
+  },
+  {
+   "id": "synth_explosive_s10_wrong",
+   "repo_file": "regression/synthetic/synth_explosive_s10_wrong.docx",
+   "synthetic": true,
+   "product": "SYNTHETIC: explosive whose 10.4 lacks shock/friction/static -> 10-B5 fail",
+   "declared": "EU",
+   "type": "substance",
+   "expected_detected": "EU",
+   "sha256": "ec770a266ad4c7ed2a496bf44b7f595614f3be285cd36dcf395fcaeaec9e803a"
+  },
+  {
+   "id": "synth_org_peroxide_s10_wrong",
+   "repo_file": "regression/synthetic/synth_org_peroxide_s10_wrong.docx",
+   "synthetic": true,
+   "product": "SYNTHETIC: organic peroxide with incomplete 10.2-10.4 -> 10-B7 fail",
+   "declared": "EU",
+   "type": "substance",
+   "expected_detected": "EU",
+   "sha256": "38ffa7be9990aa4d7eb08e5b0b4e2fadcaf50bb0519facacbbf6ea4ee2cb3d8a"
+  },
+  {
+   "id": "synth_peroxide_former_wrong",
+   "repo_file": "regression/synthetic/synth_peroxide_former_wrong.docx",
+   "synthetic": true,
+   "product": "SYNTHETIC: EUH019/EUH044/EUH031 not reflected in Section 10 -> 10-B13, 10-B14, 10-B15 fail",
+   "declared": "EU",
+   "type": "substance",
+   "expected_detected": "EU",
+   "sha256": "c937eba1b8b93f557d0b86a8837587559d780280ccff751976f33ad21ae05537"
+  },
+  {
+   "id": "synth_monomer_s10_wrong",
+   "repo_file": "regression/synthetic/synth_monomer_s10_wrong.docx",
+   "synthetic": true,
+   "product": "SYNTHETIC: inhibited monomer, no stabiliser or polymerisation in Section 10 -> 10-A10, 10-A11 fail",
+   "declared": "EU",
+   "type": "substance",
+   "expected_detected": "EU",
+   "sha256": "e0a65f416cf365d38545f5b744d5631b8bbd5edcf48fe96a5e80a88fbdd16d7f"
+  },
+  {
+   "id": "synth_peroxide_former_correct",
+   "repo_file": "regression/synthetic/synth_peroxide_former_correct.docx",
+   "synthetic": true,
+   "product": "SYNTHETIC CONTROL: peroxide former with EUH019/EUH044/EUH031 handled in 10.1-10.5 -> no 10-B13/B14/B15 fail expected",
+   "declared": "EU",
+   "type": "substance",
+   "expected_detected": "EU",
+   "sha256": "cbb2a938722024f68dd7d8c6a18c742f3bdbc63fc01b8487634dc5ad03de91c7"
+  },
+  {
+   "id": "synth_monomer_correct",
+   "repo_file": "regression/synthetic/synth_monomer_correct.docx",
+   "synthetic": true,
+   "product": "SYNTHETIC CONTROL: inhibited monomer, inhibitor (MEHQ) and polymerisation named in Section 10 -> no 10-A10/A11 fail expected",
+   "declared": "EU",
+   "type": "substance",
+   "expected_detected": "EU",
+   "sha256": "7f50bd54505fc1e9c8580c87e06bf442965517b506b68fd4af14ee7910f8749e"
+  }
+ ]
+}

@@ -1,0 +1,10 @@
+{
+ "case": "acetone_gb_substance",
+ "section": "5",
+ "jurisdiction": {
+  "declared": "GB",
+  "detected": "GB",
+  "mismatch": false
+ },
+ "findings": []
+}

@@ -1,0 +1,31 @@
+{
+ "case": "calcium_carbide_gb_substance",
+ "section": "6",
+ "jurisdiction": {
+  "declared": "GB",
+  "detected": "GB",
+  "mismatch": false
+ },
+ "findings": [
+  {
+   "check": "6-A5",
+   "status": "warning",
+   "section": "6.1"
+  },
+  {
+   "check": "6-B5",
+   "status": "warning",
+   "section": "6.1/6.3"
+  },
+  {
+   "check": "6-D1",
+   "status": "warning",
+   "section": "6.3"
+  },
+  {
+   "check": "6-D1",
+   "status": "warning",
+   "section": "6.1"
+  }
+ ]
+}
