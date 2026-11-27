@@ -325,6 +325,46 @@ CASES.update({
     },
 })
 
+# Correct controls for the new Section 10 rules: written to Annex II 10.1-10.6 as a careful author would,
+# not to the checker's patterns. They should produce no Section 10 fail.
+CASES.update({
+    'synth_peroxide_former_correct': {**GOOD4, **S10GOOD, 'tag': 'PFC',
+        (2, 1): 'Flam. Liq. 2, H225. EUH019, EUH044, EUH031.',
+        (2, 2): CASES['synth_peroxide_former_wrong'][(2, 2)],
+        (3, 1): 'Synthetic ether (no CAS): 100 %.',
+        (7, 1): CASES['synth_peroxide_former_wrong'][(7, 1)],
+        (7, 2): 'Store in a cool, well-ventilated place, in the dark, in tightly closed containers, away from acids (see Section 10.5). '
+                'Record the date of receipt and of opening; test for peroxides before use and before any distillation; dispose of within 12 months of opening.',
+        (9, 1): 'Physical state: liquid. Flash point -20 °C.',
+        (10, 1): 'May form explosive peroxides on exposure to air and light, especially after the container has been opened (EUH019). '
+                 'Risk of explosion if heated under confinement (EUH044). Highly flammable liquid.',
+        (10, 2): 'Stable under the recommended storage conditions. Forms peroxides slowly on storage in contact with air; '
+                 'concentrating the liquid by distillation or evaporation concentrates the peroxides.',
+        (10, 3): 'Contact with acids liberates toxic gas (EUH031). Peroxide residues may explode on heating, shock or friction. '
+                 'Vapours may form explosive mixtures with air.',
+        (10, 4): 'Heat, sparks, open flames, static discharge. Exposure to air and light. Heating in closed or confined containers. '
+                 'Distilling or evaporating to dryness.',
+        (10, 5): 'Acids; strong oxidising agents.',
+        (10, 6): 'Toxic gas on contact with acids (see 10.3). On combustion: carbon monoxide, carbon dioxide.',
+    },
+    'synth_monomer_correct': {**GOOD4, **S10GOOD, 'tag': 'MOC',
+        (2, 1): 'Flam. Liq. 3, H226.',
+        (2, 2): CASES['synth_monomer_s10_wrong'][(2, 2)],
+        (3, 1): 'Synthetic monomer (no CAS): > 99 %, stabilised with 50 ppm 4-methoxyphenol (MEHQ).',
+        (7, 1): 'Keep away from heat and ignition sources. ' + GOOD7_HYGIENE,
+        (7, 2): 'Store cool (below 30 °C), protected from sunlight, under air (not under inert gas: the inhibitor needs dissolved oxygen), '
+                'away from oxidising agents and polymerisation initiators (see Section 10.5). Check the inhibitor level every 3 months.',
+        (9, 1): 'Physical state: liquid. Flash point 30 °C.',
+        (10, 1): 'May polymerise if the inhibitor is depleted or the product is overheated. Flammable liquid.',
+        (10, 2): 'Stable when inhibited. Contains 50 ppm 4-methoxyphenol (MEHQ) as inhibitor; the inhibitor is effective only in the presence of dissolved oxygen.',
+        (10, 3): 'Hazardous polymerisation may occur on heating, if the inhibitor is depleted, or on contact with peroxides or other free-radical initiators. '
+                 'The reaction is exothermic and may rupture closed containers.',
+        (10, 4): 'Heat, sparks, open flames, direct sunlight, storage above 30 °C, storage under inert gas, long storage without checking the inhibitor level.',
+        (10, 5): 'Oxidising agents; peroxides and other free-radical initiators; strong acids and bases.',
+        (10, 6): 'None under normal storage. On combustion: carbon monoxide, carbon dioxide.',
+    },
+})
+
 
 def build(name, spec):
     lines = [BANNER, '', f'# SAFETY DATA SHEET — {name}', '', 'Revision date: 27.11.2026 (synthetic)', '']

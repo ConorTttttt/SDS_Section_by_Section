@@ -96,7 +96,7 @@ This runs Sections 10, 4, 5, 6 and 7 for every case in `regression/cases.json`. 
 
 The PDFs themselves aren't committed, because they're supplier documents. Put them in one folder and pass its path.
 
-There are also thirteen synthetic cases in `regression/synthetic/`, each clearly marked "SYNTHETIC TEST SDS — NOT A REAL PRODUCT". They are committed and need no folder. Each one triggers one rule:
+There are also fifteen synthetic cases in `regression/synthetic/`, each clearly marked "SYNTHETIC TEST SDS — NOT A REAL PRODUCT". They are committed and need no folder. Each one triggers one rule:
 
 - GHS Rev.10 codes → 2-L2
 - "induce vomiting" with Asp. Tox. 1 → 4-B1 fail
@@ -111,6 +111,7 @@ There are also thirteen synthetic cases in `regression/synthetic/`, each clearly
 - organic peroxide with an incomplete 10.2–10.4 → 10-B7 fail
 - peroxide-forming ether (EUH019, EUH044, EUH031) → 10-B13, 10-B14, 10-B15 fail
 - inhibited monomer with no stabiliser or polymerisation in Section 10 → 10-A10, 10-A11 fail
+- correct controls: peroxide former with EUH019/EUH044/EUH031 handled, and inhibited monomer with the inhibitor named → no Section 10 fail (checks for false fails)
 
 To regenerate them, run `SOURCE_DATE_EPOCH=1795737600 python3 -I regression/synthetic/make_synthetic.py`. If the files change, update their SHA-256 in `cases.json`.
 
@@ -123,13 +124,16 @@ Use `--write-expected` only for an intended, reviewed rule change, and commit th
 
 ## Checklist status and coverage
 
-`checklist/coverage.csv` mirrors the Status column of the Checklist tab in the Sheet. Each row records the check ID, the jurisdictions and SDS types it applies to, its status (`coded`, `manual` with a reason, or `not yet coded`) and the reason. Each engine declares the IDs it implements in a `CODED` set.
+The Checklist tab of the Sheet is the master copy. `checklist/coverage.csv` is generated from it and is not edited by hand:
 
-`tools/check_coverage.py` fails when the two disagree, or when a declared ID never appears in its engine. When you change the Status column in the Sheet, update `coverage.csv` in the same change.
+1. Claude reads the tab's columns B (Check ID) and F:G (Applies to, Status) with the Claude Docs connector. Python cannot reach the Sheet directly.
+2. `python3 -I tools/sync_checklist.py --from-transcript` saves those cells to `checklist/sheet_export.json` (with the Sheet revision and the date read) and rewrites `coverage.csv`. It stops, naming the row, on a Status or "Applies to" value it cannot read.
+
+`CLAUDE.md` tells each session to do this at the start, and whenever you say you've edited the Sheet. Each engine declares the IDs it implements in a `CODED` set. In CI, `sync_checklist.py --check` fails when `coverage.csv` isn't what the committed export gives, and `tools/check_coverage.py` fails when a row's status and the engines disagree, or when a declared ID never appears in its engine.
 
 ## Continuous integration
 
-`.github/workflows/regression.yml` runs the coverage check, then `python3 -I tools/run_regression.py --synthetic-only` on every push and pull request, on Ubuntu 24.04 with pandoc 3.1.3, the version the expected results were generated with. Supplier SDSs stay local, so CI covers the synthetic cases only.
+`.github/workflows/regression.yml` runs the Sheet-export check and the coverage check, then `python3 -I tools/run_regression.py --synthetic-only` on every push and pull request, on Ubuntu 24.04 with pandoc 3.1.3, the version the expected results were generated with. Supplier SDSs stay local, so CI covers the synthetic cases only.
 
 ## Network access
 

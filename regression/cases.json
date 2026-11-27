@@ -166,6 +166,26 @@
    "type": "substance",
    "expected_detected": "EU",
    "sha256": "e0a65f416cf365d38545f5b744d5631b8bbd5edcf48fe96a5e80a88fbdd16d7f"
+  },
+  {
+   "id": "synth_peroxide_former_correct",
+   "repo_file": "regression/synthetic/synth_peroxide_former_correct.docx",
+   "synthetic": true,
+   "product": "SYNTHETIC CONTROL: peroxide former with EUH019/EUH044/EUH031 handled in 10.1-10.5 -> no 10-B13/B14/B15 fail expected",
+   "declared": "EU",
+   "type": "substance",
+   "expected_detected": "EU",
+   "sha256": "cbb2a938722024f68dd7d8c6a18c742f3bdbc63fc01b8487634dc5ad03de91c7"
+  },
+  {
+   "id": "synth_monomer_correct",
+   "repo_file": "regression/synthetic/synth_monomer_correct.docx",
+   "synthetic": true,
+   "product": "SYNTHETIC CONTROL: inhibited monomer, inhibitor (MEHQ) and polymerisation named in Section 10 -> no 10-A10/A11 fail expected",
+   "declared": "EU",
+   "type": "substance",
+   "expected_detected": "EU",
+   "sha256": "7f50bd54505fc1e9c8580c87e06bf442965517b506b68fd4af14ee7910f8749e"
   }
  ]
 }

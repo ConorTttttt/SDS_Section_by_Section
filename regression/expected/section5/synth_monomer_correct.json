@@ -1,0 +1,10 @@
+{
+ "case": "synth_monomer_correct",
+ "section": "5",
+ "jurisdiction": {
+  "declared": "EU",
+  "detected": "EU",
+  "mismatch": false
+ },
+ "findings": []
+}
