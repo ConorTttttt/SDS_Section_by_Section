@@ -1,0 +1,5 @@
+# run outputs and downloaded pages
+out/
+runs/
+__pycache__/
+*.pyc
