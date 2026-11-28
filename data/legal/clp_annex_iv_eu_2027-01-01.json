@@ -1,0 +1,5183 @@
+{
+ "source": "Regulation (EC) No 1272/2008 (CLP), consolidated version 2027-01-01",
+ "celex": "02008R1272-20270101",
+ "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:02008R1272-20270101",
+ "retrieved": "2026-11-27",
+ "source_sha256": "6f1a4c4489786b879de5e1e3a73418ce379e773d45ec711747842a5caeeb1209",
+ "built": "2026-11-28",
+ "reuse": "EU legal text reused with credit to the source (EUR-Lex). Changes: extracted from the consolidated text and restructured as JSON; statement wording unchanged.",
+ "part": "Annex IV Part 1 (Tables 6.1-6.5)",
+ "statements": [
+  {
+   "code": "P101",
+   "text": "If medical advice is needed, have product container or label at hand.",
+   "table": "6.1",
+   "rows": [
+    {
+     "class": "as appropriate",
+     "class_key": null,
+     "categories_text": "",
+     "categories": [],
+     "conditions": "Consumer products"
+    }
+   ]
+  },
+  {
+   "code": "P102",
+   "text": "Keep out of reach of children.",
+   "table": "6.1",
+   "rows": [
+    {
+     "class": "as appropriate",
+     "class_key": null,
+     "categories_text": "",
+     "categories": [],
+     "conditions": "Consumer products"
+    }
+   ]
+  },
+  {
+   "code": "P103",
+   "text": "Read carefully and follow all instructions.",
+   "table": "6.1",
+   "rows": [
+    {
+     "class": "as appropriate",
+     "class_key": null,
+     "categories_text": "",
+     "categories": [],
+     "conditions": "Consumer products – omit where P202 is used"
+    }
+   ]
+  },
+  {
+   "code": "P201",
+   "text": "Obtain special instructions before use.",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Explosives (section 2.1)",
+     "class_key": "explosives",
+     "categories_text": "Unstable explosive",
+     "categories": [
+      "Unstable explosive"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Germ cell mutagenicity (section 3.5)",
+     "class_key": "mutagenicity",
+     "categories_text": "1A,1B, 2",
+     "categories": [
+      "1A",
+      "1B",
+      "2"
+     ],
+     "conditions": "Consumer products – omit where P202 is used"
+    },
+    {
+     "class": "Carcinogenicity (section 3.6)",
+     "class_key": "carcinogenicity",
+     "categories_text": "1A,1B, 2",
+     "categories": [
+      "1A",
+      "1B",
+      "2"
+     ],
+     "conditions": "Consumer products – omit where P202 is used"
+    },
+    {
+     "class": "Reproductive toxicity (section 3.7)",
+     "class_key": "reproductive_toxicity",
+     "categories_text": "1A,1B, 2",
+     "categories": [
+      "1A",
+      "1B",
+      "2"
+     ],
+     "conditions": "Consumer products – omit where P202 is used"
+    },
+    {
+     "class": "Reproductive toxicity — effects on or via lactation (section 3.7)",
+     "class_key": "lactation",
+     "categories_text": "Additional category",
+     "categories": [
+      "Additional category"
+     ],
+     "conditions": "Consumer products – omit where P202 is used"
+    }
+   ]
+  },
+  {
+   "code": "P202",
+   "text": "Do not handle until all safety precautions have been read and understood.",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Flammable gases (section 2.2)",
+     "class_key": "flammable_gases",
+     "categories_text": "A, B (chemically unstable gases)",
+     "categories": [
+      "A",
+      "B"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Germ cell mutagenicity (section 3.5)",
+     "class_key": "mutagenicity",
+     "categories_text": "1A,1B, 2",
+     "categories": [
+      "1A",
+      "1B",
+      "2"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Carcinogenicity (section 3.6)",
+     "class_key": "carcinogenicity",
+     "categories_text": "1A,1B, 2",
+     "categories": [
+      "1A",
+      "1B",
+      "2"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Reproductive toxicity (section 3.7)",
+     "class_key": "reproductive_toxicity",
+     "categories_text": "1A,1B, 2",
+     "categories": [
+      "1A",
+      "1B",
+      "2"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Reproductive toxicity, effects on or via lactation (section 3.7)",
+     "class_key": "lactation",
+     "categories_text": "Additional category",
+     "categories": [
+      "Additional category"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P210",
+   "text": "Keep away from heat, hot surfaces, sparks, open flames and other ignition sources. No smoking.",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Explosives (section 2.1)",
+     "class_key": "explosives",
+     "categories_text": "Divisions 1.1, 1.2, 1.3, 1.4, 1.5",
+     "categories": [
+      "1.1",
+      "1.2",
+      "1.3",
+      "1.4",
+      "1.5"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Flammable gases (section 2.2)",
+     "class_key": "flammable_gases",
+     "categories_text": "1A, 1B, 2",
+     "categories": [
+      "1A",
+      "1B",
+      "2"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Aerosols (section 2.3)",
+     "class_key": "aerosols",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Flammable liquids (section 2.6)",
+     "class_key": "flammable_liquids",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Flammable solids (section 2.7)",
+     "class_key": "flammable_solids",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Self-reactive substances and mixtures (section 2.8)",
+     "class_key": "self_reactive",
+     "categories_text": "Types A, B, C, D, E, F",
+     "categories": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Pyrophoric liquids (section 2.9)",
+     "class_key": "pyrophoric_liquids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Pyrophoric solids (section 2.10)",
+     "class_key": "pyrophoric_solids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Oxidising liquids (section 2.13)",
+     "class_key": "oxidising_liquids",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Oxidising solids (section 2.14)",
+     "class_key": "oxidising_solids",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Organic peroxides (section 2.15)",
+     "class_key": "organic_peroxides",
+     "categories_text": "Types A, B, C, D, E, F",
+     "categories": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Desensitised explosives (section 2.17)",
+     "class_key": "desensitised_explosives",
+     "categories_text": "1, 2, 3, 4",
+     "categories": [
+      "1",
+      "2",
+      "3",
+      "4"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P211",
+   "text": "Do not spray on an open flame or other ignition source.",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Aerosols (section 2.3)",
+     "class_key": "aerosols",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P212",
+   "text": "Avoid heating under confinement or reduction of the desensitising agent.",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Desensitised explosives (section 2.17)",
+     "class_key": "desensitised_explosives",
+     "categories_text": "1, 2, 3, 4",
+     "categories": [
+      "1",
+      "2",
+      "3",
+      "4"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P220",
+   "text": "Keep away from clothing and other combustible materials.",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Oxidising gases (Section 2.4)",
+     "class_key": "oxidising_gases",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Oxidising liquids (Section 2.13)",
+     "class_key": "oxidising_liquids",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Oxidising solids (Section 2.14)",
+     "class_key": "oxidising_solids",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P222",
+   "text": "Do not allow contact with air.",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Flammable gases (section 2.2)",
+     "class_key": "flammable_gases",
+     "categories_text": "Pyrophoric gas",
+     "categories": [
+      "Pyrophoric gas"
+     ],
+     "conditions": "— if emphasis of the hazard statement is deemed necessary ."
+    },
+    {
+     "class": "Pyrophoric liquids (section 2.9)",
+     "class_key": "pyrophoric_liquids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": "— if emphasis of the hazard statement is deemed necessary ."
+    },
+    {
+     "class": "Pyrophoric solids (section 2.10)",
+     "class_key": "pyrophoric_solids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": "— if emphasis of the hazard statement is deemed necessary ."
+    }
+   ]
+  },
+  {
+   "code": "P223",
+   "text": "Do not allow contact with water.",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Substances and mixtures which, in contact with water, emit flammable gases (Section 2.12)",
+     "class_key": "water_reactive",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": "— if emphasis of the hazard statement is deemed necessary"
+    }
+   ]
+  },
+  {
+   "code": "P230",
+   "text": "Keep wetted with …",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Explosives (section 2.1)",
+     "class_key": "explosives",
+     "categories_text": "Divisions 1.1, 1.2, 1.3, 1.5",
+     "categories": [
+      "1.1",
+      "1.2",
+      "1.3",
+      "1.5"
+     ],
+     "conditions": "Manufacturer/supplier to specify appropriate material — for substances and mixtures which are wetted, diluted, dissolved or suspended with a phlegmatiser in order to suppress their explosive properties"
+    },
+    {
+     "class": "Desensitised explosives (section 2.17)",
+     "class_key": "desensitised_explosives",
+     "categories_text": "1, 2, 3, 4",
+     "categories": [
+      "1",
+      "2",
+      "3",
+      "4"
+     ],
+     "conditions": "Manufacturer/supplier to specify appropriate material"
+    }
+   ]
+  },
+  {
+   "code": "P231",
+   "text": "Handle and store contents under inert gas/…",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Pyrophoric liquids (Section 2.9)",
+     "class_key": "pyrophoric_liquids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": "… Manufacturer/supplier to specify appropriate liquid or gas if ‘inert gas’ is not appropriate."
+    },
+    {
+     "class": "Pyrophoric solids (Section 2.10)",
+     "class_key": "pyrophoric_solids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": "… Manufacturer/supplier to specify appropriate liquid or gas if ‘inert gas’ is not appropriate."
+    },
+    {
+     "class": "Substances and mixtures which, in contact with water, emit flammable gases (Section 2.12)",
+     "class_key": "water_reactive",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "— if the substance or mixture reacts readily with moisture in air. … Manufacturer/supplier to specify appropriate liquid or gas if ‘inert gas’ is not appropriate."
+    }
+   ]
+  },
+  {
+   "code": "P232",
+   "text": "Protect from moisture.",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Substances and mixtures which, in contact with water, emit flammable gases (section 2.12)",
+     "class_key": "water_reactive",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P233",
+   "text": "Keep container tightly closed.",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Flammable liquids (section 2.6)",
+     "class_key": "flammable_liquids",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "— if the liquid is volatile and may generate an explosive atmosphere"
+    },
+    {
+     "class": "Pyrophoric liquids (section 2.9)",
+     "class_key": "pyrophoric_liquids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Pyrophoric solids (section 2.10)",
+     "class_key": "pyrophoric_solids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Desensitised explosives (section 2.17)",
+     "class_key": "desensitised_explosives",
+     "categories_text": "1, 2, 3, 4",
+     "categories": [
+      "1",
+      "2",
+      "3",
+      "4"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Acute toxicity – inhalation (section 3.1)",
+     "class_key": "acute_inhalation",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "— if the chemical is volatile and may generate a hazardous atmosphere"
+    },
+    {
+     "class": "Specific target organ toxicity – single exposure; respiratory tract irritation (section 3.8)",
+     "class_key": "stot_se_3_resp",
+     "categories_text": "3",
+     "categories": [
+      "3"
+     ],
+     "conditions": "— if the chemical is volatile and may generate a hazardous atmosphere"
+    },
+    {
+     "class": "Specific target organ toxicity – single exposure; narcotic effects (section 3.8)",
+     "class_key": "stot_se_3_narc",
+     "categories_text": "3",
+     "categories": [
+      "3"
+     ],
+     "conditions": "— if the chemical is volatile and may generate a hazardous atmosphere"
+    }
+   ]
+  },
+  {
+   "code": "P234",
+   "text": "Keep only in original packaging.",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Explosives (Section 2.1)",
+     "class_key": "explosives",
+     "categories_text": "Divisions 1.1, 1.2, 1.3, 1.4, 1.5",
+     "categories": [
+      "1.1",
+      "1.2",
+      "1.3",
+      "1.4",
+      "1.5"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Self-reactive substances and mixtures (Section 2.8)",
+     "class_key": "self_reactive",
+     "categories_text": "Types A, B, C, D, E, F",
+     "categories": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Organic peroxides (Section 2.15)",
+     "class_key": "organic_peroxides",
+     "categories_text": "Types A, B, C, D, E, F",
+     "categories": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Corrosive to metals (Section 2.16)",
+     "class_key": "corrosive_to_metals",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P235",
+   "text": "Keep cool.",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Flammable liquids (Section 2.6)",
+     "class_key": "flammable_liquids",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "— for flammable liquids category 1 and other flammable liquids that are volatile and may generate an explosive atmosphere"
+    },
+    {
+     "class": "Self-reactive substances and mixtures (Section 2.8)",
+     "class_key": "self_reactive",
+     "categories_text": "Types A, B, C, D, E, F",
+     "categories": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+     ],
+     "conditions": "— may be omitted if P411 is given on the label"
+    },
+    {
+     "class": "Self-heating substances and mixtures (Section 2.11)",
+     "class_key": "self_heating",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": "— may be omitted if P413 is given on the label"
+    },
+    {
+     "class": "Organic peroxides (Section 2.15)",
+     "class_key": "organic_peroxides",
+     "categories_text": "Types A, B, C, D, E, F",
+     "categories": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+     ],
+     "conditions": "— may be omitted if P411 is given on the label"
+    }
+   ]
+  },
+  {
+   "code": "P240",
+   "text": "Ground and bond container and receiving equipment.",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Explosives (Section 2.1)",
+     "class_key": "explosives",
+     "categories_text": "Divisions 1.1, 1.2, 1.3, 1.4, 1.5",
+     "categories": [
+      "1.1",
+      "1.2",
+      "1.3",
+      "1.4",
+      "1.5"
+     ],
+     "conditions": "— if the explosive is electrostatically sensitive"
+    },
+    {
+     "class": "Flammable liquids (Section 2.6)",
+     "class_key": "flammable_liquids",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "— if the liquid is volatile and may generate an explosive atmosphere"
+    },
+    {
+     "class": "Flammable solids (Section 2.7)",
+     "class_key": "flammable_solids",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": "— if the solid is electrostatically sensitive"
+    },
+    {
+     "class": "Self-reactive substances and mixtures (Section 2.8)",
+     "class_key": "self_reactive",
+     "categories_text": "Types A,B,C, D, E, F",
+     "categories": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+     ],
+     "conditions": "— if electrostatically sensitive and able to generate an explosive atmosphere"
+    },
+    {
+     "class": "Organic peroxides (Section 2.15)",
+     "class_key": "organic_peroxides",
+     "categories_text": "Types A,B,C, D, E, F",
+     "categories": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+     ],
+     "conditions": "— if electrostatically sensitive and able to generate an explosive atmosphere"
+    }
+   ]
+  },
+  {
+   "code": "P241",
+   "text": "Use explosion-proof [electrical/ventilating/lighting/…] equipment.",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Flammable liquids (Section 2.6)",
+     "class_key": "flammable_liquids",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "— if the liquid is volatile and may generate an explosive atmosphere. — text in square brackets may be used to specify specific electrical, ventilating, lighting or other equipment if necessary and as appropriate."
+    },
+    {
+     "class": "Flammable solids (Section 2.7)",
+     "class_key": "flammable_solids",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": "— if dust clouds can occur. — text in square brackets may be used to specify specific electrical, ventilating, lighting or other equipment if necessary and as appropriate."
+    }
+   ]
+  },
+  {
+   "code": "P242",
+   "text": "Use non-sparking tools.",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Flammable liquids (Section 2.6)",
+     "class_key": "flammable_liquids",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "— if the liquid is volatile and may generate an explosive atmosphere and if the minimum ignition energy is very low. (This applies to substances and mixtures where the ignition energy is < 0,1 mJ, e.g. carbon disulphide)."
+    }
+   ]
+  },
+  {
+   "code": "P243",
+   "text": "Take action to prevent static discharges.",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Flammable liquids (Section 2.6)",
+     "class_key": "flammable_liquids",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "— if the liquid is volatile and may generate an explosive atmosphere."
+    }
+   ]
+  },
+  {
+   "code": "P244",
+   "text": "Keep valves and fittings free from oil and grease.",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Oxidising gases (section 2.4)",
+     "class_key": "oxidising_gases",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P250",
+   "text": "Do not subject to grinding/shock/friction …",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Explosives (Section 2.1)",
+     "class_key": "explosives",
+     "categories_text": "Unstable explosives and divisions 1.1, 1.2, 1.3, 1.4, 1.5",
+     "categories": [
+      "Unstable explosive",
+      "1.1",
+      "1.2",
+      "1.3",
+      "1.4",
+      "1.5"
+     ],
+     "conditions": "— if the explosive is mechanically sensitive … Manufacturer/supplier to specify applicable rough handling."
+    }
+   ]
+  },
+  {
+   "code": "P251",
+   "text": "Do not pierce or burn, even after use.",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Aerosols (section 2.3)",
+     "class_key": "aerosols",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P260",
+   "text": "Do not breathe dust/fume/gas/mist/vapours/spray.",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Acute toxicity — inhalation (section 3.1)",
+     "class_key": "acute_inhalation",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": "Manufacturer/supplier to specify applicable conditions."
+    },
+    {
+     "class": "Specific target organ toxicity — single exposure (section 3.8)",
+     "class_key": "stot_se",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": "Manufacturer/supplier to specify applicable conditions."
+    },
+    {
+     "class": "Specific target organ toxicity — repeated exposure (section 3.9)",
+     "class_key": "stot_re",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": "Manufacturer/supplier to specify applicable conditions."
+    },
+    {
+     "class": "Skin corrosion (section 3.2)",
+     "class_key": "skin_corrosion",
+     "categories_text": "1A, 1B, 1C",
+     "categories": [
+      "1A",
+      "1B",
+      "1C"
+     ],
+     "conditions": "— Specify do not breathe dusts or mists. — if inhalable particles of dusts or mists may occur during use."
+    },
+    {
+     "class": "Reproductive toxicity — effects on or via lactation (section 3.7)",
+     "class_key": "lactation",
+     "categories_text": "Additional category",
+     "categories": [
+      "Additional category"
+     ],
+     "conditions": "— Specify do not breathe dusts or mists. — if inhalable particles of dusts or mists may occur during use."
+    }
+   ]
+  },
+  {
+   "code": "P261",
+   "text": "Avoid breathing dust/fume/gas/mist/vapours/spray.",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Acute toxicity — inhalation (Section 3.1)",
+     "class_key": "acute_inhalation",
+     "categories_text": "3, 4",
+     "categories": [
+      "3",
+      "4"
+     ],
+     "conditions": "— may be omitted if P260 is given on the label Manufacturer/supplier to specify applicable conditions."
+    },
+    {
+     "class": "Respiratory sensitisation (Section 3.4)",
+     "class_key": "respiratory_sensitisation",
+     "categories_text": "1, 1A, 1B",
+     "categories": [
+      "1",
+      "1A",
+      "1B"
+     ],
+     "conditions": "— may be omitted if P260 is given on the label Manufacturer/supplier to specify applicable conditions."
+    },
+    {
+     "class": "Skin sensitisation (Section 3.4)",
+     "class_key": "skin_sensitisation",
+     "categories_text": "1, 1A, 1B",
+     "categories": [
+      "1",
+      "1A",
+      "1B"
+     ],
+     "conditions": "— may be omitted if P260 is given on the label Manufacturer/supplier to specify applicable conditions."
+    },
+    {
+     "class": "Specific target organ toxicity — single exposure; respiratory tract irritation (Section 3.8)",
+     "class_key": "stot_se_3_resp",
+     "categories_text": "3",
+     "categories": [
+      "3"
+     ],
+     "conditions": "— may be omitted if P260 is given on the label Manufacturer/supplier to specify applicable conditions."
+    },
+    {
+     "class": "Specific target organ toxicity — single exposure; narcotic effects (Section 3.8)",
+     "class_key": "stot_se_3_narc",
+     "categories_text": "3",
+     "categories": [
+      "3"
+     ],
+     "conditions": "— may be omitted if P260 is given on the label Manufacturer/supplier to specify applicable conditions."
+    }
+   ]
+  },
+  {
+   "code": "P262",
+   "text": "Do not get in eyes, on skin, or on clothing.",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Acute toxicity — dermal (section 3.1)",
+     "class_key": "acute_dermal",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P263",
+   "text": "Avoid contact during pregnancy and while nursing.",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Reproductive toxicity — effects on or via lactation (Section 3.7)",
+     "class_key": "lactation",
+     "categories_text": "Additional category",
+     "categories": [
+      "Additional category"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P264",
+   "text": "Wash … thoroughly after handling.",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Acute toxicity — oral (section 3.1)",
+     "class_key": "acute_oral",
+     "categories_text": "1, 2, 3, 4",
+     "categories": [
+      "1",
+      "2",
+      "3",
+      "4"
+     ],
+     "conditions": "Manufacturer/supplier to specify parts of the body to be washed after handling."
+    },
+    {
+     "class": "Acute toxicity — dermal (section 3.1)",
+     "class_key": "acute_dermal",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": "Manufacturer/supplier to specify parts of the body to be washed after handling."
+    },
+    {
+     "class": "Skin corrosion (section 3.2)",
+     "class_key": "skin_corrosion",
+     "categories_text": "1A, 1B, 1C",
+     "categories": [
+      "1A",
+      "1B",
+      "1C"
+     ],
+     "conditions": "Manufacturer/supplier to specify parts of the body to be washed after handling."
+    },
+    {
+     "class": "Skin irritation (section 3.2)",
+     "class_key": "skin_irritation",
+     "categories_text": "2",
+     "categories": [
+      "2"
+     ],
+     "conditions": "Manufacturer/supplier to specify parts of the body to be washed after handling."
+    },
+    {
+     "class": "Eye irritation (section 3.3)",
+     "class_key": "eye_irritation",
+     "categories_text": "2",
+     "categories": [
+      "2"
+     ],
+     "conditions": "Manufacturer/supplier to specify parts of the body to be washed after handling."
+    },
+    {
+     "class": "Reproductive toxicity — effects on or via lactation (section 3.7)",
+     "class_key": "lactation",
+     "categories_text": "Additional category",
+     "categories": [
+      "Additional category"
+     ],
+     "conditions": "Manufacturer/supplier to specify parts of the body to be washed after handling."
+    },
+    {
+     "class": "Specific target organ toxicity — single exposure (section 3.8)",
+     "class_key": "stot_se",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": "Manufacturer/supplier to specify parts of the body to be washed after handling."
+    },
+    {
+     "class": "Specific target organ toxicity — repeated exposure (section 3.9)",
+     "class_key": "stot_re",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": "Manufacturer/supplier to specify parts of the body to be washed after handling."
+    }
+   ]
+  },
+  {
+   "code": "P270",
+   "text": "Do not eat, drink or smoke when using this product.",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Acute toxicity — oral (section 3.1)",
+     "class_key": "acute_oral",
+     "categories_text": "1, 2, 3, 4",
+     "categories": [
+      "1",
+      "2",
+      "3",
+      "4"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Acute toxicity — dermal (section 3.1)",
+     "class_key": "acute_dermal",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Reproductive toxicity — effects on or via lactation (section 3.7)",
+     "class_key": "lactation",
+     "categories_text": "Additional category",
+     "categories": [
+      "Additional category"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Specific target organ toxicity — single exposure (section 3.8)",
+     "class_key": "stot_se",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Specific target organ toxicity — repeated exposure (section 3.9)",
+     "class_key": "stot_re",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P271",
+   "text": "Use only outdoors or in a well-ventilated area.",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Acute toxicity — inhalation (section 3.1)",
+     "class_key": "acute_inhalation",
+     "categories_text": "1, 2, 3, 4",
+     "categories": [
+      "1",
+      "2",
+      "3",
+      "4"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Specific target organ toxicity — single exposure; respiratory tract irritation (section 3.8)",
+     "class_key": "stot_se_3_resp",
+     "categories_text": "3",
+     "categories": [
+      "3"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Specific target organ toxicity — single exposure; narcosis (section 3.8)",
+     "class_key": "stot_se_3_narc",
+     "categories_text": "3",
+     "categories": [
+      "3"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P272",
+   "text": "Contaminated work clothing should not be allowed out of the workplace.",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Skin sensitisation (section 3.4)",
+     "class_key": "skin_sensitisation",
+     "categories_text": "1, 1A, 1B",
+     "categories": [
+      "1",
+      "1A",
+      "1B"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P273",
+   "text": "Avoid release to the environment.",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Hazardous to the aquatic environment — acute aquatic hazard (section 4.1)",
+     "class_key": "aquatic_acute",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": "— if this is not the intended use."
+    },
+    {
+     "class": "Hazardous to the aquatic environment — ►M2 long-term aquatic hazard (section 4.1) ◄",
+     "class_key": "aquatic_chronic",
+     "categories_text": "1, 2, 3, 4",
+     "categories": [
+      "1",
+      "2",
+      "3",
+      "4"
+     ],
+     "conditions": "— if this is not the intended use."
+    }
+   ]
+  },
+  {
+   "code": "P280",
+   "text": "Wear protective gloves/protective clothing/eye protection/face protection/hearing protection/…",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Explosives (section 2.1)",
+     "class_key": "explosives",
+     "categories_text": "Unstable explosive and divisions 1.1, 1.2, 1.3, 1.4, 1.5",
+     "categories": [
+      "Unstable explosive",
+      "1.1",
+      "1.2",
+      "1.3",
+      "1.4",
+      "1.5"
+     ],
+     "conditions": "Manufacturer/supplier to specify the appropriate type of personal protective equipment."
+    },
+    {
+     "class": "Flammable gases (section 2.2)",
+     "class_key": "flammable_gases",
+     "categories_text": "Pyrophoric gas",
+     "categories": [
+      "Pyrophoric gas"
+     ],
+     "conditions": "Manufacturer/supplier to specify the appropriate type of personal protective equipment."
+    },
+    {
+     "class": "Flammable liquids (section 2.6)",
+     "class_key": "flammable_liquids",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "Manufacturer/supplier to specify the appropriate type of personal protective equipment."
+    },
+    {
+     "class": "Flammable solids (section 2.7)",
+     "class_key": "flammable_solids",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": "Manufacturer/supplier to specify the appropriate type of personal protective equipment."
+    },
+    {
+     "class": "Self-reactive substances and mixtures (section 2.8)",
+     "class_key": "self_reactive",
+     "categories_text": "Types A, B, C, D, E, F",
+     "categories": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+     ],
+     "conditions": "Manufacturer/supplier to specify the appropriate type of personal protective equipment."
+    },
+    {
+     "class": "Pyrophoric liquids (section 2.9)",
+     "class_key": "pyrophoric_liquids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": "Manufacturer/supplier to specify the appropriate type of personal protective equipment."
+    },
+    {
+     "class": "Pyrophoric solids (section 2.10)",
+     "class_key": "pyrophoric_solids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": "Manufacturer/supplier to specify the appropriate type of personal protective equipment."
+    },
+    {
+     "class": "Self-heating substances and mixtures (section 2.11)",
+     "class_key": "self_heating",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": "Manufacturer/supplier to specify the appropriate type of personal protective equipment."
+    },
+    {
+     "class": "Substances and mixtures which, in contact with water, emit flammable gases (section 2.12)",
+     "class_key": "water_reactive",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "Manufacturer/supplier to specify the appropriate type of personal protective equipment."
+    },
+    {
+     "class": "Oxidizing liquids (section 2.13)",
+     "class_key": "oxidising_liquids",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "Manufacturer/supplier to specify the appropriate type of personal protective equipment."
+    },
+    {
+     "class": "Oxidizing solids (section 2.14)",
+     "class_key": "oxidising_solids",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "Manufacturer/supplier to specify the appropriate type of personal protective equipment."
+    },
+    {
+     "class": "Organic peroxides (section 2.15)",
+     "class_key": "organic_peroxides",
+     "categories_text": "Types A, B, C, D, E, F",
+     "categories": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+     ],
+     "conditions": "Manufacturer/supplier to specify the appropriate type of personal protective equipment."
+    },
+    {
+     "class": "Desensitised explosives (section 2.17)",
+     "class_key": "desensitised_explosives",
+     "categories_text": "1, 2, 3, 4",
+     "categories": [
+      "1",
+      "2",
+      "3",
+      "4"
+     ],
+     "conditions": "Manufacturer/supplier to specify the appropriate type of personal protective equipment."
+    },
+    {
+     "class": "Acute toxicity – dermal (section 3.1)",
+     "class_key": "acute_dermal",
+     "categories_text": "1, 2, 3, 4",
+     "categories": [
+      "1",
+      "2",
+      "3",
+      "4"
+     ],
+     "conditions": "— Specify protective gloves/clothing. Manufacturer/supplier may further specify type of equipment where appropriate."
+    },
+    {
+     "class": "Skin corrosion (section 3.2)",
+     "class_key": "skin_corrosion",
+     "categories_text": "1A, 1B, 1C",
+     "categories": [
+      "1A",
+      "1B",
+      "1C"
+     ],
+     "conditions": "— Specify protective gloves/clothing and eye/face protection. Manufacturer/supplier may further specify type of equipment where appropriate."
+    },
+    {
+     "class": "Skin irritation (section 3.2)",
+     "class_key": "skin_irritation",
+     "categories_text": "2",
+     "categories": [
+      "2"
+     ],
+     "conditions": "— Specify protective gloves. Manufacturer/supplier may further specify type of equipment where appropriate."
+    },
+    {
+     "class": "Skin sensitisation (section 3.4)",
+     "class_key": "skin_sensitisation",
+     "categories_text": "1, 1A, 1B",
+     "categories": [
+      "1",
+      "1A",
+      "1B"
+     ],
+     "conditions": "— Specify protective gloves. Manufacturer/supplier may further specify type of equipment where appropriate."
+    },
+    {
+     "class": "Serious eye damage (section 3.3)",
+     "class_key": "eye_damage",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": "— Specify eye/face protection. Manufacturer/supplier may further specify type of equipment where appropriate."
+    },
+    {
+     "class": "Eye irritation (section 3.3)",
+     "class_key": "eye_irritation",
+     "categories_text": "2",
+     "categories": [
+      "2"
+     ],
+     "conditions": "— Specify eye/face protection. Manufacturer/supplier may further specify type of equipment where appropriate."
+    },
+    {
+     "class": "Germ cell mutagenicity (section 3.5)",
+     "class_key": "mutagenicity",
+     "categories_text": "1A, 1B, 2",
+     "categories": [
+      "1A",
+      "1B",
+      "2"
+     ],
+     "conditions": "Manufacturer/supplier to specify the appropriate type of personal protective equipment."
+    },
+    {
+     "class": "Carcinogenicity (section 3.6)",
+     "class_key": "carcinogenicity",
+     "categories_text": "1A, 1B, 2",
+     "categories": [
+      "1A",
+      "1B",
+      "2"
+     ],
+     "conditions": "Manufacturer/supplier to specify the appropriate type of personal protective equipment."
+    },
+    {
+     "class": "Reproductive toxicity (section 3.7)",
+     "class_key": "reproductive_toxicity",
+     "categories_text": "1A, 1B, 2",
+     "categories": [
+      "1A",
+      "1B",
+      "2"
+     ],
+     "conditions": "Manufacturer/supplier to specify the appropriate type of personal protective equipment."
+    }
+   ]
+  },
+  {
+   "code": "P282",
+   "text": "Wear cold insulating gloves and either face shield or eye protection.",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Gases under pressure (Section 2.5)",
+     "class_key": "gases_under_pressure",
+     "categories_text": "Refrigerated liquefied gas",
+     "categories": [
+      "Refrigerated liquefied gas"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P283",
+   "text": "Wear fire resistant or flame retardant clothing.",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Oxidising liquids (Section 2.13)",
+     "class_key": "oxidising_liquids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Oxidising solids (Section 2.14)",
+     "class_key": "oxidising_solids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P284",
+   "text": "[In case of inadequate ventilation] wear respiratory protection.",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Acute toxicity — inhalation (Section 3.1)",
+     "class_key": "acute_inhalation",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": "— text in square brackets may be used if additional information is provided with the chemical at the point of use that explains what type of ventilation would be adequate for safe use. Manufacturer/supplier to specify equipment."
+    },
+    {
+     "class": "Respiratory sensitisation (Section 3.4)",
+     "class_key": "respiratory_sensitisation",
+     "categories_text": "1, 1A, 1B",
+     "categories": [
+      "1",
+      "1A",
+      "1B"
+     ],
+     "conditions": "— text in square brackets may be used if additional information is provided with the chemical at the point of use that explains what type of ventilation would be adequate for safe use. Manufacturer/supplier to specify equipment."
+    }
+   ]
+  },
+  {
+   "code": "P231+P232",
+   "text": "Handle and store contents under inert gas/… Protect from moisture.",
+   "table": "6.2",
+   "rows": [
+    {
+     "class": "Pyrophoric liquids (Section 2.9)",
+     "class_key": "pyrophoric_liquids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": "… Manufacturer/supplier to specify the appropriate liquid or gas if ‘inert gas’ is not appropriate."
+    },
+    {
+     "class": "Pyrophoric solids (Section 2.10)",
+     "class_key": "pyrophoric_solids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": "… Manufacturer/supplier to specify the appropriate liquid or gas if ‘inert gas’ is not appropriate."
+    },
+    {
+     "class": "Substances and mixtures which, in contact with water, emit flammable gases (Section 2.12)",
+     "class_key": "water_reactive",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "— if the substance or mixture reacts readily with moisture in air. … Manufacturer/supplier to specify appropriate liquid or gas if ‘inert gas’ is not appropriate."
+    }
+   ]
+  },
+  {
+   "code": "P301",
+   "text": "IF SWALLOWED:",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Acute toxicity – oral (section 3.1)",
+     "class_key": "acute_oral",
+     "categories_text": "1, 2, 3, 4",
+     "categories": [
+      "1",
+      "2",
+      "3",
+      "4"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Skin corrosion (section 3.2)",
+     "class_key": "skin_corrosion",
+     "categories_text": "1, 1A, 1B, 1C",
+     "categories": [
+      "1",
+      "1A",
+      "1B",
+      "1C"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Aspiration Hazard (section 3.10)",
+     "class_key": "aspiration",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P302",
+   "text": "IF ON SKIN:",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Pyrophoric liquids (section 2.9)",
+     "class_key": "pyrophoric_liquids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Pyrophoric solids (section 2.10)",
+     "class_key": "pyrophoric_solids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Substances and mixtures which, in contact with water, emit flammable gases (section 2.12)",
+     "class_key": "water_reactive",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Acute toxicity – dermal (section 3.1)",
+     "class_key": "acute_dermal",
+     "categories_text": "1, 2, 3, 4",
+     "categories": [
+      "1",
+      "2",
+      "3",
+      "4"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Skin irritation (section 3.2)",
+     "class_key": "skin_irritation",
+     "categories_text": "2",
+     "categories": [
+      "2"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Skin sensitisation (section 3.4)",
+     "class_key": "skin_sensitisation",
+     "categories_text": "1, 1A, 1B",
+     "categories": [
+      "1",
+      "1A",
+      "1B"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P303",
+   "text": "IF ON SKIN (or hair):",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Flammable liquids (section 2.6)",
+     "class_key": "flammable_liquids",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Skin corrosion (section 3.2)",
+     "class_key": "skin_corrosion",
+     "categories_text": "1A, 1B, 1C",
+     "categories": [
+      "1A",
+      "1B",
+      "1C"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P304",
+   "text": "IF INHALED:",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Acute toxicity — inhalation (section 3.1)",
+     "class_key": "acute_inhalation",
+     "categories_text": "1, 2, 3, 4",
+     "categories": [
+      "1",
+      "2",
+      "3",
+      "4"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Skin corrosion (section 3.2)",
+     "class_key": "skin_corrosion",
+     "categories_text": "1A, 1B, 1C",
+     "categories": [
+      "1A",
+      "1B",
+      "1C"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Respiratory sensitisation (section 3.4)",
+     "class_key": "respiratory_sensitisation",
+     "categories_text": "1, 1A, 1B",
+     "categories": [
+      "1",
+      "1A",
+      "1B"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Specific target organ toxicity — single exposure; respiratory tract irritation (section 3.8)",
+     "class_key": "stot_se_3_resp",
+     "categories_text": "3",
+     "categories": [
+      "3"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Specific target organ toxicity — single exposure; narcosis (section 3.8)",
+     "class_key": "stot_se_3_narc",
+     "categories_text": "3",
+     "categories": [
+      "3"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P305",
+   "text": "IF IN EYES:",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Skin corrosion (section 3.2)",
+     "class_key": "skin_corrosion",
+     "categories_text": "1A, 1B, 1C",
+     "categories": [
+      "1A",
+      "1B",
+      "1C"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Serious eye damage/eye irritation (section 3.3)",
+     "class_key": "eye_damage",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Eye irritation (section 3.3)",
+     "class_key": "eye_irritation",
+     "categories_text": "2",
+     "categories": [
+      "2"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P306",
+   "text": "IF ON CLOTHING:",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Oxidising liquids (section 2.13)",
+     "class_key": "oxidising_liquids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Oxidising solids (section 2.14)",
+     "class_key": "oxidising_solids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P308",
+   "text": "IF exposed or concerned:",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Germ cell mutagenicity (section 3.5)",
+     "class_key": "mutagenicity",
+     "categories_text": "1A, 1B, 2",
+     "categories": [
+      "1A",
+      "1B",
+      "2"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Carcinogenicity (section 3.6)",
+     "class_key": "carcinogenicity",
+     "categories_text": "1A, 1B, 2",
+     "categories": [
+      "1A",
+      "1B",
+      "2"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Reproductive toxicity (section 3.7)",
+     "class_key": "reproductive_toxicity",
+     "categories_text": "1A, 1B, 2",
+     "categories": [
+      "1A",
+      "1B",
+      "2"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Reproductive toxicity — effects on or via lactation (section 3.7)",
+     "class_key": "lactation",
+     "categories_text": "Additional category",
+     "categories": [
+      "Additional category"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Specific target organ toxicity, single exposure (section 3.8)",
+     "class_key": "stot_se",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P310",
+   "text": "Immediately call a POISON CENTER/doctor/…",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Acute toxicity — oral (section 3.1)",
+     "class_key": "acute_oral",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "…Manufacturer/supplier to specify the appropriate source of emergency medical advice."
+    },
+    {
+     "class": "Acute toxicity — dermal (section 3.1)",
+     "class_key": "acute_dermal",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": "…Manufacturer/supplier to specify the appropriate source of emergency medical advice."
+    },
+    {
+     "class": "Acute toxicity — inhalation (section 3.1)",
+     "class_key": "acute_inhalation",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": "…Manufacturer/supplier to specify the appropriate source of emergency medical advice."
+    },
+    {
+     "class": "Skin corrosion (section 3.2)",
+     "class_key": "skin_corrosion",
+     "categories_text": "1A, 1B, 1C",
+     "categories": [
+      "1A",
+      "1B",
+      "1C"
+     ],
+     "conditions": "…Manufacturer/supplier to specify the appropriate source of emergency medical advice."
+    },
+    {
+     "class": "Serious eye damage/eye irritation (section 3.3)",
+     "class_key": "eye_damage",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": "…Manufacturer/supplier to specify the appropriate source of emergency medical advice."
+    },
+    {
+     "class": "Aspiration hazard (section 3.10)",
+     "class_key": "aspiration",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": "…Manufacturer/supplier to specify the appropriate source of emergency medical advice."
+    }
+   ]
+  },
+  {
+   "code": "P311",
+   "text": "Call a POISON CENTER/doctor/…",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Acute toxicity — inhalation (section 3.1)",
+     "class_key": "acute_inhalation",
+     "categories_text": "3",
+     "categories": [
+      "3"
+     ],
+     "conditions": "…Manufacturer/supplier to specify the appropriate source of emergency medical advice."
+    },
+    {
+     "class": "Respiratory sensitisation (section 3.4)",
+     "class_key": "respiratory_sensitisation",
+     "categories_text": "1, 1A, 1B",
+     "categories": [
+      "1",
+      "1A",
+      "1B"
+     ],
+     "conditions": "…Manufacturer/supplier to specify the appropriate source of emergency medical advice."
+    },
+    {
+     "class": "Specific target organ toxicity — single exposure (section 3.8)",
+     "class_key": "stot_se",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": "…Manufacturer/supplier to specify the appropriate source of emergency medical advice."
+    }
+   ]
+  },
+  {
+   "code": "P312",
+   "text": "Call a POISON CENTRE/doctor/… if you feel unwell.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Acute toxicity — oral (Section 3.1)",
+     "class_key": "acute_oral",
+     "categories_text": "4",
+     "categories": [
+      "4"
+     ],
+     "conditions": "… Manufacturer/supplier to specify the appropriate source of emergency medical advice."
+    },
+    {
+     "class": "Acute toxicity — dermal (Section 3.1)",
+     "class_key": "acute_dermal",
+     "categories_text": "3, 4",
+     "categories": [
+      "3",
+      "4"
+     ],
+     "conditions": "… Manufacturer/supplier to specify the appropriate source of emergency medical advice."
+    },
+    {
+     "class": "Acute toxicity — inhalation (Section 3.1)",
+     "class_key": "acute_inhalation",
+     "categories_text": "4",
+     "categories": [
+      "4"
+     ],
+     "conditions": "… Manufacturer/supplier to specify the appropriate source of emergency medical advice."
+    },
+    {
+     "class": "Specific target organ toxicity — single exposure; respiratory tract irritation (Section 3.8)",
+     "class_key": "stot_se_3_resp",
+     "categories_text": "3",
+     "categories": [
+      "3"
+     ],
+     "conditions": "… Manufacturer/supplier to specify the appropriate source of emergency medical advice."
+    },
+    {
+     "class": "Specific target organ toxicity — single exposure; narcotic effects (Section 3.8)",
+     "class_key": "stot_se_3_narc",
+     "categories_text": "3",
+     "categories": [
+      "3"
+     ],
+     "conditions": "… Manufacturer/supplier to specify the appropriate source of emergency medical advice."
+    }
+   ]
+  },
+  {
+   "code": "P313",
+   "text": "Get medical advice/attention.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Skin irritation (section 3.2)",
+     "class_key": "skin_irritation",
+     "categories_text": "2, 3",
+     "categories": [
+      "2",
+      "3"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Eye irritation (section 3.3)",
+     "class_key": "eye_irritation",
+     "categories_text": "2",
+     "categories": [
+      "2"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Skin sensitisation (section 3.4)",
+     "class_key": "skin_sensitisation",
+     "categories_text": "1, 1A, 1B",
+     "categories": [
+      "1",
+      "1A",
+      "1B"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Germ cell mutagenicity (section 3.5)",
+     "class_key": "mutagenicity",
+     "categories_text": "1A, 1B, 2",
+     "categories": [
+      "1A",
+      "1B",
+      "2"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Carcinogenicity (section 3.6)",
+     "class_key": "carcinogenicity",
+     "categories_text": "1A, 1B, 2",
+     "categories": [
+      "1A",
+      "1B",
+      "2"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Reproductive toxicity (section 3.7)",
+     "class_key": "reproductive_toxicity",
+     "categories_text": "1A, 1B, 2",
+     "categories": [
+      "1A",
+      "1B",
+      "2"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Reproductive toxicity — effects on or via lactation (section 3.7)",
+     "class_key": "lactation",
+     "categories_text": "Additional category",
+     "categories": [
+      "Additional category"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P314",
+   "text": "Get medical advice/attention if you feel unwell.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Specific target organ toxicity — repeated exposure (section 3.9)",
+     "class_key": "stot_re",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P315",
+   "text": "Get immediate medical advice/attention.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Gases under pressure (section 2.5)",
+     "class_key": "gases_under_pressure",
+     "categories_text": "Refrigerated liquefied gas",
+     "categories": [
+      "Refrigerated liquefied gas"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P320",
+   "text": "Specific treatment is urgent (see … on this label).",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Acute toxicity — inhalation (Section 3.1)",
+     "class_key": "acute_inhalation",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": "— if immediate administration of antidote is required. … Reference to supplemental first aid instruction."
+    }
+   ]
+  },
+  {
+   "code": "P321",
+   "text": "Specific treatment (see … on this label).",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Acute toxicity — oral (Section 3.1)",
+     "class_key": "acute_oral",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "— if immediate administration of antidote is required. … Reference to supplemental first aid instruction."
+    },
+    {
+     "class": "Acute toxicity, dermal (Section 3.1)",
+     "class_key": "acute_dermal",
+     "categories_text": "1, 2, 3, 4",
+     "categories": [
+      "1",
+      "2",
+      "3",
+      "4"
+     ],
+     "conditions": "— if immediate measures such as specific cleansing agent are advised. … Reference to supplemental first aid instruction."
+    },
+    {
+     "class": "Acute toxicity — inhalation (Section 3.1)",
+     "class_key": "acute_inhalation",
+     "categories_text": "3",
+     "categories": [
+      "3"
+     ],
+     "conditions": "— if immediate specific measures are required. … Reference to supplemental first aid instruction."
+    },
+    {
+     "class": "Skin corrosion (Section 3.2)",
+     "class_key": "skin_corrosion",
+     "categories_text": "1, 1A, 1B, 1C",
+     "categories": [
+      "1",
+      "1A",
+      "1B",
+      "1C"
+     ],
+     "conditions": "… Reference to supplemental first aid instruction. Manufacturer/supplier may specify a cleansing agent if appropriate."
+    },
+    {
+     "class": "Skin irritation (Section 3.2)",
+     "class_key": "skin_irritation",
+     "categories_text": "2",
+     "categories": [
+      "2"
+     ],
+     "conditions": "… Reference to supplemental first aid instruction. Manufacturer/supplier may specify a cleansing agent if appropriate."
+    },
+    {
+     "class": "Skin sensitisation (Section 3.4)",
+     "class_key": "skin_sensitisation",
+     "categories_text": "1, 1A, 1B",
+     "categories": [
+      "1",
+      "1A",
+      "1B"
+     ],
+     "conditions": "… Reference to supplemental first aid instruction. Manufacturer/supplier may specify a cleansing agent if appropriate."
+    },
+    {
+     "class": "Specific target organ toxicity — single exposure (Section 3.8)",
+     "class_key": "stot_se",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": "— if immediate measures are required. … Reference to supplemental first aid instruction."
+    }
+   ]
+  },
+  {
+   "code": "P330",
+   "text": "Rinse mouth.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Acute toxicity — oral (section 3.1)",
+     "class_key": "acute_oral",
+     "categories_text": "1, 2, 3, 4",
+     "categories": [
+      "1",
+      "2",
+      "3",
+      "4"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Skin corrosion (section 3.2)",
+     "class_key": "skin_corrosion",
+     "categories_text": "1A, 1B, 1C",
+     "categories": [
+      "1A",
+      "1B",
+      "1C"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P331",
+   "text": "Do NOT induce vomiting.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Skin corrosion (section 3.2)",
+     "class_key": "skin_corrosion",
+     "categories_text": "1A, 1B, 1C",
+     "categories": [
+      "1A",
+      "1B",
+      "1C"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Aspiration hazard (section 3.10)",
+     "class_key": "aspiration",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P332",
+   "text": "If skin irritation occurs:",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Skin irritation (section 3.2)",
+     "class_key": "skin_irritation",
+     "categories_text": "2",
+     "categories": [
+      "2"
+     ],
+     "conditions": "may be omitted if P333 is given on the label."
+    }
+   ]
+  },
+  {
+   "code": "P333",
+   "text": "If skin irritation or rash occurs:",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Skin sensitisation (section 3.4)",
+     "class_key": "skin_sensitisation",
+     "categories_text": "1, 1A, 1B",
+     "categories": [
+      "1",
+      "1A",
+      "1B"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P334",
+   "text": "Immerse in cool water [or wrap in wet bandages].",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Pyrophoric liquids (Section 2.9)",
+     "class_key": "pyrophoric_liquids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": "— text in square brackets to be used for pyrophoric liquids and solids"
+    },
+    {
+     "class": "Pyrophoric solids (Section 2.10)",
+     "class_key": "pyrophoric_solids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": "— text in square brackets to be used for pyrophoric liquids and solids"
+    },
+    {
+     "class": "Substances and mixtures which, in contact with water, emit flammable gases (Section 2.12)",
+     "class_key": "water_reactive",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": "Use only ‘immerse in cool water.’ Text in square brackets should not be used."
+    }
+   ]
+  },
+  {
+   "code": "P335",
+   "text": "Brush off loose particles from skin.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Pyrophoric solids (section 2.10)",
+     "class_key": "pyrophoric_solids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Substances and mixtures which, in contact with water, emit flammable gases (section 2.12)",
+     "class_key": "water_reactive",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P336",
+   "text": "Thaw frosted parts with lukewarm water. Do not rub affected area.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Gases under pressure (section 2.5)",
+     "class_key": "gases_under_pressure",
+     "categories_text": "Refrigerated liquefied gas",
+     "categories": [
+      "Refrigerated liquefied gas"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P337",
+   "text": "If eye irritation persists:",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Eye irritation (section 3.3)",
+     "class_key": "eye_irritation",
+     "categories_text": "2",
+     "categories": [
+      "2"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P338",
+   "text": "Remove contact lenses, if present and easy to do. Continue rinsing.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Skin corrosion (section 3.2)",
+     "class_key": "skin_corrosion",
+     "categories_text": "1A, 1B, 1C",
+     "categories": [
+      "1A",
+      "1B",
+      "1C"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Serious eye damage/eye irritation (section 3.3)",
+     "class_key": "eye_damage",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Eye irritation (section 3.3)",
+     "class_key": "eye_irritation",
+     "categories_text": "2",
+     "categories": [
+      "2"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P340",
+   "text": "Remove person to fresh air and keep comfortable for breathing.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Acute toxicity — inhalation (section 3.1)",
+     "class_key": "acute_inhalation",
+     "categories_text": "1, 2, 3, 4",
+     "categories": [
+      "1",
+      "2",
+      "3",
+      "4"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Skin corrosion (section 3.2)",
+     "class_key": "skin_corrosion",
+     "categories_text": "1A, 1B, 1C",
+     "categories": [
+      "1A",
+      "1B",
+      "1C"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Respiratory sensitisation (section 3.4)",
+     "class_key": "respiratory_sensitisation",
+     "categories_text": "1, 1A, 1B",
+     "categories": [
+      "1",
+      "1A",
+      "1B"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Specific target organ toxicity — single exposure; respiratory tract irritation (section 3.8)",
+     "class_key": "stot_se_3_resp",
+     "categories_text": "3",
+     "categories": [
+      "3"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Specific target organ toxicity — single exposure; narcosis (section 3.8)",
+     "class_key": "stot_se_3_narc",
+     "categories_text": "3",
+     "categories": [
+      "3"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P342",
+   "text": "If experiencing respiratory symptoms:",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Respiratory sensitisation (section 3.4)",
+     "class_key": "respiratory_sensitisation",
+     "categories_text": "1, 1A, 1B",
+     "categories": [
+      "1",
+      "1A",
+      "1B"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P351",
+   "text": "Rinse cautiously with water for several minutes.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Skin corrosion (section 3.2)",
+     "class_key": "skin_corrosion",
+     "categories_text": "1A, 1B, 1C",
+     "categories": [
+      "1A",
+      "1B",
+      "1C"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Serious eye damage/eye irritation (section 3.3)",
+     "class_key": "eye_damage",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Eye irritation (section 3.3)",
+     "class_key": "eye_irritation",
+     "categories_text": "2",
+     "categories": [
+      "2"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P352",
+   "text": "Wash with plenty of water/…",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Acute toxicity — dermal (section 3.1)",
+     "class_key": "acute_dermal",
+     "categories_text": "1, 2, 3, 4",
+     "categories": [
+      "1",
+      "2",
+      "3",
+      "4"
+     ],
+     "conditions": "…Manufacturer/supplier may specify a cleansing agent if appropriate, or may recommend an alternative agent in exceptional cases if water is clearly inappropriate."
+    },
+    {
+     "class": "Skin irritation (section 3.2)",
+     "class_key": "skin_irritation",
+     "categories_text": "2",
+     "categories": [
+      "2"
+     ],
+     "conditions": "…Manufacturer/supplier may specify a cleansing agent if appropriate, or may recommend an alternative agent in exceptional cases if water is clearly inappropriate."
+    },
+    {
+     "class": "Skin sensitisation (section 3.4)",
+     "class_key": "skin_sensitisation",
+     "categories_text": "1, 1A, 1B",
+     "categories": [
+      "1",
+      "1A",
+      "1B"
+     ],
+     "conditions": "…Manufacturer/supplier may specify a cleansing agent if appropriate, or may recommend an alternative agent in exceptional cases if water is clearly inappropriate."
+    }
+   ]
+  },
+  {
+   "code": "P353",
+   "text": "Rinse skin with water [or shower].",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Flammable liquids (Section 2.6)",
+     "class_key": "flammable_liquids",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "— text in square brackets to be included where the manufacturer/supplier considers it appropriate for the specific chemical."
+    },
+    {
+     "class": "Skin corrosion (Section 3.2)",
+     "class_key": "skin_corrosion",
+     "categories_text": "1, 1A, 1B, 1C",
+     "categories": [
+      "1",
+      "1A",
+      "1B",
+      "1C"
+     ],
+     "conditions": "— text in square brackets to be included where the manufacturer/supplier considers it appropriate for the specific chemical."
+    }
+   ]
+  },
+  {
+   "code": "P360",
+   "text": "Rinse immediately contaminated clothing and skin with plenty of water before removing clothes.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Oxidising liquids (section 2.13)",
+     "class_key": "oxidising_liquids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Oxidising solids (section 2.14)",
+     "class_key": "oxidising_solids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P361",
+   "text": "Take off immediately all contaminated clothing.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Flammable liquids (section 2.6)",
+     "class_key": "flammable_liquids",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Acute toxicity — dermal (section 3.1)",
+     "class_key": "acute_dermal",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Skin corrosion (section 3.2)",
+     "class_key": "skin_corrosion",
+     "categories_text": "1A, 1B, 1C",
+     "categories": [
+      "1A",
+      "1B",
+      "1C"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P362",
+   "text": "Take off contaminated clothing.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Acute toxicity, dermal (section 3.1)",
+     "class_key": "acute_dermal",
+     "categories_text": "4",
+     "categories": [
+      "4"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Skin irritation (section 3.2)",
+     "class_key": "skin_irritation",
+     "categories_text": "2",
+     "categories": [
+      "2"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Skin sensitisation (section 3.4)",
+     "class_key": "skin_sensitisation",
+     "categories_text": "1, 1A, 1B",
+     "categories": [
+      "1",
+      "1A",
+      "1B"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P363",
+   "text": "Wash contaminated clothing before reuse.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Skin corrosion (section 3.2)",
+     "class_key": "skin_corrosion",
+     "categories_text": "1A, 1B, 1C",
+     "categories": [
+      "1A",
+      "1B",
+      "1C"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P364",
+   "text": "And wash it before reuse.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Acute toxicity, dermal (section 3.1)",
+     "class_key": "acute_dermal",
+     "categories_text": "1, 2, 3, 4",
+     "categories": [
+      "1",
+      "2",
+      "3",
+      "4"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Skin irritation (section 3.2)",
+     "class_key": "skin_irritation",
+     "categories_text": "2",
+     "categories": [
+      "2"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Skin sensitisation (section 3.4)",
+     "class_key": "skin_sensitisation",
+     "categories_text": "1, 1A, 1B",
+     "categories": [
+      "1",
+      "1A",
+      "1B"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P370",
+   "text": "In case of fire:",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Explosives (section 2.1)",
+     "class_key": "explosives",
+     "categories_text": "Unstable explosives and divisions 1.1, 1.2, 1.3, 1.4, 1.5",
+     "categories": [
+      "Unstable explosive",
+      "1.1",
+      "1.2",
+      "1.3",
+      "1.4",
+      "1.5"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Oxidising gases (section 2.4)",
+     "class_key": "oxidising_gases",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Flammable liquids (section 2.6)",
+     "class_key": "flammable_liquids",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Flammable solids (section 2.7)",
+     "class_key": "flammable_solids",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Self-reactive substances and mixtures (section 2.8)",
+     "class_key": "self_reactive",
+     "categories_text": "Types A, B, C, D, E, F",
+     "categories": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Pyrophoric liquids (section 2.9)",
+     "class_key": "pyrophoric_liquids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Pyrophoric solids (section 2.10)",
+     "class_key": "pyrophoric_solids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Substances and mixtures which, in contact with water, emit flammable gases (section 2.12)",
+     "class_key": "water_reactive",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Oxidising liquids (section 2.13)",
+     "class_key": "oxidising_liquids",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Oxidising solids (section 2.14)",
+     "class_key": "oxidising_solids",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Organic Peroxides (section 2.15)",
+     "class_key": "organic_peroxides",
+     "categories_text": "Types A, B, C, D, E, F",
+     "categories": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Desensitised explosives (section 2.17)",
+     "class_key": "desensitised_explosives",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P371",
+   "text": "In case of major fire and large quantities:",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Oxidising liquids (section 2.13)",
+     "class_key": "oxidising_liquids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Oxidising solids (section 2.14)",
+     "class_key": "oxidising_solids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Desensitised explosives (section 2.17)",
+     "class_key": "desensitised_explosives",
+     "categories_text": "4",
+     "categories": [
+      "4"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P372",
+   "text": "Explosion risk.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Explosives (Section 2.1)",
+     "class_key": "explosives",
+     "categories_text": "Unstable explosives and Divisions 1.1, 1.2, 1.3, and 1.5",
+     "categories": [
+      "Unstable explosive",
+      "1.1",
+      "1.2",
+      "1.3",
+      "1.5"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Explosives (Section 2.1)",
+     "class_key": "explosives",
+     "categories_text": "Division 1.4",
+     "categories": [
+      "1.4"
+     ],
+     "conditions": "— except for explosives of division 1.4 (compatibility group S) in transport packaging."
+    },
+    {
+     "class": "Self-reactive substances and mixtures (Section 2.8)",
+     "class_key": "self_reactive",
+     "categories_text": "Type A",
+     "categories": [
+      "A"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Organic peroxides (Section 2.15)",
+     "class_key": "organic_peroxides",
+     "categories_text": "Type A",
+     "categories": [
+      "A"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P373",
+   "text": "DO NOT fight fire when fire reaches explosives.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Explosives (Section 2.1)",
+     "class_key": "explosives",
+     "categories_text": "Unstable explosives and Divisions 1.1, 1.2, 1.3, 1.5",
+     "categories": [
+      "Unstable explosive",
+      "1.1",
+      "1.2",
+      "1.3",
+      "1.5"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Explosives (Section 2.1)",
+     "class_key": "explosives",
+     "categories_text": "Division 1.4",
+     "categories": [
+      "1.4"
+     ],
+     "conditions": "— except for explosives of division 1.4 (compatibility group S) in transport packaging."
+    },
+    {
+     "class": "Self-reactive substances and mixtures (Section 2.8)",
+     "class_key": "self_reactive",
+     "categories_text": "Type A",
+     "categories": [
+      "A"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Organic peroxides (Section 2.15)",
+     "class_key": "organic_peroxides",
+     "categories_text": "Type A",
+     "categories": [
+      "A"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P375",
+   "text": "Fight fire remotely due to the risk of explosion.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Explosives (section 2.1)",
+     "class_key": "explosives",
+     "categories_text": "Division 1.4",
+     "categories": [
+      "1.4"
+     ],
+     "conditions": "— for explosives of division 1.4 (compatibility group S) in transport packaging."
+    },
+    {
+     "class": "Self-reactive substances and mixtures (section 2.8)",
+     "class_key": "self_reactive",
+     "categories_text": "Type B",
+     "categories": [
+      "B"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Oxidising liquids (section 2.13)",
+     "class_key": "oxidising_liquids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Oxidising solids (section 2.14)",
+     "class_key": "oxidising_solids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Organic peroxides (section 2.15)",
+     "class_key": "organic_peroxides",
+     "categories_text": "Type B",
+     "categories": [
+      "B"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Desensitised explosives (section 2.17)",
+     "class_key": "desensitised_explosives",
+     "categories_text": "1, 2, 3, 4",
+     "categories": [
+      "1",
+      "2",
+      "3",
+      "4"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P376",
+   "text": "Stop leak if safe to do so.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Oxidising gases (section 2.4)",
+     "class_key": "oxidising_gases",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P377",
+   "text": "Leaking gas fire: Do not extinguish, unless leak can be stopped safely.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Flammable gases (section 2.2)",
+     "class_key": "flammable_gases",
+     "categories_text": "1A, 1B, 2",
+     "categories": [
+      "1A",
+      "1B",
+      "2"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P378",
+   "text": "Use … to extinguish.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Flammable liquids (Section 2.6)",
+     "class_key": "flammable_liquids",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "— if water increases risk … Manufacturer/supplier to specify appropriate media"
+    },
+    {
+     "class": "Flammable solids (Section 2.7)",
+     "class_key": "flammable_solids",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": "— if water increases risk … Manufacturer/supplier to specify appropriate media"
+    },
+    {
+     "class": "Self-reactive substances and mixtures (Section 2.8)",
+     "class_key": "self_reactive",
+     "categories_text": "Types B, C, D, E, F",
+     "categories": [
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+     ],
+     "conditions": "— if water increases risk … Manufacturer/supplier to specify appropriate media"
+    },
+    {
+     "class": "Pyrophoric liquids (Section 2.9)",
+     "class_key": "pyrophoric_liquids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": "— if water increases risk … Manufacturer/supplier to specify appropriate media"
+    },
+    {
+     "class": "Pyrophoric solids (Section 2.10)",
+     "class_key": "pyrophoric_solids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": "— if water increases risk … Manufacturer/supplier to specify appropriate media"
+    },
+    {
+     "class": "Substances and mixtures which, in contact with water, emit flammable gases (Section 2.12)",
+     "class_key": "water_reactive",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "— if water increases risk … Manufacturer/supplier to specify appropriate media"
+    },
+    {
+     "class": "Oxidising liquids (Section 2.13)",
+     "class_key": "oxidising_liquids",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "— if water increases risk … Manufacturer/supplier to specify appropriate media"
+    },
+    {
+     "class": "Oxidising solids (Section 2.14)",
+     "class_key": "oxidising_solids",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "— if water increases risk … Manufacturer/supplier to specify appropriate media"
+    },
+    {
+     "class": "Organic peroxides (Section 2.15)",
+     "class_key": "organic_peroxides",
+     "categories_text": "Types B, C, D, E, F",
+     "categories": [
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+     ],
+     "conditions": "— if water increases risk … Manufacturer/supplier to specify appropriate media"
+    }
+   ]
+  },
+  {
+   "code": "P380",
+   "text": "Evacuate area.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Explosives (section 2.1)",
+     "class_key": "explosives",
+     "categories_text": "Unstable explosives and Divisions 1.1, 1.2, 1.3, 1.4, 1.5",
+     "categories": [
+      "Unstable explosive",
+      "1.1",
+      "1.2",
+      "1.3",
+      "1.4",
+      "1.5"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Self-reactive substances and mixtures (section 2.8)",
+     "class_key": "self_reactive",
+     "categories_text": "Types A, B",
+     "categories": [
+      "A",
+      "B"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Oxidising liquids (section 2.13)",
+     "class_key": "oxidising_liquids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Oxidising solids (section 2.14)",
+     "class_key": "oxidising_solids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Organic peroxides (section 2.15)",
+     "class_key": "organic_peroxides",
+     "categories_text": "Types A, B",
+     "categories": [
+      "A",
+      "B"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Desensitised explosives (section 2.17)",
+     "class_key": "desensitised_explosives",
+     "categories_text": "1, 2, 3, 4",
+     "categories": [
+      "1",
+      "2",
+      "3",
+      "4"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P381",
+   "text": "In case of leakage, eliminate all ignition sources",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Flammable gases (section 2.2)",
+     "class_key": "flammable_gases",
+     "categories_text": "1A, 1B, 2",
+     "categories": [
+      "1A",
+      "1B",
+      "2"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P390",
+   "text": "Absorb spillage to prevent material damage.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Corrosive to metals (section 2.16)",
+     "class_key": "corrosive_to_metals",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P391",
+   "text": "Collect spillage.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Hazardous to the aquatic environment – acute aquatic hazard (section 4.1)",
+     "class_key": "aquatic_acute",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Hazardous to the aquatic environment – ►M2 long-term aquatic hazard (section 4.1) ◄",
+     "class_key": "aquatic_chronic",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P301+P310",
+   "text": "IF SWALLOWED: Immediately call a POISON CENTER/doctor/…",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Acute toxicity — oral (section 3.1)",
+     "class_key": "acute_oral",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "…Manufacturer/supplier to specify the appropriate source of emergency medical advice."
+    },
+    {
+     "class": "Aspiration hazard (section 3.10)",
+     "class_key": "aspiration",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": "…Manufacturer/supplier to specify the appropriate source of emergency medical advice."
+    }
+   ]
+  },
+  {
+   "code": "P301+P312",
+   "text": "IF SWALLOWED: Call a POISON CENTER/doctor/… if you feel unwell",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Acute toxicity – oral (section 3.1)",
+     "class_key": "acute_oral",
+     "categories_text": "4",
+     "categories": [
+      "4"
+     ],
+     "conditions": "… Manufacturer/supplier to specify the appropriate source of emergency medical advice"
+    }
+   ]
+  },
+  {
+   "code": "P302+P334",
+   "text": "IF ON SKIN: Immerse in cool water or wrap in wet bandages.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Pyrophoric liquids (Section 2.9)",
+     "class_key": "pyrophoric_liquids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P302+P352",
+   "text": "IF ON SKIN: Wash with plenty of water/…",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Acute toxicity — dermal (section 3.1)",
+     "class_key": "acute_dermal",
+     "categories_text": "1, 2, 3, 4",
+     "categories": [
+      "1",
+      "2",
+      "3",
+      "4"
+     ],
+     "conditions": "…Manufacturer/supplier may specify a cleansing agent if appropriate, or may recommend an alternative agent in exceptional cases if water is clearly inappropriate."
+    },
+    {
+     "class": "Skin irritation (section 3.2)",
+     "class_key": "skin_irritation",
+     "categories_text": "2",
+     "categories": [
+      "2"
+     ],
+     "conditions": "…Manufacturer/supplier may specify a cleansing agent if appropriate, or may recommend an alternative agent in exceptional cases if water is clearly inappropriate."
+    },
+    {
+     "class": "Skin sensitisation (section 3.4)",
+     "class_key": "skin_sensitisation",
+     "categories_text": "1, 1A, 1B",
+     "categories": [
+      "1",
+      "1A",
+      "1B"
+     ],
+     "conditions": "…Manufacturer/supplier may specify a cleansing agent if appropriate, or may recommend an alternative agent in exceptional cases if water is clearly inappropriate."
+    }
+   ]
+  },
+  {
+   "code": "P304+P340",
+   "text": "IF INHALED: Remove person to fresh air and keep comfortable for breathing.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Acute toxicity — inhalation (section 3.1)",
+     "class_key": "acute_inhalation",
+     "categories_text": "1, 2, 3, 4",
+     "categories": [
+      "1",
+      "2",
+      "3",
+      "4"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Skin corrosion (section 3.2)",
+     "class_key": "skin_corrosion",
+     "categories_text": "1A, 1B, 1C",
+     "categories": [
+      "1A",
+      "1B",
+      "1C"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Respiratory sensitisation (section 3.4)",
+     "class_key": "respiratory_sensitisation",
+     "categories_text": "1, 1A, 1B",
+     "categories": [
+      "1",
+      "1A",
+      "1B"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Specific target organ toxicity — single exposure; respiratory tract irritation (section 3.8)",
+     "class_key": "stot_se_3_resp",
+     "categories_text": "3",
+     "categories": [
+      "3"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Specific target organ toxicity — single exposure; narcosis (section 3.8)",
+     "class_key": "stot_se_3_narc",
+     "categories_text": "3",
+     "categories": [
+      "3"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P306+P360",
+   "text": "IF ON CLOTHING: Rinse immediately contaminated clothing and skin with plenty of water before removing clothes.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Oxidising liquids (section 2.13)",
+     "class_key": "oxidising_liquids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Oxidising solids (section 2.14)",
+     "class_key": "oxidising_solids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P308+P311",
+   "text": "IF exposed or concerned: Call a POISON CENTER/doctor/…",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Specific target organ toxicity — single exposure (section 3.8)",
+     "class_key": "stot_se",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": "…Manufacturer/supplier to specify the appropriate source of emergency medical advice."
+    }
+   ]
+  },
+  {
+   "code": "P308+P313",
+   "text": "IF exposed or concerned: Get medical advice/attention.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Germ cell mutagenicity (section 3.5)",
+     "class_key": "mutagenicity",
+     "categories_text": "1A, 1B, 2",
+     "categories": [
+      "1A",
+      "1B",
+      "2"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Carcinogenicity (section 3.6)",
+     "class_key": "carcinogenicity",
+     "categories_text": "1A, 1B, 2",
+     "categories": [
+      "1A",
+      "1B",
+      "2"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Reproductive toxicity (section 3.7)",
+     "class_key": "reproductive_toxicity",
+     "categories_text": "1A, 1B, 2",
+     "categories": [
+      "1A",
+      "1B",
+      "2"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Reproductive toxicity — effects on or via lactation (section 3.7)",
+     "class_key": "lactation",
+     "categories_text": "Additional category",
+     "categories": [
+      "Additional category"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P332+P313",
+   "text": "If skin irritation occurs: Get medical advice/attention.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Skin irritation (Section 3.2)",
+     "class_key": "skin_irritation",
+     "categories_text": "2",
+     "categories": [
+      "2"
+     ],
+     "conditions": "— may be omitted when P333 + P313 is given on the label."
+    }
+   ]
+  },
+  {
+   "code": "P333+P313",
+   "text": "If skin irritation or rash occurs: Get medical advice/attention.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Skin sensitisation (section 3.4)",
+     "class_key": "skin_sensitisation",
+     "categories_text": "1, 1A, 1B",
+     "categories": [
+      "1",
+      "1A",
+      "1B"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P336+P315",
+   "text": "Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Gases under pressure (Section 2.5)",
+     "class_key": "gases_under_pressure",
+     "categories_text": "Refrigerated liquefied gas",
+     "categories": [
+      "Refrigerated liquefied gas"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P337+P313",
+   "text": "If eye irritation persists: Get medical advice/attention.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Eye irritation (section 3.3)",
+     "class_key": "eye_irritation",
+     "categories_text": "2",
+     "categories": [
+      "2"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P342+P311",
+   "text": "If experiencing respiratory symptoms: Call a POISON CENTER/doctor/…",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Respiratory sensitisation (section 3.4)",
+     "class_key": "respiratory_sensitisation",
+     "categories_text": "1, 1A, 1B",
+     "categories": [
+      "1",
+      "1A",
+      "1B"
+     ],
+     "conditions": "…Manufacturer/supplier to specify the appropriate source of emergency medical advice."
+    }
+   ]
+  },
+  {
+   "code": "P361+P364",
+   "text": "Take off immediately all contaminated clothing and wash it before reuse.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Acute toxicity, dermal (section 3.1)",
+     "class_key": "acute_dermal",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P362+P364",
+   "text": "Take off contaminated clothing and wash it before reuse.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Acute toxicity, dermal (section 3.1)",
+     "class_key": "acute_dermal",
+     "categories_text": "4",
+     "categories": [
+      "4"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Skin irritation (section 3.2)",
+     "class_key": "skin_irritation",
+     "categories_text": "2",
+     "categories": [
+      "2"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Skin sensitisation (section 3.4)",
+     "class_key": "skin_sensitisation",
+     "categories_text": "1, 1A, 1B",
+     "categories": [
+      "1",
+      "1A",
+      "1B"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P370+P376",
+   "text": "In case of fire: Stop leak if safe to do so.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Oxidizing gases (section 2.4)",
+     "class_key": "oxidising_gases",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P370+P378",
+   "text": "In case of fire: Use … to extinguish.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Flammable liquids (Section 2.6)",
+     "class_key": "flammable_liquids",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "— if water increases risk. … Manufacturer/sup-plier to specify appropriate media."
+    },
+    {
+     "class": "Flammable solids (Section 2.7)",
+     "class_key": "flammable_solids",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": "— if water increases risk. … Manufacturer/sup-plier to specify appropriate media."
+    },
+    {
+     "class": "Self-reactive substances and mixtures (Section 2.8)",
+     "class_key": "self_reactive",
+     "categories_text": "Types C, D, E, F",
+     "categories": [
+      "C",
+      "D",
+      "E",
+      "F"
+     ],
+     "conditions": "— if water increases risk. … Manufacturer/sup-plier to specify appropriate media."
+    },
+    {
+     "class": "Pyrophoric liquids (Section 2.9)",
+     "class_key": "pyrophoric_liquids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": "— if water increases risk. … Manufacturer/sup-plier to specify appropriate media."
+    },
+    {
+     "class": "Pyrophoric solids (Section 2.10)",
+     "class_key": "pyrophoric_solids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": "— if water increases risk. … Manufacturer/sup-plier to specify appropriate media."
+    },
+    {
+     "class": "Substances and mixtures which, in contact with water, emit flammable gases (Section 2.12)",
+     "class_key": "water_reactive",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "— if water increases risk. … Manufacturer/sup-plier to specify appropriate media."
+    },
+    {
+     "class": "Oxidising liquids (Section 2.13)",
+     "class_key": "oxidising_liquids",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "— if water increases risk. … Manufacturer/sup-plier to specify appropriate media."
+    },
+    {
+     "class": "Oxidising solids (Section 2.14)",
+     "class_key": "oxidising_solids",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "— if water increases risk. … Manufacturer/sup-plier to specify appropriate media."
+    },
+    {
+     "class": "Organic peroxides (Section 2.15)",
+     "class_key": "organic_peroxides",
+     "categories_text": "Types C, D, E, F",
+     "categories": [
+      "C",
+      "D",
+      "E",
+      "F"
+     ],
+     "conditions": "— if water increases risk. … Manufacturer/sup-plier to specify appropriate media."
+    }
+   ]
+  },
+  {
+   "code": "P301+P330+P331",
+   "text": "IF SWALLOWED: Rinse mouth. Do NOT induce vomiting.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Skin corrosion (Section 3.2)",
+     "class_key": "skin_corrosion",
+     "categories_text": "1, 1A, 1B, 1C",
+     "categories": [
+      "1",
+      "1A",
+      "1B",
+      "1C"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P302+P335+P334",
+   "text": "IF ON SKIN: Brush off loose particles from skin. Immerse in cool water [or wrap in wet bandages].",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Pyrophoric solids (Section 2.10)",
+     "class_key": "pyrophoric_solids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": "— text in square brackets to be used for pyrophoric solids"
+    },
+    {
+     "class": "Substances and mixtures which, in contact with water, emit flammable gases (Section 2.12)",
+     "class_key": "water_reactive",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": "— use only ‘Immerse in cold water’. Text in square brackets should not be used."
+    }
+   ]
+  },
+  {
+   "code": "P303+P361+P353",
+   "text": "IF ON SKIN (or hair): Take off immediately all contaminated clothing. Rinse skin with water [or shower].",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Flammable liquids (Section 2.6)",
+     "class_key": "flammable_liquids",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "— text in square brackets to be included where the manufacturer/supplier considers it appropriate for the specific chemical."
+    },
+    {
+     "class": "Skin corrosion (Section 3.2)",
+     "class_key": "skin_corrosion",
+     "categories_text": "1, 1A, 1B, 1C",
+     "categories": [
+      "1",
+      "1A",
+      "1B",
+      "1C"
+     ],
+     "conditions": "— text in square brackets to be included where the manufacturer/supplier considers it appropriate for the specific chemical."
+    }
+   ]
+  },
+  {
+   "code": "P305+P351+P338",
+   "text": "IF IN EYES: Rinse cautiously with water for several minutes. Remove contact lenses, if present and easy to do. Continue rinsing.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Skin corrosion (Section 3.2)",
+     "class_key": "skin_corrosion",
+     "categories_text": "1, 1A, 1B, 1C",
+     "categories": [
+      "1",
+      "1A",
+      "1B",
+      "1C"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Serious eye damage/eye irritation (Section 3.3)",
+     "class_key": "eye_damage",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Eye irritation (Section 3.3)",
+     "class_key": "eye_irritation",
+     "categories_text": "2",
+     "categories": [
+      "2"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P370+P380+P375",
+   "text": "In case of fire: Evacuate area. Fight fire remotely due to the risk of explosion.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Explosives (section 2.1)",
+     "class_key": "explosives",
+     "categories_text": "Division 1.4",
+     "categories": [
+      "1.4"
+     ],
+     "conditions": "— for explosives of division 1.4 (compatibility group S) in transport packaging"
+    },
+    {
+     "class": "Desensitised explosives (section 2.17)",
+     "class_key": "desensitised_explosives",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P371+P380+P375",
+   "text": "In case of major fire and large quantities: Evacuate area. Fight fire remotely due to the risk of explosion.",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Oxidising liquids (section 2.13)",
+     "class_key": "oxidising_liquids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Oxidising solids (section 2.14)",
+     "class_key": "oxidising_solids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Desensitised explosives (section 2.17)",
+     "class_key": "desensitised_explosives",
+     "categories_text": "4",
+     "categories": [
+      "4"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P370+P372+P380+P373",
+   "text": "In case of fire: Explosion risk. Evacuate area. DO NOT fight fire when fire reaches explosives",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Explosives (Section 2.1)",
+     "class_key": "explosives",
+     "categories_text": "Unstable explosives and divisions 1.1, 1.2, 1.3, 1.5",
+     "categories": [
+      "Unstable explosive",
+      "1.1",
+      "1.2",
+      "1.3",
+      "1.5"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Explosives (Section 2.1)",
+     "class_key": "explosives",
+     "categories_text": "Division 1.4",
+     "categories": [
+      "1.4"
+     ],
+     "conditions": "— except for explosives of division 1.4 (compatibility group S) in transport packaging."
+    },
+    {
+     "class": "Self-reactive substances and mixtures (Section 2.8)",
+     "class_key": "self_reactive",
+     "categories_text": "Type A",
+     "categories": [
+      "A"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Organic peroxides (Section 2.15)",
+     "class_key": "organic_peroxides",
+     "categories_text": "Type A",
+     "categories": [
+      "A"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P370+P380+P375+[P378]",
+   "text": "In case of fire: Evacuate area. Fight fire remotely due to the risk of explosion. [Use … to extinguish].",
+   "table": "6.3",
+   "rows": [
+    {
+     "class": "Self-reactive substances and mixtures (Section 2.8)",
+     "class_key": "self_reactive",
+     "categories_text": "Type B",
+     "categories": [
+      "B"
+     ],
+     "conditions": "— text in square brackets to be used if water increases risk. … Manufacturer/supplier to specify appropriate media."
+    },
+    {
+     "class": "Organic peroxides (Section 2.15)",
+     "class_key": "organic_peroxides",
+     "categories_text": "Type B",
+     "categories": [
+      "B"
+     ],
+     "conditions": "— text in square brackets to be used if water increases risk. … Manufacturer/supplier to specify appropriate media."
+    }
+   ]
+  },
+  {
+   "code": "P401",
+   "text": "Store in accordance with …",
+   "table": "6.4",
+   "rows": [
+    {
+     "class": "Explosives (section 2.1)",
+     "class_key": "explosives",
+     "categories_text": "Unstable explosives and Divisions 1.1, 1.2, 1.3, 1.4, 1.5",
+     "categories": [
+      "Unstable explosive",
+      "1.1",
+      "1.2",
+      "1.3",
+      "1.4",
+      "1.5"
+     ],
+     "conditions": "… Manufacturer/supplier to specify local/regional/national/international regulations as applicable."
+    },
+    {
+     "class": "Desensitised explosives (section 2.17)",
+     "class_key": "desensitised_explosives",
+     "categories_text": "1, 2, 3, 4",
+     "categories": [
+      "1",
+      "2",
+      "3",
+      "4"
+     ],
+     "conditions": "… Manufacturer/supplier to specify local/regional/national/international regulations as applicable."
+    }
+   ]
+  },
+  {
+   "code": "P402",
+   "text": "Store in a dry place.",
+   "table": "6.4",
+   "rows": [
+    {
+     "class": "Substances and mixtures which, in contact with water, emit flammable gases (section 2.12)",
+     "class_key": "water_reactive",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P403",
+   "text": "Store in a well-ventilated place.",
+   "table": "6.4",
+   "rows": [
+    {
+     "class": "Flammable gases (section 2.2)",
+     "class_key": "flammable_gases",
+     "categories_text": "1A, 1B, 2",
+     "categories": [
+      "1A",
+      "1B",
+      "2"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Oxidising gases (section 2.4)",
+     "class_key": "oxidising_gases",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Gases under pressure (section 2.5)",
+     "class_key": "gases_under_pressure",
+     "categories_text": "Compressed gas",
+     "categories": [
+      "Compressed gas"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Gases under pressure (section 2.5)",
+     "class_key": "gases_under_pressure",
+     "categories_text": "Liquefied gas",
+     "categories": [
+      "Liquefied gas"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Gases under pressure (section 2.5)",
+     "class_key": "gases_under_pressure",
+     "categories_text": "Refrigerated liquefied gas",
+     "categories": [
+      "Refrigerated liquefied gas"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Gases under pressure (section 2.5)",
+     "class_key": "gases_under_pressure",
+     "categories_text": "Dissolved gas",
+     "categories": [
+      "Dissolved gas"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Flammable liquids (section 2.6)",
+     "class_key": "flammable_liquids",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "— for flammable liquids Category 1 and other flammable liquids that are volatile and may generate an explosive atmosphere."
+    },
+    {
+     "class": "Self-reactive substances and mixtures (section 2.8)",
+     "class_key": "self_reactive",
+     "categories_text": "Types A, B, C, D, E, F",
+     "categories": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+     ],
+     "conditions": "— except for temperature controlled self-reactive substances and mixtures or organic peroxides because condensation and consequent freezing may take place."
+    },
+    {
+     "class": "Organic peroxides (section 2.15)",
+     "class_key": "organic_peroxides",
+     "categories_text": "Types A, B, C, D, E, F",
+     "categories": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+     ],
+     "conditions": "— except for temperature controlled self-reactive substances and mixtures or organic peroxides because condensation and consequent freezing may take place."
+    },
+    {
+     "class": "Acute toxicity – inhalation (section 3.1)",
+     "class_key": "acute_inhalation",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "— if the substance or mixture is volatile and may generate a hazardous atmosphere."
+    },
+    {
+     "class": "Specific target organ toxicity – single exposure; respiratory tract irritation (section 3.8)",
+     "class_key": "stot_se_3_resp",
+     "categories_text": "3",
+     "categories": [
+      "3"
+     ],
+     "conditions": "— if the substance or mixture is volatile and may generate a hazardous atmosphere."
+    },
+    {
+     "class": "Specific target organ toxicity – single exposure; narcotic effects (section 3.8)",
+     "class_key": "stot_se_3_narc",
+     "categories_text": "3",
+     "categories": [
+      "3"
+     ],
+     "conditions": "— if the substance or mixture is volatile and may generate a hazardous atmosphere."
+    }
+   ]
+  },
+  {
+   "code": "P404",
+   "text": "Store in a closed container.",
+   "table": "6.4",
+   "rows": [
+    {
+     "class": "Substances and mixtures which, in contact with water, emit flammable gases (section 2.12)",
+     "class_key": "water_reactive",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P405",
+   "text": "Store locked up.",
+   "table": "6.4",
+   "rows": [
+    {
+     "class": "Acute toxicity — oral (section 3.1)",
+     "class_key": "acute_oral",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Acute toxicity — dermal (section 3.1)",
+     "class_key": "acute_dermal",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Acute toxicity — inhalation (section 3.1)",
+     "class_key": "acute_inhalation",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Skin corrosion (section 3.2)",
+     "class_key": "skin_corrosion",
+     "categories_text": "1A, 1B, 1C",
+     "categories": [
+      "1A",
+      "1B",
+      "1C"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Germ cell mutagenicity (section 3.5)",
+     "class_key": "mutagenicity",
+     "categories_text": "1A, 1B, 2",
+     "categories": [
+      "1A",
+      "1B",
+      "2"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Carcinogenicity (section 3.6)",
+     "class_key": "carcinogenicity",
+     "categories_text": "1A, 1B, 2",
+     "categories": [
+      "1A",
+      "1B",
+      "2"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Reproductive toxicity (section 3.7)",
+     "class_key": "reproductive_toxicity",
+     "categories_text": "1A, 1B, 2",
+     "categories": [
+      "1A",
+      "1B",
+      "2"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Specific target organ toxicity — single exposure (section 3.8)",
+     "class_key": "stot_se",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Specific target organ toxicity — single exposure; respiratory tract irritation (section 3.8)",
+     "class_key": "stot_se_3_resp",
+     "categories_text": "3",
+     "categories": [
+      "3"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Specific target organ toxicity — single exposure; narcosis (section 3.8)",
+     "class_key": "stot_se_3_narc",
+     "categories_text": "3",
+     "categories": [
+      "3"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Aspiration hazard (section 3.10)",
+     "class_key": "aspiration",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P406",
+   "text": "Store in a corrosion-resistant/… container with a resistant inner liner.",
+   "table": "6.4",
+   "rows": [
+    {
+     "class": "Corrosive to metals (Section 2.16)",
+     "class_key": "corrosive_to_metals",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": "— may be omitted if P234 is given on the label … Manufacturer/supplier to specify other compatible materials."
+    }
+   ]
+  },
+  {
+   "code": "P407",
+   "text": "Maintain air gap between stacks or pallets.",
+   "table": "6.4",
+   "rows": [
+    {
+     "class": "Self-heating substances and mixtures (Section 2.11)",
+     "class_key": "self_heating",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P410",
+   "text": "Protect from sunlight.",
+   "table": "6.4",
+   "rows": [
+    {
+     "class": "Aerosols (section 2.3)",
+     "class_key": "aerosols",
+     "categories_text": "1,2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Gases under pressure (section 2.5)",
+     "class_key": "gases_under_pressure",
+     "categories_text": "Compressed gas Liquefied gas Dissolved gas",
+     "categories": [
+      "Compressed gas",
+      "Liquefied gas",
+      "Dissolved gas"
+     ],
+     "conditions": "— may be omitted for gases filled in transportable gas cylinders in accordance with packing instruction P200 of the UN RTDG, Model Regulations, unless those gases are subject to (slow) decomposition or polymerisation"
+    },
+    {
+     "class": "Self-heating substances and mixtures (section 2.11)",
+     "class_key": "self_heating",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Organic peroxides (section 2.15)",
+     "class_key": "organic_peroxides",
+     "categories_text": "Types A, B, C, D, E, F",
+     "categories": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P411",
+   "text": "Store at temperatures not exceeding … °C/… °F.",
+   "table": "6.4",
+   "rows": [
+    {
+     "class": "Self-reactive substances and mixtures (Section 2.8)",
+     "class_key": "self_reactive",
+     "categories_text": "Types A, B, C, D, E, F",
+     "categories": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+     ],
+     "conditions": "— if temperature control is required (according to Annex I, Section 2.8.2.4 or 2.15.2.3) or if otherwise deemed necessary. … Manufacturer/supplier to specify temperature using the applicable temperature scale."
+    },
+    {
+     "class": "Organic peroxides (Section 2.15)",
+     "class_key": "organic_peroxides",
+     "categories_text": "Types A, B, C, D, E, F",
+     "categories": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+     ],
+     "conditions": "— if temperature control is required (according to Annex I, Section 2.8.2.4 or 2.15.2.3) or if otherwise deemed necessary. … Manufacturer/supplier to specify temperature using the applicable temperature scale."
+    }
+   ]
+  },
+  {
+   "code": "P412",
+   "text": "Do not expose to temperatures exceeding 50 °C/ 122 °F.",
+   "table": "6.4",
+   "rows": [
+    {
+     "class": "Aerosols (Section 2.3)",
+     "class_key": "aerosols",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "Manufacturer/supplier to use applicable temperature scale."
+    }
+   ]
+  },
+  {
+   "code": "P413",
+   "text": "Store bulk masses greater than … kg/… lbs at temperatures not exceeding … °C/… °F.",
+   "table": "6.4",
+   "rows": [
+    {
+     "class": "Self-heating substances and mixtures (Section 2.11)",
+     "class_key": "self_heating",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": "… Manufacturer/supplier to specify mass and temperature using applicable scale."
+    }
+   ]
+  },
+  {
+   "code": "P420",
+   "text": "Store separately.",
+   "table": "6.4",
+   "rows": [
+    {
+     "class": "Self-reactive substances and mixtures (Section 2.8)",
+     "class_key": "self_reactive",
+     "categories_text": "Types A, B, C, D, E, F",
+     "categories": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Self-heating substances and mixtures (Section 2.11)",
+     "class_key": "self_heating",
+     "categories_text": "1,2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Oxidising liquids (Section 2.13)",
+     "class_key": "oxidising_liquids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Oxidising solids (Section 2.14)",
+     "class_key": "oxidising_solids",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    },
+    {
+     "class": "Organic peroxides (Section 2.15)",
+     "class_key": "organic_peroxides",
+     "categories_text": "Types A,B,C,D,E,F",
+     "categories": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P402+P404",
+   "text": "Store in a dry place. Store in a closed container.",
+   "table": "6.4",
+   "rows": [
+    {
+     "class": "Substances and mixtures which, in contact with water, emit flammable gases (section 2.12)",
+     "class_key": "water_reactive",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P403+P233",
+   "text": "Store in a well-ventilated place. Keep container tightly closed.",
+   "table": "6.4",
+   "rows": [
+    {
+     "class": "Acute toxicity — inhalation (Section 3.1)",
+     "class_key": "acute_inhalation",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "— if the substance or mixture is volatile and may generate a hazardous atmosphere."
+    },
+    {
+     "class": "Specific target organ toxicity — single exposure; respiratory tract irritation (Section 3.8)",
+     "class_key": "stot_se_3_resp",
+     "categories_text": "3",
+     "categories": [
+      "3"
+     ],
+     "conditions": "— if the substance or mixture is volatile and may generate a hazardous atmosphere."
+    },
+    {
+     "class": "Specific target organ toxicity — single exposure; narcosis (Section 3.8)",
+     "class_key": "stot_se_3_narc",
+     "categories_text": "3",
+     "categories": [
+      "3"
+     ],
+     "conditions": "— if the substance or mixture is volatile and may generate a hazardous atmosphere."
+    }
+   ]
+  },
+  {
+   "code": "P403+P235",
+   "text": "Store in a well-ventilated place. Keep cool.",
+   "table": "6.4",
+   "rows": [
+    {
+     "class": "Flammable liquids (Section 2.6)",
+     "class_key": "flammable_liquids",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "— for flammable liquids Category 1 and other flammable liquids that are volatile and may generate an explosive atmosphere."
+    }
+   ]
+  },
+  {
+   "code": "P410+P403",
+   "text": "Protect from sunlight. Store in a well-ventilated place.",
+   "table": "6.4",
+   "rows": [
+    {
+     "class": "Gases under pressure (Section 2.5)",
+     "class_key": "gases_under_pressure",
+     "categories_text": "Compressed gas",
+     "categories": [
+      "Compressed gas"
+     ],
+     "conditions": "— P410 may be omitted for gases filled in transportable gas cylinders in accordance with packing instruction P200 of the UN RTDG, unless those gases are subject to (slow) decomposition or polymerisation."
+    },
+    {
+     "class": "Gases under pressure (Section 2.5)",
+     "class_key": "gases_under_pressure",
+     "categories_text": "Liquefied gas",
+     "categories": [
+      "Liquefied gas"
+     ],
+     "conditions": "— P410 may be omitted for gases filled in transportable gas cylinders in accordance with packing instruction P200 of the UN RTDG, unless those gases are subject to (slow) decomposition or polymerisation."
+    },
+    {
+     "class": "Gases under pressure (Section 2.5)",
+     "class_key": "gases_under_pressure",
+     "categories_text": "Dissolved gas",
+     "categories": [
+      "Dissolved gas"
+     ],
+     "conditions": "— P410 may be omitted for gases filled in transportable gas cylinders in accordance with packing instruction P200 of the UN RTDG, unless those gases are subject to (slow) decomposition or polymerisation."
+    }
+   ]
+  },
+  {
+   "code": "P410+P412",
+   "text": "Protect from sunlight. Do not expose to temperatures exceeding 50 °C/122 °F.",
+   "table": "6.4",
+   "rows": [
+    {
+     "class": "Aerosols (Section 2.3)",
+     "class_key": "aerosols",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "Manufacturer/ supplier to use applicable temperature scale."
+    }
+   ]
+  },
+  {
+   "code": "P501",
+   "text": "Dispose of contents/container to …",
+   "table": "6.5",
+   "rows": [
+    {
+     "class": "Flammable liquids (section 2.6)",
+     "class_key": "flammable_liquids",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "… in accordance with local/regional/national/international regulation (to be specified). Manufacturer/supplier to specify whether disposal requirements apply to contents, container or both."
+    },
+    {
+     "class": "Self-reactive substances and mixtures (section 2.8)",
+     "class_key": "self_reactive",
+     "categories_text": "Types A, B, C, D, E, F",
+     "categories": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+     ],
+     "conditions": "… in accordance with local/regional/national/international regulation (to be specified). Manufacturer/supplier to specify whether disposal requirements apply to contents, container or both."
+    },
+    {
+     "class": "Substances and mixtures which, in contact with water, emit flammable gases (section 2.12)",
+     "class_key": "water_reactive",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "… in accordance with local/regional/national/international regulation (to be specified). Manufacturer/supplier to specify whether disposal requirements apply to contents, container or both."
+    },
+    {
+     "class": "Oxidising liquids (section 2.13)",
+     "class_key": "oxidising_liquids",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "… in accordance with local/regional/national/international regulation (to be specified). Manufacturer/supplier to specify whether disposal requirements apply to contents, container or both."
+    },
+    {
+     "class": "Oxidising solids (section 2.14)",
+     "class_key": "oxidising_solids",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "… in accordance with local/regional/national/international regulation (to be specified). Manufacturer/supplier to specify whether disposal requirements apply to contents, container or both."
+    },
+    {
+     "class": "Organic peroxides (section 2.15)",
+     "class_key": "organic_peroxides",
+     "categories_text": "Types A, B, C, D, E, F",
+     "categories": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+     ],
+     "conditions": "… in accordance with local/regional/national/international regulation (to be specified). Manufacturer/supplier to specify whether disposal requirements apply to contents, container or both."
+    },
+    {
+     "class": "Desensitised explosives (section 2.17)",
+     "class_key": "desensitised_explosives",
+     "categories_text": "1, 2, 3, 4",
+     "categories": [
+      "1",
+      "2",
+      "3",
+      "4"
+     ],
+     "conditions": "… in accordance with local/regional/national/international regulation (to be specified). Manufacturer/supplier to specify whether disposal requirements apply to contents, container or both."
+    },
+    {
+     "class": "Acute toxicity – oral (section 3.1)",
+     "class_key": "acute_oral",
+     "categories_text": "1, 2, 3, 4",
+     "categories": [
+      "1",
+      "2",
+      "3",
+      "4"
+     ],
+     "conditions": "… in accordance with local/regional/national/international regulation (to be specified). Manufacturer/supplier to specify whether disposal requirements apply to contents, container or both."
+    },
+    {
+     "class": "Acute toxicity – dermal (section 3.1)",
+     "class_key": "acute_dermal",
+     "categories_text": "1, 2, 3, 4",
+     "categories": [
+      "1",
+      "2",
+      "3",
+      "4"
+     ],
+     "conditions": "… in accordance with local/regional/national/international regulation (to be specified). Manufacturer/supplier to specify whether disposal requirements apply to contents, container or both."
+    },
+    {
+     "class": "Acute toxicity – inhalation (section 3.1)",
+     "class_key": "acute_inhalation",
+     "categories_text": "1, 2, 3",
+     "categories": [
+      "1",
+      "2",
+      "3"
+     ],
+     "conditions": "… in accordance with local/regional/national/international regulation (to be specified). Manufacturer/supplier to specify whether disposal requirements apply to contents, container or both."
+    },
+    {
+     "class": "Skin corrosion (section 3.2)",
+     "class_key": "skin_corrosion",
+     "categories_text": "1, 1A, 1B, 1C",
+     "categories": [
+      "1",
+      "1A",
+      "1B",
+      "1C"
+     ],
+     "conditions": "… in accordance with local/regional/national/international regulation (to be specified). Manufacturer/supplier to specify whether disposal requirements apply to contents, container or both."
+    },
+    {
+     "class": "Respiratory sensitisation (section 3.4)",
+     "class_key": "respiratory_sensitisation",
+     "categories_text": "1, 1A, 1B",
+     "categories": [
+      "1",
+      "1A",
+      "1B"
+     ],
+     "conditions": "… in accordance with local/regional/national/international regulation (to be specified). Manufacturer/supplier to specify whether disposal requirements apply to contents, container or both."
+    },
+    {
+     "class": "Skin sensitisation (section 3.4)",
+     "class_key": "skin_sensitisation",
+     "categories_text": "1, 1A, 1B",
+     "categories": [
+      "1",
+      "1A",
+      "1B"
+     ],
+     "conditions": "… in accordance with local/regional/national/international regulation (to be specified). Manufacturer/supplier to specify whether disposal requirements apply to contents, container or both."
+    },
+    {
+     "class": "Germ cell mutagenicity (section 3.5)",
+     "class_key": "mutagenicity",
+     "categories_text": "1A, 1B, 2",
+     "categories": [
+      "1A",
+      "1B",
+      "2"
+     ],
+     "conditions": "… in accordance with local/regional/national/international regulation (to be specified). Manufacturer/supplier to specify whether disposal requirements apply to contents, container or both."
+    },
+    {
+     "class": "Carcinogenicity (section 3.6)",
+     "class_key": "carcinogenicity",
+     "categories_text": "1A, 1B, 2",
+     "categories": [
+      "1A",
+      "1B",
+      "2"
+     ],
+     "conditions": "… in accordance with local/regional/national/international regulation (to be specified). Manufacturer/supplier to specify whether disposal requirements apply to contents, container or both."
+    },
+    {
+     "class": "Reproductive toxicity (section 3.7)",
+     "class_key": "reproductive_toxicity",
+     "categories_text": "1A, 1B, 2",
+     "categories": [
+      "1A",
+      "1B",
+      "2"
+     ],
+     "conditions": "… in accordance with local/regional/national/international regulation (to be specified). Manufacturer/supplier to specify whether disposal requirements apply to contents, container or both."
+    },
+    {
+     "class": "Specific target organ toxicity – single exposure (section 3.8)",
+     "class_key": "stot_se",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": "… in accordance with local/regional/national/international regulation (to be specified). Manufacturer/supplier to specify whether disposal requirements apply to contents, container or both."
+    },
+    {
+     "class": "Specific target organ toxicity – single exposure; respiratory tract irritation (section 3.8)",
+     "class_key": "stot_se_3_resp",
+     "categories_text": "3",
+     "categories": [
+      "3"
+     ],
+     "conditions": "… in accordance with local/regional/national/international regulation (to be specified). Manufacturer/supplier to specify whether disposal requirements apply to contents, container or both."
+    },
+    {
+     "class": "Specific target organ toxicity – single exposure; narcotic effects (section 3.8)",
+     "class_key": "stot_se_3_narc",
+     "categories_text": "3",
+     "categories": [
+      "3"
+     ],
+     "conditions": "… in accordance with local/regional/national/international regulation (to be specified). Manufacturer/supplier to specify whether disposal requirements apply to contents, container or both."
+    },
+    {
+     "class": "Specific target organ toxicity – repeated exposure (section 3.9)",
+     "class_key": "stot_re",
+     "categories_text": "1, 2",
+     "categories": [
+      "1",
+      "2"
+     ],
+     "conditions": "… in accordance with local/regional/national/international regulation (to be specified). Manufacturer/supplier to specify whether disposal requirements apply to contents, container or both."
+    },
+    {
+     "class": "Aspiration hazard (section 3.10)",
+     "class_key": "aspiration",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": "… in accordance with local/regional/national/international regulation (to be specified). Manufacturer/supplier to specify whether disposal requirements apply to contents, container or both."
+    },
+    {
+     "class": "Hazardous to the aquatic environment – acute aquatic hazard (section 4.1)",
+     "class_key": "aquatic_acute",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": "… in accordance with local/regional/national/international regulation (to be specified). Manufacturer/supplier to specify whether disposal requirements apply to contents, container or both."
+    },
+    {
+     "class": "Hazardous to the aquatic environment – chronic aquatic hazard (section 4.1)",
+     "class_key": "aquatic_chronic",
+     "categories_text": "1, 2, 3, 4",
+     "categories": [
+      "1",
+      "2",
+      "3",
+      "4"
+     ],
+     "conditions": "… in accordance with local/regional/national/international regulation (to be specified). Manufacturer/supplier to specify whether disposal requirements apply to contents, container or both."
+    }
+   ]
+  },
+  {
+   "code": "P502",
+   "text": "Refer to manufacturer or supplier for information on recovery or recycling",
+   "table": "6.5",
+   "rows": [
+    {
+     "class": "Hazardous to the ozone layer (Section 5.1)",
+     "class_key": "ozone",
+     "categories_text": "1",
+     "categories": [
+      "1"
+     ],
+     "conditions": ""
+    }
+   ]
+  },
+  {
+   "code": "P503",
+   "text": "Refer to manufacturer/ supplier/… for information on disposal/recovery/ recycling",
+   "table": "6.5",
+   "rows": [
+    {
+     "class": "Explosives (section 2.1)",
+     "class_key": "explosives",
+     "categories_text": "Unstable explosives and Divisions 1.1, 1.2, 1.3, 1.4, 1.5",
+     "categories": [
+      "Unstable explosive",
+      "1.1",
+      "1.2",
+      "1.3",
+      "1.4",
+      "1.5"
+     ],
+     "conditions": "… Manufacturer/supplier to specify appropriate source of information in accordance with local/regional/national/international regulations as applicable."
+    }
+   ]
+  }
+ ],
+ "unmapped_class_cells": []
+}

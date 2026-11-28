@@ -1,7 +1,8 @@
 # SDS phrase recommender: design (for review, not yet built)
 
-Status: draft for the user's review, 27 Nov 2026. No recommender code has been written. Stage 1 starts only after
-approval of this document and answers to the open questions (section 12).
+Status: updated 28 Nov 2026 with the user's answers (section 12). No recommender code has been written. Stage 1 starts
+after the user has seen the calculator verification (`docs/calculator_verification.md`) and the branch review, because a
+calculator fix (ConorTttttt/Classification#46) changes stage 1's input.
 
 Every output of the recommender is labelled **"DRAFT – for review by a competent person"**.
 
@@ -13,12 +14,13 @@ reference record with its snapshot date. Nothing comes from memory.
 
 | Stage | Input | Drafts | Built from |
 |---|---|---|---|
-| 1 | Classification, P-statements, signal word (from the user's engine), physical form, jurisdiction, audience | 2.2 label elements; 4.1-4.3, 5.1-5.3, 6.1-6.4, 7.1-7.3, 10.1-10.6 | Inverted checklist rules (A and B rows), bundled CLP Annex III/IV tables, own phrase library |
+| 1 | Classification, P-statements, signal word (from the user's engine), physical form, jurisdiction (EU, GB), audience | 2.2 label elements; 4.1-4.3, 5.1-5.3, 6.1-6.4, 7.1-7.3, 10.1-10.6 | Inverted checklist rules (A and B rows), bundled CLP Annex III/IV tables, own phrase library |
 | 2 | Stage 1 + ingredient identities and concentrations | 10.5 incompatibilities, 10.6 decomposition products, 7.2 segregation, 5.2 combustion products | Local reference database (ICSC/CAMEO/NIOSH/PubChem snapshots) through the existing gating config, element rule |
 | 3 | Stage 2 + OEL lists | Section 8 (OELs with list, edition, date; PPE matched to hazards) | Section 8 checks (once coded), bundled OEL lists, HSG53 filter table |
 
 Out of scope: classifying the mixture (the user's engine does that), Sections 1, 3, 9, 11-16, translations,
-and any claim that a draft is compliant.
+and any claim that a draft is compliant. **US drafts are out of scope** until there is a US classification source
+(user decision, 28 Nov 2026); the checker keeps its US rules.
 
 ## 2. Architecture
 
@@ -73,16 +75,19 @@ Every finding and every recommended phrase prints the date of the bundle it came
 
 | Bundle (planned path) | Content | Source and version (as already verified in this project) | Bundle in repo? |
 |---|---|---|---|
-| `data/legal/clp_annex_iii_eu_2027-01-01.json` | H/EUH codes and wording | EU CLP consolidated 1 Jan 2027 (Cellar) | yes, see 3.3 |
-| `data/legal/clp_annex_iv_eu_2027-01-01.json` | P codes, wording, class, category, conditions | same | yes |
+| `data/legal/clp_annex_iii_eu_2027-01-01.json` | H/EUH codes and wording | EU CLP consolidated 1 Jan 2027 (Cellar) | yes (EUR-Lex reuse) |
+| `data/legal/clp_annex_iv_eu_2027-01-01.json` | P codes, wording, class, category, conditions | same | **built** (`tools/legal_tables.py`) |
+| `data/legal/clp_annex_i_label_p_eu_2027-01-01.json`, `clp_category_h_eu_…`, `clp_annex_vi_codes_eu_…` | Annex I label-table P lists and class/category → H map; Annex VI class/category codes | same | **built** |
+| `data/legal/gb_mcl.json` | GB mandatory classification and labelling list (GB MCL), per CAS | HSE (to retrieve) | yes (OGL), once retrieved |
 | `data/legal/clp_annex_iii_iv_gb.json` | GB equivalents | legislation.gov.uk (GB CLP) | yes (OGL) |
 | `data/legal/reach_annex_ii_{eu,gb}.json` | subsection titles and duties | EU 2020/878; GB REACH Annex II | yes |
-| `data/legal/osha_app_c.json`, `osha_app_d.json` | US P-statement wording and conditions; SDS sections | osha.gov HTML (FR citations recorded) | to verify (3.3) |
+| `data/legal/osha_app_c.json`, `osha_app_d.json` | US P-statement wording and conditions; SDS sections | eCFR 29 CFR 1910.1200 | yes (US federal law); checker only while US drafts are out of scope |
 | `data/legal/eh40_2005_4th_2020.json` | GB WELs | HSE EH40/2005, 4th ed. 2020 | yes (OGL) |
 | `data/legal/eu_oels_*.json` | BOELV/IOELV tables | 2004/37 consol. 2024-04-08; IOELV directives; 2026/2450 | yes, see 3.3 |
-| `data/legal/osha_z_tables.json` | US PELs | eCFR 1910.1000 | to verify (3.3) |
+| `data/legal/osha_z_tables.json` | US PELs | eCFR 1910.1000 | yes (US federal law) |
 | `data/legal/hsg53_filters.json` | filter types | HSE HSG53 4th ed. 2013, Table 7 | yes (OGL) |
-| `data/reference.sqlite` | ICSC/CAMEO/NIOSH/PubChem records by CAS, with snapshot dates | built by `tools/refresh_reference.py` from the current lookup snapshots | **no**: built and kept locally (see 3.3) |
+| `data/reference.sqlite` | ICSC/CAMEO/NIOSH/PubChem records by CAS, with snapshot dates | built by `tools/refresh_reference.py` on the user's computer | **no**: local only (see 3.3) |
+| `data/reference_open.json` | NIOSH Pocket Guide records; PubChem identifiers and computed fields only (CID, molecular formula) | CDC/NIOSH (public domain); PubChem (NCBI) | yes |
 | `checklist/checklist.csv` | full checklist (all columns A-G) | Sheet Checklist tab, synced when online | yes |
 
 `tools/refresh_reference.py` (run when online) re-queries the sources for a CAS list, writes new dated snapshots into
@@ -100,19 +105,20 @@ from this environment; nothing below is from memory.
 | legislation.gov.uk (GB CLP, GB REACH) | "All content is available under the Open Government Licence v3.0 except where otherwise stated"; EUR-Lex-derived content "reused under the terms of the Commission Decision 2011/833/EU" | yes | bundle with OGL attribution |
 | HSE (EH40, HSG53) | Crown material may be re-used "free of charge in any format or medium, under the terms of the Open Government Licence"; preferred acknowledgement "Contains public sector information published by the Health and Safety Executive and licensed under the Open Government Licence"; some images may not be Crown-owned | yes | bundle extracted tables with that acknowledgement |
 | CDC / NIOSH Pocket Guide | "Most of the information on the CDC and ATSDR websites is not subject to copyright, is in the public domain … There are, however, a few exceptions" (contractor/grantee or third-party material) | yes (CDC-wide policy; no NPG-specific exception found) | eligible to bundle; keep the source and date per record |
-| ICSC (ILO/WHO) | ILO pages: "© 1996-2018 International Labour Organization (ILO) \| Copyright and permissions" (the ILO terms page was not reachable); WHO INCHEM: "© World Health Organization All rights reserved" | partly | **do not bundle** in the repo; the user's refresh script builds a local copy on the user's own computer; ask ILO/WHO for permission if the tool is ever shared |
-| CAMEO Chemicals (NOAA) | no reuse statement found on the help pages read; datasheets include the NFPA diamond (third-party content) | no | treat as not verified: local copy only, no NFPA ratings stored |
-| PubChem (NCBI) | policy pages not readable from here | no | local copy only (only molecular formulas are used) |
-| EUR-Lex / Publications Office | legal-notice page returned no content (bot protection); reuse basis known only via legislation.gov.uk's reference to Decision 2011/833/EU | no (indirect) | bundle extracted EU tables with source attribution once the user confirms; see open question |
-| eCFR / OSHA | legal-status page not reachable (redirect to unblock.federalregister.gov) | no | as EUR-Lex: confirm before bundling |
+| ICSC (ILO/WHO) | ILO pages: "© 1996-2018 International Labour Organization (ILO) \| Copyright and permissions"; WHO INCHEM: "© World Health Organization All rights reserved" | user decision 28 Nov 2026 | **local only**: the refresh script builds a copy on the user's computer; never in the repository |
+| CAMEO Chemicals (NOAA) | datasheets include the NFPA diamond (third-party content) | user decision 28 Nov 2026 | **do not bundle**: local-only cache, or a manual lookup in NOAA's official offline CAMEO Chemicals app; no NFPA ratings stored |
+| PubChem (NCBI) | verified by the user | user, 28 Nov 2026 | bundle **only NCBI identifiers and computed fields** (CID, molecular formula); no depositor-contributed text |
+| EUR-Lex / Publications Office | Commission reuse policy, verified by the user: credit the source and mark changes | user, 28 Nov 2026 | **bundle**; each table carries the source, CELEX, date and "changes: extracted and restructured; wording unchanged" |
+| eCFR / OSHA | US federal law, verified by the user | user, 28 Nov 2026 | **bundle** |
 | GESTIS (IFA/DGUV) | site is a script application; terms not readable | no | stays a manual link |
 | ECHA (CHEM, C&L) | refuses automated access | n/a | stays manual |
 | ACGIH TLVs | licensed | n/a | stays manual (agreed) |
-| eSDScom phrase catalogue | licence not confirmed by the user | n/a | not used (agreed), see open question on SDS-Phrases |
+| eSDScom phrase catalogue | no licence (user, 28 Nov 2026) | n/a | **not used**: own phrase library (section 7) |
 
-**Existing issue to decide now:** the public repository already contains ICSC and CAMEO text excerpts in
-`regression/lookups/` (4 supplier cases). Given the ICSC "All rights reserved" notice, propose moving these snapshots
-to the git-ignored `local/` folder (CI uses only synthetic cases, which have no lookups).
+**Resolved 28 Nov 2026:** the ICSC and CAMEO snapshots moved from `regression/lookups/` to the git-ignored `local/`
+folder, and quoted sentences in docs and tests were paraphrased. Earlier commits still contain them, so the git history
+must be rewritten (or a fresh repository published from the cleaned tree) before this repository is made public again.
+The repository is now private.
 
 ### 3.4 Packaging and updates
 
@@ -145,6 +151,9 @@ Repository read: `ConorTttttt/Classification` (commit `be42ceb`), read-only, not
 - Explicit limits it documents: physical hazards other than flammable liquids are not calculated (manual entries);
   Article 28 uses "a LIMITED initial catalogue of 21 verified Annex IV P-statement codes" and shows "at most six ranked
   candidates"; bridging principles and tested-mixture data are not modelled.
+- Verified 28 Nov 2026 (`docs/calculator_verification.md`): no ineligible statements, but required statements missing
+  for 57 of the 62 calculated class/category rows. Proposed fix: ConorTttttt/Classification#46 (full Annex IV Part 1
+  table keyed by hazard class and category; not merged). Signal word and Article 26 precedence: no findings.
 - Input: the calculator's saved file `{ "app": "clp-mixture-calculator", "version": 1, "mixture": {...} }`, with
   ingredients `{name, cas, pct, hcodes, hcodeDetails, acute{…}, skinCorr, eye, …, scl{}}`.
 - A separate Python prototype in the same repository (`labelling-packaging-assistant/`) takes an already-approved
@@ -155,9 +164,9 @@ Repository read: `ConorTttttt/Classification` (commit `be42ceb`), read-only, not
 The engine is JavaScript and the checker is Python, so a direct library call is not possible without embedding Node.
 Proposal: **a versioned JSON file (`classification.json`) is the contract**, produced in one of two ways:
 
-1. *Preferred:* an "Export for SDS" button added to the calculator (a small change in the user's repository, only with
-   approval) that writes the result of `classify()` plus `selectArticle28()` candidates to `classification.json`.
-   Fully offline, no Node needed.
+1. *Preferred (approved in principle):* an "Export for SDS" button in the calculator, proposed as
+   ConorTttttt/Classification#47 (not merged). It writes `<mixture>.sds-classification.json` from `classify()`,
+   including every `selectArticle28()` candidate with its decision. Fully offline, no Node needed.
 2. *Fallback:* `tools/engine_bridge.js` (in this repository) runs `classify()` on a `.clpmix.json` under Node 18+ with
    the engine file from a pinned commit of the user's repository.
 
@@ -166,25 +175,38 @@ Proposal: **a versioned JSON file (`classification.json`) is the contract**, pro
 ```json
 {
   "schema": "sds-classification/1",
-  "engine": {"repo": "ConorTttttt/Classification", "commit": "be42ceb", "module": "verification/engine.js"},
+  "generated": "2026-11-28T10:00:00Z",
+  "status": "DRAFT: calculator output for review by a competent person; not a final classification or label",
+  "engine": {"name": "clp-mixture-calculator", "repo": "ConorTttttt/Classification", "commit": null, "module": "verification/engine.js"},
   "jurisdiction": "EU",
-  "mixture": {"name": "…", "physical_state": "liquid", "flash_point_c": 23, "ph": null},
+  "mixture": {"name": "…", "physical_state": "liquid", "flash_point_c": 23, "initial_boiling_point_c": null, "ph": null,
+              "audience": "professional", "intended_use": "…"},
+  "ingredients": [{"name": "…", "cas": "…", "pct": 60, "h": ["H225", "H319"]}],
   "classification": [
-    {"class": "Flam. Liq.", "category": "2", "h": "H225", "basis": "calculated|manual", "trail_ref": "…"}
+    {"class": "Flam. Liq.", "category": "2", "qualifier": null, "label": "Flam. Liq. 2", "h": ["H225"],
+     "signal_word": "Danger", "pictograms": ["GHS02"], "basis": "calculated|manual", "hazard_id": "flam"}
   ],
+  "trail": [{"hazard_id": "flam", "hazard": "…", "status": "classified", "ref": "…", "steps": ["…"]}],
   "label": {
     "signal_word": "Danger",
-    "pictograms": ["GHS02", "GHS07"],
+    "pictograms": ["GHS02", "GHS07"], "pictograms_omitted": [],
     "hazard_statements": ["H225", "H319"],
     "euh_statements": [],
-    "omitted_hazard_statements": [{"code": "H318", "overridden_by": "H314", "basis": "Annex III Part 1(b)"}],
+    "omitted_hazard_statements": [{"code": "H318", "overridden_by": "H314", "basis": "CLP Annex III Part 1(b)"}],
     "p_statements_selected": ["P210", "P280", "P305+P351+P338"],
-    "p_statements_candidates": [{"code": "P233", "decision": "not selected", "legalStatus": "candidate"}]
+    "p_statements_candidates": [{"code": "P233", "text": "…", "decision": "condition pending", "legalStatus": "candidate",
+                                 "conditionKind": "conditional", "condition": "— if the liquid is volatile …",
+                                 "basis": "Annex IV Part 1, Table 6.2", "triggeredBy": ["Flam. Liq. 2 (flammable_liquids 2)"]}],
+    "p_review": [{"severity": "review", "code": "P233", "reason": "…"}]
   },
-  "warnings": ["…engine warnings verbatim…"],
+  "sds_notes": [], "notes": [], "warnings": ["…engine warnings verbatim…"], "incomplete": [], "nodata": [],
   "manual_classifications": []
 }
 ```
+
+Candidate `decision` values (with #46): `proposed`, `not selected`, `redundant`, `excluded`, `condition pending`,
+`class to confirm`. The adapter treats only `proposed` as the label set; `condition pending` and `class to confirm`
+become "needs data" items, never silent inclusions. `conditionKind` is absent on main (before #46).
 
 The adapter (`tools/adapters/clp_calculator.py`) reads this file, validates it, and maps it to the recommender's
 internal input. It never recalculates a classification.
@@ -199,7 +221,7 @@ internal input. It never recalculates a classification.
   the six on the label (Annex II requires consistency with the classification). These sections are driven by the full
   classification and the bundled Annex IV conditions table.
 
-### 4.4 One-off audit (after approval; findings reported, neither engine changed)
+### 4.4 One-off audit (step 1 done 28 Nov 2026: `docs/calculator_verification.md`; fixes proposed in #46, not merged)
 
 1. **P-selection given the same classification.** For each of the 27 cases (4 supplier, 15 synthetic, 8 blind), feed
    the SDS's own Section 2 classification to `selectArticle28()` (and to the Python assistant's policy), and compare
@@ -213,7 +235,21 @@ internal input. It never recalculates a classification.
 
 The browser calculator already runs offline ("Works offline, no AI or installation required"); its optional Gemini
 features are online-only and are not used. Node 18+ is needed only for the fallback bridge. Pictogram files
-(`pictograms/`) are needed for rendering only. The engine covers EU CLP only (see open questions for GB and US).
+(`pictograms/`) are needed for rendering only. The engine covers EU CLP only (4.6).
+
+### 4.6 Jurisdictions (user decisions, 28 Nov 2026)
+
+- **EU:** engine classification used as exported.
+- **GB:** the EU classification may be used, with these checks, each reported in the draft:
+  1. A warning on every GB draft: "Classification calculated under EU CLP; confirm against GB CLP and the GB MCL."
+  2. **Per-ingredient GB MCL check:** each CAS in `ingredients` is looked up in the bundled GB mandatory classification
+     and labelling list (`data/legal/gb_mcl.json`, HSE, OGL). Where the GB MCL entry differs from the ingredient's EU
+     hazard codes, or the ingredient has no GB MCL entry but an EU harmonised entry, the item is flagged.
+  3. **EU-only hazard classes:** any ED HH/ED ENV, PBT/vPvB or PMT/vPvM outcome (EUH380-EUH451) is flagged and kept off
+     the GB draft. The GB CLP Annex III text read from legislation.gov.uk (27 Nov 2026) contains none of those codes.
+  4. **EU-only harmonised entries:** EU Annex VI entries with no GB MCL counterpart are flagged (from check 2).
+  The GB MCL file is not yet retrieved; until it is, checks 2 and 4 report "not run".
+- **US:** out of scope for the recommender until there is a US classification source. The checker keeps its US rules.
 
 ## 5. Formulation input format
 
@@ -295,6 +331,7 @@ all sections) and re-verified by the closed loop; D rows belong to stage 2 (refe
 
 ## 7. Phrase library
 
+Own wording only: no eSDScom licence (user, 28 Nov 2026), so the SDS-Phrases catalogue is not used.
 Location: `phrases/` in this repository, one JSON file per section, plus `phrases/README.md` with the governance rules.
 Official H/P wording is **not** in the phrase library: it is read from the bundled Annex III/IV/App C tables, so it
 cannot drift.
@@ -304,7 +341,7 @@ cannot drift.
   "id": "S7.1-HYG-001",
   "section": "7.1",
   "text": {"EU": "Do not eat, drink or smoke in work areas. Wash hands after use. Remove contaminated clothing and protective equipment before entering eating areas.",
-           "GB": "= EU", "US": "= EU"},
+           "GB": "= EU"},
   "triggers": {"always": true},
   "satisfies": ["7-A5"],
   "source": {"type": "own wording", "basis": "REACH Annex II 7.1.2 (examples)", "legal_ref": "data/legal/reach_annex_ii_eu.json#7.1.2"},
@@ -348,7 +385,7 @@ cannot drift.
 |---|---|---|
 | Unit tests | rule inversions, phrase-library validation, adapter schema | all pass in CI |
 | Closed loop | each test case's classification → draft → checker | 0 fails; warnings reviewed |
-| Supplier comparison | 4 supplier + 8 blind + the 5 holdout SDSs (real) | per subsection: "must include" items the supplier also has; items the supplier is missing (checker findings); supplier statements the draft lacks (reviewed: our gap or supplier extra) |
+| Supplier comparison | EU/GB supplier + blind + the 5 holdout SDSs (real; US cases excluded) | per subsection: "must include" items the supplier also has; items the supplier is missing (checker findings); supplier statements the draft lacks (reviewed: our gap or supplier extra) |
 | Engine path | same real SDSs, formulation from Section 3 → engine → draft | differences caused by classification differences reported separately from recommender differences |
 | Synthetic | 15 synthetic cases (classification given) | 0 fails; every B-row trigger represented |
 | Holdout | fresh SDSs not used for design | reported before any tuning, same as the checker's holdout rule |
@@ -367,34 +404,22 @@ Real-SDS reports and drafts quote supplier documents and stay in `local/`.
   P280/P284/P283/P282 conditions and HSG53 filter types; glove material and breakthrough time remain "needs data"
   (manufacturer data, EN ISO 374 is paid).
 
-## 12. Open questions for the user
+## 12. Decisions (28 Nov 2026)
 
-1. **Engine repository.** Your message named "[owner/repo]". I used `ConorTttttt/Classification` (it matches the
-   description). Correct?
-2. **Adapter route.** May I propose an "Export for SDS" button (results JSON) in the calculator, as a separate change for
-   your approval in that repository? Or should the recommender rely on the Node bridge only?
-3. **GB and US.** The engine implements EU CLP only. For GB, CLP Annex I/III/IV is identical to the EU for the codes
-   verified so far, so EU results could be used with a GB label; is that acceptable, with a warning? For US, HazCom
-   classification differs (e.g. Eye 2A/2B, Flam. Liq. 4, no EUH); should US drafts wait for a US classification source,
-   or accept a manually entered US classification?
-4. **Physical hazards** other than flammable liquids are manual in the engine. Should the formulation file carry the
-   manual physical classification, or should these be entered in the calculator (its "Manual classifications")?
-5. **Label P-statements.** Confirm the split in 4.3: the label shows the engine's selection; Sections 4-7 and 10 use the
-   full Annex IV conditions table, and extra Annex IV candidates are listed for review, not added to the label.
-6. **The labelling-packaging-assistant** (same repository) has a separate 27-entry Annex IV policy. Should the audit
-   include it, and is it meant to replace the calculator's Article 28 selection later?
-7. **Phrase library vs SDS-Phrases.** Your `SDS-Phrases` repository is an offline phrase engine built on the eSDScom 5.5
-   catalogue. Do you hold an eSDScom licence that allows that use? If yes, should the recommender read its SQLite
-   catalogue (stage 1 free text) instead of building a separate library? If no, I build the own-wording library as
-   described in section 7.
-8. **ICSC excerpts already in the public repository** (`regression/lookups/`). Move them to `local/` now?
-9. **EUR-Lex and eCFR tables.** Their reuse pages could not be read here. Bundle the extracted EU (via the reuse
-   decision cited by legislation.gov.uk) and US federal tables now, or wait until the terms are read?
-10. **US P-statement wording.** OSHA App C is published as images in eCFR and as HTML on osha.gov (read via the fetch
-    agent, quotes limited to 125 characters). Is the osha.gov HTML acceptable as the bundled source?
-11. **Strong peroxide formers** (`config/reference_gating.json`): which source should define the list? Prudent Practices
-    (NAP) could not be fetched here. Also: below 1 %, peroxide-forming data still give a warning, while 1-10 % now gives
-    info unless EUH019 or listed. Should the below-1 % rule follow the same condition?
-12. **Packaging.** CLI + static HTML report (section 3.4): acceptable, or do you want a local web page from the start?
-13. **Repository visibility.** This repository is public. The tool and bundles will contain only material whose licence
-    allows it (section 3.3); confirm that is the intent, or should the repository become private?
+Answers from the user are marked **user**; the others are Claude's recommendations, to stand unless the user corrects them.
+
+| # | Question | Decision |
+|---|---|---|
+| 1 | Engine repository | **user:** ConorTttttt/Classification |
+| 2 | Adapter route | **user:** propose the Export for SDS button for review; done as ConorTttttt/Classification#47 (not merged). The Node bridge stays a fallback. |
+| 3 | GB and US | **user:** GB uses the EU classification with a warning, a per-ingredient GB MCL check and flags for EU-only hazard classes and harmonised entries (4.6). US is out of scope for the recommender until there is a US classification source; the checker keeps its US rules. |
+| 4 | Physical hazards other than flammable liquids | Recommendation: enter them in the calculator as manual classifications **using the Annex VI codes** (e.g. "Org. Perox. CD", "Press. Gas" with H280), so #46 can pick the right Annex IV rows. They then reach the recommender through the export. The formulation file does not repeat the classification; it carries only `facts` such as the control temperature. |
+| 5 | Label vs Sections 4-7 and 10 | Recommendation: confirm the split in 4.3. The 2.2 label shows the engine's `proposed` set. Sections 4-7 and 10 use every eligible Annex IV statement, including `not selected` and confirmed `condition pending` ones. Candidates beyond the six are listed for review, never added to the label by the recommender. |
+| 6 | labelling-packaging-assistant | Recommendation: leave it out of the recommender and out of stage 1. Its 27-entry policy duplicates Article 28. If it is kept, it should read the same `data/legal` Annex IV table as #46. Whether it replaces the calculator's selection is the user's call. |
+| 7 | Phrase library | **user:** no eSDScom licence; build our own library (section 7). |
+| 8 | ICSC/CAMEO excerpts in the repository | Done: moved to `local/`; history rewrite needed before any public release (3.3). |
+| 9 | EUR-Lex and eCFR tables | **user:** both may be bundled (EUR-Lex with credit and marked changes). The CLP tables are built (`data/legal/`). |
+| 10 | US P-statement wording source | Recommendation: eCFR 29 CFR 1910.1200 App C as the bundled source, now that eCFR may be bundled. It is used by the checker only while US drafts are out of scope. Where eCFR prints App C as images, the osha.gov HTML is a reading aid, and every code is checked against the eCFR page. |
+| 11 | Strong peroxide formers; below-1 % rule | **user:** the list will be populated from the Prudent Practices table the user uploads, with citations. Recommendation for the below-1 % rule: use the same condition as 1-10 % (warning only with EUH019 or a listed strong peroxide former, otherwise info). Today a 0.5 % ingredient can get a stronger finding than a 5 % one. Change it together with the list, and update the frozen expectations. |
+| 12 | Packaging | Recommendation: keep the CLI plus static HTML report (3.4). |
+| 13 | Repository visibility | **user:** private now. The tool and bundles still hold only material whose licence allows it, so the repository could later be published from a cleaned history. |

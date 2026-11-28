@@ -1,0 +1,937 @@
+{
+ "source": "Regulation (EC) No 1272/2008 (CLP), consolidated version 2027-01-01",
+ "celex": "02008R1272-20270101",
+ "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:02008R1272-20270101",
+ "retrieved": "2026-11-27",
+ "source_sha256": "6f1a4c4489786b879de5e1e3a73418ce379e773d45ec711747842a5caeeb1209",
+ "built": "2026-11-28",
+ "reuse": "EU legal text reused with credit to the source (EUR-Lex). Changes: extracted from the consolidated text and restructured as JSON; statement wording unchanged.",
+ "part": "Annex I label-element tables: hazard class + category -> hazard statement codes",
+ "entries": [
+  {
+   "class_key": "explosives",
+   "category": "Unstable explosive",
+   "h": [
+    "H200"
+   ],
+   "source": "Table 2.1.2 Label elements for explosives"
+  },
+  {
+   "class_key": "explosives",
+   "category": "1.1",
+   "h": [
+    "H201"
+   ],
+   "source": "Table 2.1.2 Label elements for explosives"
+  },
+  {
+   "class_key": "explosives",
+   "category": "1.2",
+   "h": [
+    "H202"
+   ],
+   "source": "Table 2.1.2 Label elements for explosives"
+  },
+  {
+   "class_key": "explosives",
+   "category": "1.3",
+   "h": [
+    "H203"
+   ],
+   "source": "Table 2.1.2 Label elements for explosives"
+  },
+  {
+   "class_key": "explosives",
+   "category": "1.4",
+   "h": [
+    "H204"
+   ],
+   "source": "Table 2.1.2 Label elements for explosives"
+  },
+  {
+   "class_key": "explosives",
+   "category": "1.5",
+   "h": [
+    "H205"
+   ],
+   "source": "Table 2.1.2 Label elements for explosives"
+  },
+  {
+   "class_key": "oxidising_gases",
+   "category": "1",
+   "h": [
+    "H270"
+   ],
+   "source": "Table 2.4.2 Label elements for oxidising gases"
+  },
+  {
+   "class_key": "gases_under_pressure",
+   "category": "Compressed gas",
+   "h": [
+    "H280"
+   ],
+   "source": "Table 2.5.2 Label elements for gases under pressure"
+  },
+  {
+   "class_key": "gases_under_pressure",
+   "category": "Liquefied gas",
+   "h": [
+    "H280"
+   ],
+   "source": "Table 2.5.2 Label elements for gases under pressure"
+  },
+  {
+   "class_key": "gases_under_pressure",
+   "category": "Refrigerated liquefied gas",
+   "h": [
+    "H281"
+   ],
+   "source": "Table 2.5.2 Label elements for gases under pressure"
+  },
+  {
+   "class_key": "gases_under_pressure",
+   "category": "Dissolved gas",
+   "h": [
+    "H280"
+   ],
+   "source": "Table 2.5.2 Label elements for gases under pressure"
+  },
+  {
+   "class_key": "flammable_liquids",
+   "category": "1",
+   "h": [
+    "H224"
+   ],
+   "source": "Table 2.6.2 Label elements for flammable liquids"
+  },
+  {
+   "class_key": "flammable_liquids",
+   "category": "2",
+   "h": [
+    "H225"
+   ],
+   "source": "Table 2.6.2 Label elements for flammable liquids"
+  },
+  {
+   "class_key": "flammable_liquids",
+   "category": "3",
+   "h": [
+    "H226"
+   ],
+   "source": "Table 2.6.2 Label elements for flammable liquids"
+  },
+  {
+   "class_key": "flammable_solids",
+   "category": "1",
+   "h": [
+    "H228"
+   ],
+   "source": "Table 2.7.2 Label elements for flammable solids"
+  },
+  {
+   "class_key": "flammable_solids",
+   "category": "2",
+   "h": [
+    "H228"
+   ],
+   "source": "Table 2.7.2 Label elements for flammable solids"
+  },
+  {
+   "class_key": "self_reactive",
+   "category": "A",
+   "h": [
+    "H240"
+   ],
+   "source": "Table 2.8.1 Label elements for self-reactive substances and mixtures"
+  },
+  {
+   "class_key": "self_reactive",
+   "category": "B",
+   "h": [
+    "H241"
+   ],
+   "source": "Table 2.8.1 Label elements for self-reactive substances and mixtures"
+  },
+  {
+   "class_key": "self_reactive",
+   "category": "C",
+   "h": [
+    "H242"
+   ],
+   "source": "Table 2.8.1 Label elements for self-reactive substances and mixtures"
+  },
+  {
+   "class_key": "self_reactive",
+   "category": "D",
+   "h": [
+    "H242"
+   ],
+   "source": "Table 2.8.1 Label elements for self-reactive substances and mixtures"
+  },
+  {
+   "class_key": "self_reactive",
+   "category": "E",
+   "h": [
+    "H242"
+   ],
+   "source": "Table 2.8.1 Label elements for self-reactive substances and mixtures"
+  },
+  {
+   "class_key": "self_reactive",
+   "category": "F",
+   "h": [
+    "H242"
+   ],
+   "source": "Table 2.8.1 Label elements for self-reactive substances and mixtures"
+  },
+  {
+   "class_key": "pyrophoric_liquids",
+   "category": "1",
+   "h": [
+    "H250"
+   ],
+   "source": "Table 2.9.2 Label elements for pyrophoric liquids"
+  },
+  {
+   "class_key": "pyrophoric_solids",
+   "category": "1",
+   "h": [
+    "H250"
+   ],
+   "source": "Table 2.10.2 Label elements for pyrophoric solids"
+  },
+  {
+   "class_key": "self_heating",
+   "category": "1",
+   "h": [
+    "H251"
+   ],
+   "source": "Table 2.11.2 Label elements for self-heating substances and mixtures"
+  },
+  {
+   "class_key": "self_heating",
+   "category": "2",
+   "h": [
+    "H252"
+   ],
+   "source": "Table 2.11.2 Label elements for self-heating substances and mixtures"
+  },
+  {
+   "class_key": "water_reactive",
+   "category": "1",
+   "h": [
+    "H260"
+   ],
+   "source": "Table 2.12.2 Label elements for substances and mixtures which in contact with wa"
+  },
+  {
+   "class_key": "water_reactive",
+   "category": "2",
+   "h": [
+    "H261"
+   ],
+   "source": "Table 2.12.2 Label elements for substances and mixtures which in contact with wa"
+  },
+  {
+   "class_key": "water_reactive",
+   "category": "3",
+   "h": [
+    "H261"
+   ],
+   "source": "Table 2.12.2 Label elements for substances and mixtures which in contact with wa"
+  },
+  {
+   "class_key": "oxidising_liquids",
+   "category": "1",
+   "h": [
+    "H271"
+   ],
+   "source": "Table 2.13.2 Label elements for oxidising liquids"
+  },
+  {
+   "class_key": "oxidising_liquids",
+   "category": "2",
+   "h": [
+    "H272"
+   ],
+   "source": "Table 2.13.2 Label elements for oxidising liquids"
+  },
+  {
+   "class_key": "oxidising_liquids",
+   "category": "3",
+   "h": [
+    "H272"
+   ],
+   "source": "Table 2.13.2 Label elements for oxidising liquids"
+  },
+  {
+   "class_key": "organic_peroxides",
+   "category": "A",
+   "h": [
+    "H240"
+   ],
+   "source": "Table 2.15.1 Label elements for organic peroxides"
+  },
+  {
+   "class_key": "organic_peroxides",
+   "category": "B",
+   "h": [
+    "H241"
+   ],
+   "source": "Table 2.15.1 Label elements for organic peroxides"
+  },
+  {
+   "class_key": "organic_peroxides",
+   "category": "C",
+   "h": [
+    "H242"
+   ],
+   "source": "Table 2.15.1 Label elements for organic peroxides"
+  },
+  {
+   "class_key": "organic_peroxides",
+   "category": "D",
+   "h": [
+    "H242"
+   ],
+   "source": "Table 2.15.1 Label elements for organic peroxides"
+  },
+  {
+   "class_key": "organic_peroxides",
+   "category": "E",
+   "h": [
+    "H242"
+   ],
+   "source": "Table 2.15.1 Label elements for organic peroxides"
+  },
+  {
+   "class_key": "organic_peroxides",
+   "category": "F",
+   "h": [
+    "H242"
+   ],
+   "source": "Table 2.15.1 Label elements for organic peroxides"
+  },
+  {
+   "class_key": "corrosive_to_metals",
+   "category": "1",
+   "h": [
+    "H290"
+   ],
+   "source": "Table 2.16.2 Label elements for substances and mixtures corrosive to metals"
+  },
+  {
+   "class_key": "mutagenicity",
+   "category": "1",
+   "h": [
+    "H340"
+   ],
+   "source": "Table 3.5.3 Label elements of germ cell mutagenicity"
+  },
+  {
+   "class_key": "mutagenicity",
+   "category": "1A",
+   "h": [
+    "H340"
+   ],
+   "source": "Table 3.5.3 Label elements of germ cell mutagenicity"
+  },
+  {
+   "class_key": "mutagenicity",
+   "category": "1B",
+   "h": [
+    "H340"
+   ],
+   "source": "Table 3.5.3 Label elements of germ cell mutagenicity"
+  },
+  {
+   "class_key": "mutagenicity",
+   "category": "2",
+   "h": [
+    "H341"
+   ],
+   "source": "Table 3.5.3 Label elements of germ cell mutagenicity"
+  },
+  {
+   "class_key": "carcinogenicity",
+   "category": "1",
+   "h": [
+    "H350"
+   ],
+   "source": "Table 3.6.3 Label elements for carcinogenicity"
+  },
+  {
+   "class_key": "carcinogenicity",
+   "category": "1A",
+   "h": [
+    "H350"
+   ],
+   "source": "Table 3.6.3 Label elements for carcinogenicity"
+  },
+  {
+   "class_key": "carcinogenicity",
+   "category": "1B",
+   "h": [
+    "H350"
+   ],
+   "source": "Table 3.6.3 Label elements for carcinogenicity"
+  },
+  {
+   "class_key": "carcinogenicity",
+   "category": "2",
+   "h": [
+    "H351"
+   ],
+   "source": "Table 3.6.3 Label elements for carcinogenicity"
+  },
+  {
+   "class_key": "reproductive_toxicity",
+   "category": "1",
+   "h": [
+    "H360"
+   ],
+   "source": "Table 3.7.3 Label elements for reproductive toxicity"
+  },
+  {
+   "class_key": "reproductive_toxicity",
+   "category": "1A",
+   "h": [
+    "H360"
+   ],
+   "source": "Table 3.7.3 Label elements for reproductive toxicity"
+  },
+  {
+   "class_key": "reproductive_toxicity",
+   "category": "1B",
+   "h": [
+    "H360"
+   ],
+   "source": "Table 3.7.3 Label elements for reproductive toxicity"
+  },
+  {
+   "class_key": "reproductive_toxicity",
+   "category": "2",
+   "h": [
+    "H361"
+   ],
+   "source": "Table 3.7.3 Label elements for reproductive toxicity"
+  },
+  {
+   "class_key": "lactation",
+   "category": "Additional category",
+   "h": [
+    "H362"
+   ],
+   "source": "Table 3.7.3 Label elements for reproductive toxicity"
+  },
+  {
+   "class_key": "stot_se",
+   "category": "1",
+   "h": [
+    "H370"
+   ],
+   "source": "Table 3.8.4 Label elements for specific target organ toxicity after single expos"
+  },
+  {
+   "class_key": "stot_se",
+   "category": "2",
+   "h": [
+    "H371"
+   ],
+   "source": "Table 3.8.4 Label elements for specific target organ toxicity after single expos"
+  },
+  {
+   "class_key": "stot_re",
+   "category": "1",
+   "h": [
+    "H372"
+   ],
+   "source": "Table 3.9.5 Label elements for specific target organ toxicity after repeated exp"
+  },
+  {
+   "class_key": "stot_re",
+   "category": "2",
+   "h": [
+    "H373"
+   ],
+   "source": "Table 3.9.5 Label elements for specific target organ toxicity after repeated exp"
+  },
+  {
+   "class_key": "aspiration",
+   "category": "1",
+   "h": [
+    "H304"
+   ],
+   "source": "Table 3.10.2 Aspiration toxicity label elements"
+  },
+  {
+   "class_key": "ed_human_health",
+   "category": "1",
+   "h": [
+    "EUH380"
+   ],
+   "source": "Table 3.11.3. Label elements of endocrine disruption for human health"
+  },
+  {
+   "class_key": "ed_human_health",
+   "category": "2",
+   "h": [
+    "EUH381"
+   ],
+   "source": "Table 3.11.3. Label elements of endocrine disruption for human health"
+  },
+  {
+   "class_key": "ed_environment",
+   "category": "1",
+   "h": [
+    "EUH430"
+   ],
+   "source": "Table 4.2.3. Label elements of endocrine disruption for the environment"
+  },
+  {
+   "class_key": "ed_environment",
+   "category": "2",
+   "h": [
+    "EUH431"
+   ],
+   "source": "Table 4.2.3. Label elements of endocrine disruption for the environment"
+  },
+  {
+   "class_key": "aerosols",
+   "category": "1",
+   "h": [
+    "H222",
+    "H229"
+   ],
+   "source": "Table 2.3.2"
+  },
+  {
+   "class_key": "aerosols",
+   "category": "2",
+   "h": [
+    "H223",
+    "H229"
+   ],
+   "source": "Table 2.3.2"
+  },
+  {
+   "class_key": "aerosols",
+   "category": "3",
+   "h": [
+    "H229"
+   ],
+   "source": "Table 2.3.2"
+  },
+  {
+   "class_key": "flammable_gases",
+   "category": "1A",
+   "h": [
+    "H220"
+   ],
+   "source": "Table 2.2.2"
+  },
+  {
+   "class_key": "flammable_gases",
+   "category": "Pyrophoric gas",
+   "h": [
+    "H220",
+    "H232"
+   ],
+   "source": "Table 2.2.2"
+  },
+  {
+   "class_key": "flammable_gases",
+   "category": "A",
+   "h": [
+    "H220",
+    "H230"
+   ],
+   "source": "Table 2.2.2 (chemically unstable gas A)"
+  },
+  {
+   "class_key": "flammable_gases",
+   "category": "B",
+   "h": [
+    "H220",
+    "H231"
+   ],
+   "source": "Table 2.2.2 (chemically unstable gas B)"
+  },
+  {
+   "class_key": "flammable_gases",
+   "category": "1B",
+   "h": [
+    "H221"
+   ],
+   "source": "Table 2.2.2"
+  },
+  {
+   "class_key": "flammable_gases",
+   "category": "2",
+   "h": [
+    "H221"
+   ],
+   "source": "Table 2.2.2"
+  },
+  {
+   "class_key": "oxidising_solids",
+   "category": "1",
+   "h": [
+    "H271"
+   ],
+   "source": "Table 2.14.2"
+  },
+  {
+   "class_key": "oxidising_solids",
+   "category": "2",
+   "h": [
+    "H272"
+   ],
+   "source": "Table 2.14.2"
+  },
+  {
+   "class_key": "oxidising_solids",
+   "category": "3",
+   "h": [
+    "H272"
+   ],
+   "source": "Table 2.14.2"
+  },
+  {
+   "class_key": "desensitised_explosives",
+   "category": "1",
+   "h": [
+    "H206"
+   ],
+   "source": "Table 2.17.2"
+  },
+  {
+   "class_key": "desensitised_explosives",
+   "category": "2",
+   "h": [
+    "H207"
+   ],
+   "source": "Table 2.17.2"
+  },
+  {
+   "class_key": "desensitised_explosives",
+   "category": "3",
+   "h": [
+    "H207"
+   ],
+   "source": "Table 2.17.2"
+  },
+  {
+   "class_key": "desensitised_explosives",
+   "category": "4",
+   "h": [
+    "H208"
+   ],
+   "source": "Table 2.17.2"
+  },
+  {
+   "class_key": "acute_oral",
+   "category": "1",
+   "h": [
+    "H300"
+   ],
+   "source": "Table 3.1.3"
+  },
+  {
+   "class_key": "acute_oral",
+   "category": "2",
+   "h": [
+    "H300"
+   ],
+   "source": "Table 3.1.3"
+  },
+  {
+   "class_key": "acute_oral",
+   "category": "3",
+   "h": [
+    "H301"
+   ],
+   "source": "Table 3.1.3"
+  },
+  {
+   "class_key": "acute_oral",
+   "category": "4",
+   "h": [
+    "H302"
+   ],
+   "source": "Table 3.1.3"
+  },
+  {
+   "class_key": "acute_dermal",
+   "category": "1",
+   "h": [
+    "H310"
+   ],
+   "source": "Table 3.1.3"
+  },
+  {
+   "class_key": "acute_dermal",
+   "category": "2",
+   "h": [
+    "H310"
+   ],
+   "source": "Table 3.1.3"
+  },
+  {
+   "class_key": "acute_dermal",
+   "category": "3",
+   "h": [
+    "H311"
+   ],
+   "source": "Table 3.1.3"
+  },
+  {
+   "class_key": "acute_dermal",
+   "category": "4",
+   "h": [
+    "H312"
+   ],
+   "source": "Table 3.1.3"
+  },
+  {
+   "class_key": "acute_inhalation",
+   "category": "1",
+   "h": [
+    "H330"
+   ],
+   "source": "Table 3.1.3"
+  },
+  {
+   "class_key": "acute_inhalation",
+   "category": "2",
+   "h": [
+    "H330"
+   ],
+   "source": "Table 3.1.3"
+  },
+  {
+   "class_key": "acute_inhalation",
+   "category": "3",
+   "h": [
+    "H331"
+   ],
+   "source": "Table 3.1.3"
+  },
+  {
+   "class_key": "acute_inhalation",
+   "category": "4",
+   "h": [
+    "H332"
+   ],
+   "source": "Table 3.1.3"
+  },
+  {
+   "class_key": "skin_corrosion",
+   "category": "1",
+   "h": [
+    "H314"
+   ],
+   "source": "Table 3.2.5"
+  },
+  {
+   "class_key": "skin_corrosion",
+   "category": "1A",
+   "h": [
+    "H314"
+   ],
+   "source": "Table 3.2.5"
+  },
+  {
+   "class_key": "skin_corrosion",
+   "category": "1B",
+   "h": [
+    "H314"
+   ],
+   "source": "Table 3.2.5"
+  },
+  {
+   "class_key": "skin_corrosion",
+   "category": "1C",
+   "h": [
+    "H314"
+   ],
+   "source": "Table 3.2.5"
+  },
+  {
+   "class_key": "skin_irritation",
+   "category": "2",
+   "h": [
+    "H315"
+   ],
+   "source": "Table 3.2.5"
+  },
+  {
+   "class_key": "eye_damage",
+   "category": "1",
+   "h": [
+    "H318"
+   ],
+   "source": "Table 3.3.5"
+  },
+  {
+   "class_key": "eye_irritation",
+   "category": "2",
+   "h": [
+    "H319"
+   ],
+   "source": "Table 3.3.5"
+  },
+  {
+   "class_key": "respiratory_sensitisation",
+   "category": "1",
+   "h": [
+    "H334"
+   ],
+   "source": "Table 3.4.7"
+  },
+  {
+   "class_key": "respiratory_sensitisation",
+   "category": "1A",
+   "h": [
+    "H334"
+   ],
+   "source": "Table 3.4.7"
+  },
+  {
+   "class_key": "respiratory_sensitisation",
+   "category": "1B",
+   "h": [
+    "H334"
+   ],
+   "source": "Table 3.4.7"
+  },
+  {
+   "class_key": "skin_sensitisation",
+   "category": "1",
+   "h": [
+    "H317"
+   ],
+   "source": "Table 3.4.7"
+  },
+  {
+   "class_key": "skin_sensitisation",
+   "category": "1A",
+   "h": [
+    "H317"
+   ],
+   "source": "Table 3.4.7"
+  },
+  {
+   "class_key": "skin_sensitisation",
+   "category": "1B",
+   "h": [
+    "H317"
+   ],
+   "source": "Table 3.4.7"
+  },
+  {
+   "class_key": "lactation",
+   "category": "Additional category",
+   "h": [
+    "H362"
+   ],
+   "source": "Table 3.7.3"
+  },
+  {
+   "class_key": "stot_se_3_resp",
+   "category": "3",
+   "h": [
+    "H335"
+   ],
+   "source": "Table 3.8.4"
+  },
+  {
+   "class_key": "stot_se_3_narc",
+   "category": "3",
+   "h": [
+    "H336"
+   ],
+   "source": "Table 3.8.4"
+  },
+  {
+   "class_key": "aquatic_acute",
+   "category": "1",
+   "h": [
+    "H400"
+   ],
+   "source": "Table 4.1.4"
+  },
+  {
+   "class_key": "aquatic_chronic",
+   "category": "1",
+   "h": [
+    "H410"
+   ],
+   "source": "Table 4.1.4"
+  },
+  {
+   "class_key": "aquatic_chronic",
+   "category": "2",
+   "h": [
+    "H411"
+   ],
+   "source": "Table 4.1.4"
+  },
+  {
+   "class_key": "aquatic_chronic",
+   "category": "3",
+   "h": [
+    "H412"
+   ],
+   "source": "Table 4.1.4"
+  },
+  {
+   "class_key": "aquatic_chronic",
+   "category": "4",
+   "h": [
+    "H413"
+   ],
+   "source": "Table 4.1.4"
+  },
+  {
+   "class_key": "ozone",
+   "category": "1",
+   "h": [
+    "H420"
+   ],
+   "source": "Table 5.2"
+  },
+  {
+   "class_key": "pbt",
+   "category": "PBT",
+   "h": [
+    "EUH440"
+   ],
+   "source": "Table 4.3.x (PBT/vPvB)"
+  },
+  {
+   "class_key": "pbt",
+   "category": "vPvB",
+   "h": [
+    "EUH441"
+   ],
+   "source": "Table 4.3.x (PBT/vPvB)"
+  },
+  {
+   "class_key": "pmt",
+   "category": "PMT",
+   "h": [
+    "EUH450"
+   ],
+   "source": "Table 4.4.x (PMT/vPvM)"
+  },
+  {
+   "class_key": "pmt",
+   "category": "vPvM",
+   "h": [
+    "EUH451"
+   ],
+   "source": "Table 4.4.x (PMT/vPvM)"
+  }
+ ]
+}

@@ -1,0 +1,702 @@
+{
+ "source": "Regulation (EC) No 1272/2008 (CLP), consolidated version 2027-01-01",
+ "celex": "02008R1272-20270101",
+ "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:02008R1272-20270101",
+ "retrieved": "2026-11-27",
+ "source_sha256": "6f1a4c4489786b879de5e1e3a73418ce379e773d45ec711747842a5caeeb1209",
+ "built": "2026-11-28",
+ "reuse": "EU legal text reused with credit to the source (EUR-Lex). Changes: extracted from the consolidated text and restructured as JSON; statement wording unchanged.",
+ "part": "Annex VI Part 1, Table 1.1: hazard class and category codes (Skin. Sens. read as Skin Sens.)",
+ "entries": [
+  {
+   "code": "Unst. Expl.",
+   "class_key": "explosives",
+   "categories": [
+    "Unstable explosive"
+   ]
+  },
+  {
+   "code": "Expl. 1.1",
+   "class_key": "explosives",
+   "categories": [
+    "1.1"
+   ]
+  },
+  {
+   "code": "Expl. 1.2",
+   "class_key": "explosives",
+   "categories": [
+    "1.2"
+   ]
+  },
+  {
+   "code": "Expl. 1.3",
+   "class_key": "explosives",
+   "categories": [
+    "1.3"
+   ]
+  },
+  {
+   "code": "Expl. 1.4",
+   "class_key": "explosives",
+   "categories": [
+    "1.4"
+   ]
+  },
+  {
+   "code": "Expl. 1.5",
+   "class_key": "explosives",
+   "categories": [
+    "1.5"
+   ]
+  },
+  {
+   "code": "Expl. 1.6",
+   "class_key": "explosives",
+   "categories": [
+    "1.6"
+   ]
+  },
+  {
+   "code": "Flam. Gas 1A",
+   "class_key": "flammable_gases",
+   "categories": [
+    "1A"
+   ]
+  },
+  {
+   "code": "Flam. Gas 1B",
+   "class_key": "flammable_gases",
+   "categories": [
+    "1B"
+   ]
+  },
+  {
+   "code": "Flam. Gas 2",
+   "class_key": "flammable_gases",
+   "categories": [
+    "2"
+   ]
+  },
+  {
+   "code": "Pyr. Gas",
+   "class_key": "flammable_gases",
+   "categories": [
+    "Pyrophoric gas"
+   ]
+  },
+  {
+   "code": "Chem. Unst. Gas A",
+   "class_key": "flammable_gases",
+   "categories": [
+    "A"
+   ]
+  },
+  {
+   "code": "Chem. Unst. Gas B",
+   "class_key": "flammable_gases",
+   "categories": [
+    "B"
+   ]
+  },
+  {
+   "code": "Aerosol 1",
+   "class_key": "aerosols",
+   "categories": [
+    "1"
+   ]
+  },
+  {
+   "code": "Aerosol 2",
+   "class_key": "aerosols",
+   "categories": [
+    "2"
+   ]
+  },
+  {
+   "code": "Aerosol 3",
+   "class_key": "aerosols",
+   "categories": [
+    "3"
+   ]
+  },
+  {
+   "code": "Ox. Gas 1",
+   "class_key": "oxidising_gases",
+   "categories": [
+    "1"
+   ]
+  },
+  {
+   "code": "Press. Gas",
+   "class_key": "gases_under_pressure",
+   "categories": [
+    "by H-code"
+   ]
+  },
+  {
+   "code": "Flam. Liq. 1",
+   "class_key": "flammable_liquids",
+   "categories": [
+    "1"
+   ]
+  },
+  {
+   "code": "Flam. Liq. 2",
+   "class_key": "flammable_liquids",
+   "categories": [
+    "2"
+   ]
+  },
+  {
+   "code": "Flam. Liq. 3",
+   "class_key": "flammable_liquids",
+   "categories": [
+    "3"
+   ]
+  },
+  {
+   "code": "Flam. Sol. 1",
+   "class_key": "flammable_solids",
+   "categories": [
+    "1"
+   ]
+  },
+  {
+   "code": "Flam. Sol. 2",
+   "class_key": "flammable_solids",
+   "categories": [
+    "2"
+   ]
+  },
+  {
+   "code": "Self-react. A",
+   "class_key": "self_reactive",
+   "categories": [
+    "A"
+   ]
+  },
+  {
+   "code": "Self-react. B",
+   "class_key": "self_reactive",
+   "categories": [
+    "B"
+   ]
+  },
+  {
+   "code": "Self-react. CD",
+   "class_key": "self_reactive",
+   "categories": [
+    "C",
+    "D"
+   ]
+  },
+  {
+   "code": "Self-react. EF",
+   "class_key": "self_reactive",
+   "categories": [
+    "E",
+    "F"
+   ]
+  },
+  {
+   "code": "Self-react. G",
+   "class_key": "self_reactive",
+   "categories": [
+    "G"
+   ]
+  },
+  {
+   "code": "Pyr. Liq. 1",
+   "class_key": "pyrophoric_liquids",
+   "categories": [
+    "1"
+   ]
+  },
+  {
+   "code": "Pyr. Sol. 1",
+   "class_key": "pyrophoric_solids",
+   "categories": [
+    "1"
+   ]
+  },
+  {
+   "code": "Self-heat. 1",
+   "class_key": "self_heating",
+   "categories": [
+    "1"
+   ]
+  },
+  {
+   "code": "Self-heat. 2",
+   "class_key": "self_heating",
+   "categories": [
+    "2"
+   ]
+  },
+  {
+   "code": "Water-react. 1",
+   "class_key": "water_reactive",
+   "categories": [
+    "1"
+   ]
+  },
+  {
+   "code": "Water-react. 2",
+   "class_key": "water_reactive",
+   "categories": [
+    "2"
+   ]
+  },
+  {
+   "code": "Water-react. 3",
+   "class_key": "water_reactive",
+   "categories": [
+    "3"
+   ]
+  },
+  {
+   "code": "Ox. Liq. 1",
+   "class_key": "oxidising_liquids",
+   "categories": [
+    "1"
+   ]
+  },
+  {
+   "code": "Ox. Liq. 2",
+   "class_key": "oxidising_liquids",
+   "categories": [
+    "2"
+   ]
+  },
+  {
+   "code": "Ox. Liq. 3",
+   "class_key": "oxidising_liquids",
+   "categories": [
+    "3"
+   ]
+  },
+  {
+   "code": "Ox. Sol. 1",
+   "class_key": "oxidising_solids",
+   "categories": [
+    "1"
+   ]
+  },
+  {
+   "code": "Ox. Sol. 2",
+   "class_key": "oxidising_solids",
+   "categories": [
+    "2"
+   ]
+  },
+  {
+   "code": "Ox. Sol. 3",
+   "class_key": "oxidising_solids",
+   "categories": [
+    "3"
+   ]
+  },
+  {
+   "code": "Org. Perox. A",
+   "class_key": "organic_peroxides",
+   "categories": [
+    "A"
+   ]
+  },
+  {
+   "code": "Org. Perox. B",
+   "class_key": "organic_peroxides",
+   "categories": [
+    "B"
+   ]
+  },
+  {
+   "code": "Org. Perox. CD",
+   "class_key": "organic_peroxides",
+   "categories": [
+    "C",
+    "D"
+   ]
+  },
+  {
+   "code": "Org. Perox. EF",
+   "class_key": "organic_peroxides",
+   "categories": [
+    "E",
+    "F"
+   ]
+  },
+  {
+   "code": "Org. Perox. G",
+   "class_key": "organic_peroxides",
+   "categories": [
+    "G"
+   ]
+  },
+  {
+   "code": "Met. Corr. 1",
+   "class_key": "corrosive_to_metals",
+   "categories": [
+    "1"
+   ]
+  },
+  {
+   "code": "Desen. Expl. 1",
+   "class_key": "desensitised_explosives",
+   "categories": [
+    "1"
+   ]
+  },
+  {
+   "code": "Desen. Expl. 2",
+   "class_key": "desensitised_explosives",
+   "categories": [
+    "2"
+   ]
+  },
+  {
+   "code": "Desen. Expl. 3",
+   "class_key": "desensitised_explosives",
+   "categories": [
+    "3"
+   ]
+  },
+  {
+   "code": "Desen. Expl. 4",
+   "class_key": "desensitised_explosives",
+   "categories": [
+    "4"
+   ]
+  },
+  {
+   "code": "Acute Tox. 1",
+   "class_key": "acute_by_h",
+   "categories": [
+    "1"
+   ]
+  },
+  {
+   "code": "Acute Tox. 2",
+   "class_key": "acute_by_h",
+   "categories": [
+    "2"
+   ]
+  },
+  {
+   "code": "Acute Tox. 3",
+   "class_key": "acute_by_h",
+   "categories": [
+    "3"
+   ]
+  },
+  {
+   "code": "Acute Tox. 4",
+   "class_key": "acute_by_h",
+   "categories": [
+    "4"
+   ]
+  },
+  {
+   "code": "Skin Corr. 1A",
+   "class_key": "skin_corrosion",
+   "categories": [
+    "1A"
+   ]
+  },
+  {
+   "code": "Skin Corr. 1B",
+   "class_key": "skin_corrosion",
+   "categories": [
+    "1B"
+   ]
+  },
+  {
+   "code": "Skin Corr. 1C",
+   "class_key": "skin_corrosion",
+   "categories": [
+    "1C"
+   ]
+  },
+  {
+   "code": "Skin Corr. 1",
+   "class_key": "skin_corrosion",
+   "categories": [
+    "1"
+   ]
+  },
+  {
+   "code": "Skin Irrit. 2",
+   "class_key": "skin_irritation",
+   "categories": [
+    "2"
+   ]
+  },
+  {
+   "code": "Eye Dam. 1",
+   "class_key": "eye_damage",
+   "categories": [
+    "1"
+   ]
+  },
+  {
+   "code": "Eye Irrit. 2",
+   "class_key": "eye_irritation",
+   "categories": [
+    "2"
+   ]
+  },
+  {
+   "code": "Resp. Sens. 1A",
+   "class_key": "respiratory_sensitisation",
+   "categories": [
+    "1A"
+   ]
+  },
+  {
+   "code": "Resp. Sens. 1B",
+   "class_key": "respiratory_sensitisation",
+   "categories": [
+    "1B"
+   ]
+  },
+  {
+   "code": "Resp. Sens. 1",
+   "class_key": "respiratory_sensitisation",
+   "categories": [
+    "1"
+   ]
+  },
+  {
+   "code": "Skin Sens. 1A",
+   "class_key": "skin_sensitisation",
+   "categories": [
+    "1A"
+   ]
+  },
+  {
+   "code": "Skin Sens. 1B",
+   "class_key": "skin_sensitisation",
+   "categories": [
+    "1B"
+   ]
+  },
+  {
+   "code": "Skin Sens. 1",
+   "class_key": "skin_sensitisation",
+   "categories": [
+    "1"
+   ]
+  },
+  {
+   "code": "Muta. 1A",
+   "class_key": "mutagenicity",
+   "categories": [
+    "1A"
+   ]
+  },
+  {
+   "code": "Muta. 1B",
+   "class_key": "mutagenicity",
+   "categories": [
+    "1B"
+   ]
+  },
+  {
+   "code": "Muta. 2",
+   "class_key": "mutagenicity",
+   "categories": [
+    "2"
+   ]
+  },
+  {
+   "code": "Carc. 1A",
+   "class_key": "carcinogenicity",
+   "categories": [
+    "1A"
+   ]
+  },
+  {
+   "code": "Carc. 1B",
+   "class_key": "carcinogenicity",
+   "categories": [
+    "1B"
+   ]
+  },
+  {
+   "code": "Carc. 2",
+   "class_key": "carcinogenicity",
+   "categories": [
+    "2"
+   ]
+  },
+  {
+   "code": "Repr. 1A",
+   "class_key": "reproductive_toxicity",
+   "categories": [
+    "1A"
+   ]
+  },
+  {
+   "code": "Repr. 1B",
+   "class_key": "reproductive_toxicity",
+   "categories": [
+    "1B"
+   ]
+  },
+  {
+   "code": "Repr. 2",
+   "class_key": "reproductive_toxicity",
+   "categories": [
+    "2"
+   ]
+  },
+  {
+   "code": "Lact.",
+   "class_key": "lactation",
+   "categories": [
+    "Additional category"
+   ]
+  },
+  {
+   "code": "STOT SE 1",
+   "class_key": "stot_se",
+   "categories": [
+    "1"
+   ]
+  },
+  {
+   "code": "STOT SE 2",
+   "class_key": "stot_se",
+   "categories": [
+    "2"
+   ]
+  },
+  {
+   "code": "STOT SE 3",
+   "class_key": "stot_se_3_by_h",
+   "categories": [
+    "3"
+   ]
+  },
+  {
+   "code": "STOT RE 1",
+   "class_key": "stot_re",
+   "categories": [
+    "1"
+   ]
+  },
+  {
+   "code": "STOT RE 2",
+   "class_key": "stot_re",
+   "categories": [
+    "2"
+   ]
+  },
+  {
+   "code": "Asp. Tox. 1",
+   "class_key": "aspiration",
+   "categories": [
+    "1"
+   ]
+  },
+  {
+   "code": "ED HH 1",
+   "class_key": "ed_human_health",
+   "categories": [
+    "1"
+   ]
+  },
+  {
+   "code": "ED HH 2",
+   "class_key": "ed_human_health",
+   "categories": [
+    "2"
+   ]
+  },
+  {
+   "code": "Aquatic Acute 1",
+   "class_key": "aquatic_acute",
+   "categories": [
+    "1"
+   ]
+  },
+  {
+   "code": "Aquatic Chronic 1",
+   "class_key": "aquatic_chronic",
+   "categories": [
+    "1"
+   ]
+  },
+  {
+   "code": "Aquatic Chronic 2",
+   "class_key": "aquatic_chronic",
+   "categories": [
+    "2"
+   ]
+  },
+  {
+   "code": "Aquatic Chronic 3",
+   "class_key": "aquatic_chronic",
+   "categories": [
+    "3"
+   ]
+  },
+  {
+   "code": "Aquatic Chronic 4",
+   "class_key": "aquatic_chronic",
+   "categories": [
+    "4"
+   ]
+  },
+  {
+   "code": "ED ENV 1",
+   "class_key": "ed_environment",
+   "categories": [
+    "1"
+   ]
+  },
+  {
+   "code": "ED ENV 2",
+   "class_key": "ed_environment",
+   "categories": [
+    "2"
+   ]
+  },
+  {
+   "code": "PBT",
+   "class_key": "pbt",
+   "categories": [
+    "PBT"
+   ]
+  },
+  {
+   "code": "vPvB",
+   "class_key": "pbt",
+   "categories": [
+    "vPvB"
+   ]
+  },
+  {
+   "code": "PMT",
+   "class_key": "pmt",
+   "categories": [
+    "PMT"
+   ]
+  },
+  {
+   "code": "vPvM",
+   "class_key": "pmt",
+   "categories": [
+    "vPvM"
+   ]
+  },
+  {
+   "code": "Ozone 1",
+   "class_key": "ozone",
+   "categories": [
+    "1"
+   ]
+  }
+ ]
+}
