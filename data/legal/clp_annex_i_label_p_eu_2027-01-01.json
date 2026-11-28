@@ -1,0 +1,1408 @@
+{
+ "source": "Regulation (EC) No 1272/2008 (CLP), consolidated version 2027-01-01",
+ "celex": "02008R1272-20270101",
+ "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:02008R1272-20270101",
+ "retrieved": "2026-11-27",
+ "source_sha256": "6f1a4c4489786b879de5e1e3a73418ce379e773d45ec711747842a5caeeb1209",
+ "built": "2026-11-28",
+ "reuse": "EU legal text reused with credit to the source (EUR-Lex). Changes: extracted from the consolidated text and restructured as JSON; statement wording unchanged.",
+ "part": "Annex I label-element tables: signal word and precautionary statements per class/category column",
+ "entries": [
+  {
+   "class_key": "explosives",
+   "category": "Unstable explosive",
+   "p": [
+    "P201",
+    "P250",
+    "P280",
+    "P370+P372+P380+P373",
+    "P401",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 2.1.2 Label elements for explosives"
+  },
+  {
+   "class_key": "explosives",
+   "category": "1.1",
+   "p": [
+    "P210",
+    "P230",
+    "P234",
+    "P240",
+    "P250",
+    "P280",
+    "P370+P372+P380+P373",
+    "P401",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 2.1.2 Label elements for explosives"
+  },
+  {
+   "class_key": "explosives",
+   "category": "1.2",
+   "p": [
+    "P210",
+    "P230",
+    "P234",
+    "P240",
+    "P250",
+    "P280",
+    "P370+P372+P380+P373",
+    "P401",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 2.1.2 Label elements for explosives"
+  },
+  {
+   "class_key": "explosives",
+   "category": "1.3",
+   "p": [
+    "P210",
+    "P230",
+    "P234",
+    "P240",
+    "P250",
+    "P280",
+    "P370+P372+P380+P373",
+    "P401",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 2.1.2 Label elements for explosives"
+  },
+  {
+   "class_key": "explosives",
+   "category": "1.4",
+   "p": [
+    "P210",
+    "P234",
+    "P240",
+    "P250",
+    "P280",
+    "P370+P372+P380+P373",
+    "P370+P380+P375",
+    "P401",
+    "P501"
+   ],
+   "signal": "Warning",
+   "source": "Table 2.1.2 Label elements for explosives"
+  },
+  {
+   "class_key": "explosives",
+   "category": "1.5",
+   "p": [
+    "P210",
+    "P230",
+    "P234",
+    "P240",
+    "P250",
+    "P280",
+    "P370+P372+P380+P373",
+    "P401",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 2.1.2 Label elements for explosives"
+  },
+  {
+   "class_key": "explosives",
+   "category": "1.6",
+   "p": [],
+   "signal": "No signal word",
+   "source": "Table 2.1.2 Label elements for explosives"
+  },
+  {
+   "class_key": "oxidising_gases",
+   "category": "1",
+   "p": [
+    "P220",
+    "P244",
+    "P370+P376",
+    "P403"
+   ],
+   "signal": "Danger",
+   "source": "Table 2.4.2 Label elements for oxidising gases"
+  },
+  {
+   "class_key": "gases_under_pressure",
+   "category": "Compressed gas",
+   "p": [
+    "P410+P403"
+   ],
+   "signal": "Warning",
+   "source": "Table 2.5.2 Label elements for gases under pressure"
+  },
+  {
+   "class_key": "gases_under_pressure",
+   "category": "Liquefied gas",
+   "p": [
+    "P410+P403"
+   ],
+   "signal": "Warning",
+   "source": "Table 2.5.2 Label elements for gases under pressure"
+  },
+  {
+   "class_key": "gases_under_pressure",
+   "category": "Refrigerated liquefied gas",
+   "p": [
+    "P282",
+    "P336+P315",
+    "P403"
+   ],
+   "signal": "Warning",
+   "source": "Table 2.5.2 Label elements for gases under pressure"
+  },
+  {
+   "class_key": "gases_under_pressure",
+   "category": "Dissolved gas",
+   "p": [
+    "P410+P403"
+   ],
+   "signal": "Warning",
+   "source": "Table 2.5.2 Label elements for gases under pressure"
+  },
+  {
+   "class_key": "flammable_liquids",
+   "category": "1",
+   "p": [
+    "P210",
+    "P233",
+    "P240",
+    "P241",
+    "P242",
+    "P243",
+    "P280",
+    "P303+P361+P353",
+    "P370+P378",
+    "P403+P235",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 2.6.2 Label elements for flammable liquids"
+  },
+  {
+   "class_key": "flammable_liquids",
+   "category": "2",
+   "p": [
+    "P210",
+    "P233",
+    "P240",
+    "P241",
+    "P242",
+    "P243",
+    "P280",
+    "P303+P361+P353",
+    "P370+P378",
+    "P403+P235",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 2.6.2 Label elements for flammable liquids"
+  },
+  {
+   "class_key": "flammable_liquids",
+   "category": "3",
+   "p": [
+    "P210",
+    "P233",
+    "P240",
+    "P241",
+    "P242",
+    "P243",
+    "P280",
+    "P303+P361+P353",
+    "P370+P378",
+    "P403+P235",
+    "P501"
+   ],
+   "signal": "Warning",
+   "source": "Table 2.6.2 Label elements for flammable liquids"
+  },
+  {
+   "class_key": "flammable_solids",
+   "category": "1",
+   "p": [
+    "P210",
+    "P240",
+    "P241",
+    "P280",
+    "P370+P378"
+   ],
+   "signal": "Danger",
+   "source": "Table 2.7.2 Label elements for flammable solids"
+  },
+  {
+   "class_key": "flammable_solids",
+   "category": "2",
+   "p": [
+    "P210",
+    "P240",
+    "P241",
+    "P280",
+    "P370+P378"
+   ],
+   "signal": "Warning",
+   "source": "Table 2.7.2 Label elements for flammable solids"
+  },
+  {
+   "class_key": "self_reactive",
+   "category": "A",
+   "p": [
+    "P210",
+    "P234",
+    "P235",
+    "P240",
+    "P280",
+    "P370+P372+P380+P373",
+    "P403",
+    "P411",
+    "P420",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 2.8.1 Label elements for self-reactive substances and mixtures"
+  },
+  {
+   "class_key": "self_reactive",
+   "category": "B",
+   "p": [
+    "P210",
+    "P234",
+    "P235",
+    "P240",
+    "P280",
+    "P370+P380+P375",
+    "P378",
+    "P403",
+    "P411",
+    "P420",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 2.8.1 Label elements for self-reactive substances and mixtures"
+  },
+  {
+   "class_key": "self_reactive",
+   "category": "C",
+   "p": [
+    "P210",
+    "P234",
+    "P235",
+    "P240",
+    "P280",
+    "P370+P378",
+    "P403",
+    "P411",
+    "P420",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 2.8.1 Label elements for self-reactive substances and mixtures"
+  },
+  {
+   "class_key": "self_reactive",
+   "category": "D",
+   "p": [
+    "P210",
+    "P234",
+    "P235",
+    "P240",
+    "P280",
+    "P370+P378",
+    "P403",
+    "P411",
+    "P420",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 2.8.1 Label elements for self-reactive substances and mixtures"
+  },
+  {
+   "class_key": "self_reactive",
+   "category": "E",
+   "p": [
+    "P210",
+    "P234",
+    "P235",
+    "P240",
+    "P280",
+    "P370+P378",
+    "P403",
+    "P411",
+    "P420",
+    "P501"
+   ],
+   "signal": "Warning",
+   "source": "Table 2.8.1 Label elements for self-reactive substances and mixtures"
+  },
+  {
+   "class_key": "self_reactive",
+   "category": "F",
+   "p": [
+    "P210",
+    "P234",
+    "P235",
+    "P240",
+    "P280",
+    "P370+P378",
+    "P403",
+    "P411",
+    "P420",
+    "P501"
+   ],
+   "signal": "Warning",
+   "source": "Table 2.8.1 Label elements for self-reactive substances and mixtures"
+  },
+  {
+   "class_key": "self_reactive",
+   "category": "Type g",
+   "p": [],
+   "signal": "",
+   "source": "Table 2.8.1 Label elements for self-reactive substances and mixtures"
+  },
+  {
+   "class_key": "pyrophoric_liquids",
+   "category": "1",
+   "p": [
+    "P210",
+    "P222",
+    "P231+P232",
+    "P233",
+    "P280",
+    "P302+P334",
+    "P370+P378"
+   ],
+   "signal": "Danger",
+   "source": "Table 2.9.2 Label elements for pyrophoric liquids"
+  },
+  {
+   "class_key": "pyrophoric_solids",
+   "category": "1",
+   "p": [
+    "P210",
+    "P222",
+    "P231+P232",
+    "P233",
+    "P280",
+    "P302+P335+P334",
+    "P370+P378"
+   ],
+   "signal": "Danger",
+   "source": "Table 2.10.2 Label elements for pyrophoric solids"
+  },
+  {
+   "class_key": "self_heating",
+   "category": "1",
+   "p": [
+    "P235",
+    "P280",
+    "P407",
+    "P413",
+    "P420"
+   ],
+   "signal": "Danger",
+   "source": "Table 2.11.2 Label elements for self-heating substances and mixtures"
+  },
+  {
+   "class_key": "self_heating",
+   "category": "2",
+   "p": [
+    "P235",
+    "P280",
+    "P407",
+    "P413",
+    "P420"
+   ],
+   "signal": "Warning",
+   "source": "Table 2.11.2 Label elements for self-heating substances and mixtures"
+  },
+  {
+   "class_key": "water_reactive",
+   "category": "1",
+   "p": [
+    "P223",
+    "P231+P232",
+    "P280",
+    "P302+P335+P334",
+    "P370+P378",
+    "P402+P404",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 2.12.2 Label elements for substances and mixtures which in contact with wa"
+  },
+  {
+   "class_key": "water_reactive",
+   "category": "2",
+   "p": [
+    "P223",
+    "P231+P232",
+    "P280",
+    "P302+P335+P334",
+    "P370+P378",
+    "P402+P404",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 2.12.2 Label elements for substances and mixtures which in contact with wa"
+  },
+  {
+   "class_key": "water_reactive",
+   "category": "3",
+   "p": [
+    "P231+P232",
+    "P280",
+    "P370+P378",
+    "P402+P404",
+    "P501"
+   ],
+   "signal": "Warning",
+   "source": "Table 2.12.2 Label elements for substances and mixtures which in contact with wa"
+  },
+  {
+   "class_key": "oxidising_liquids",
+   "category": "1",
+   "p": [
+    "P210",
+    "P220",
+    "P280",
+    "P283",
+    "P306+P360",
+    "P371+P380+P375",
+    "P370+P378",
+    "P420",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 2.13.2 Label elements for oxidising liquids"
+  },
+  {
+   "class_key": "oxidising_liquids",
+   "category": "2",
+   "p": [
+    "P210",
+    "P220",
+    "P280",
+    "P370+P378",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 2.13.2 Label elements for oxidising liquids"
+  },
+  {
+   "class_key": "oxidising_liquids",
+   "category": "3",
+   "p": [
+    "P210",
+    "P220",
+    "P280",
+    "P370+P378",
+    "P501"
+   ],
+   "signal": "Warning",
+   "source": "Table 2.13.2 Label elements for oxidising liquids"
+  },
+  {
+   "class_key": "oxidising_solids",
+   "category": "1",
+   "p": [
+    "P210",
+    "P220",
+    "P280",
+    "P283",
+    "P306+P360",
+    "P371+P380+P375",
+    "P370+P378",
+    "P420",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 2.14.2 Label elements for oxidising solids"
+  },
+  {
+   "class_key": "oxidising_solids",
+   "category": "2",
+   "p": [
+    "P210",
+    "P220",
+    "P280",
+    "P370+P378",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 2.14.2 Label elements for oxidising solids"
+  },
+  {
+   "class_key": "oxidising_solids",
+   "category": "3",
+   "p": [
+    "P210",
+    "P220",
+    "P280",
+    "P370+P378",
+    "P501"
+   ],
+   "signal": "Warning",
+   "source": "Table 2.14.2 Label elements for oxidising solids"
+  },
+  {
+   "class_key": "organic_peroxides",
+   "category": "A",
+   "p": [
+    "P210",
+    "P234",
+    "P235",
+    "P240",
+    "P280",
+    "P370+P372+P380+P373",
+    "P403",
+    "P410",
+    "P411",
+    "P420",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 2.15.1 Label elements for organic peroxides"
+  },
+  {
+   "class_key": "organic_peroxides",
+   "category": "B",
+   "p": [
+    "P210",
+    "P234",
+    "P235",
+    "P240",
+    "P280",
+    "P370+P380+P375",
+    "P378",
+    "P403",
+    "P410",
+    "P411",
+    "P420",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 2.15.1 Label elements for organic peroxides"
+  },
+  {
+   "class_key": "organic_peroxides",
+   "category": "C",
+   "p": [
+    "P210",
+    "P234",
+    "P235",
+    "P240",
+    "P280",
+    "P370+P378",
+    "P403",
+    "P410",
+    "P411",
+    "P420",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 2.15.1 Label elements for organic peroxides"
+  },
+  {
+   "class_key": "organic_peroxides",
+   "category": "D",
+   "p": [
+    "P210",
+    "P234",
+    "P235",
+    "P240",
+    "P280",
+    "P370+P378",
+    "P403",
+    "P410",
+    "P411",
+    "P420",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 2.15.1 Label elements for organic peroxides"
+  },
+  {
+   "class_key": "organic_peroxides",
+   "category": "E",
+   "p": [
+    "P210",
+    "P234",
+    "P235",
+    "P240",
+    "P280",
+    "P370+P378",
+    "P403",
+    "P410",
+    "P411",
+    "P420",
+    "P501"
+   ],
+   "signal": "Warning",
+   "source": "Table 2.15.1 Label elements for organic peroxides"
+  },
+  {
+   "class_key": "organic_peroxides",
+   "category": "F",
+   "p": [
+    "P210",
+    "P234",
+    "P235",
+    "P240",
+    "P280",
+    "P370+P378",
+    "P403",
+    "P410",
+    "P411",
+    "P420",
+    "P501"
+   ],
+   "signal": "Warning",
+   "source": "Table 2.15.1 Label elements for organic peroxides"
+  },
+  {
+   "class_key": "organic_peroxides",
+   "category": "G",
+   "p": [],
+   "signal": "",
+   "source": "Table 2.15.1 Label elements for organic peroxides"
+  },
+  {
+   "class_key": "corrosive_to_metals",
+   "category": "1",
+   "p": [
+    "P234",
+    "P390",
+    "P406"
+   ],
+   "signal": "Warning",
+   "source": "Table 2.16.2 Label elements for substances and mixtures corrosive to metals"
+  },
+  {
+   "class_key": "desensitised_explosives",
+   "category": "1",
+   "p": [
+    "P210",
+    "P212",
+    "P230",
+    "P233",
+    "P280",
+    "P370+P380+P375",
+    "P401",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 2.17.2. Label elements for desensitised explosives"
+  },
+  {
+   "class_key": "desensitised_explosives",
+   "category": "2",
+   "p": [
+    "P210",
+    "P212",
+    "P230",
+    "P233",
+    "P280",
+    "P370+P380+P375",
+    "P401",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 2.17.2. Label elements for desensitised explosives"
+  },
+  {
+   "class_key": "desensitised_explosives",
+   "category": "3",
+   "p": [
+    "P210",
+    "P212",
+    "P230",
+    "P233",
+    "P280",
+    "P370+P380+P375",
+    "P401",
+    "P501"
+   ],
+   "signal": "Warning",
+   "source": "Table 2.17.2. Label elements for desensitised explosives"
+  },
+  {
+   "class_key": "desensitised_explosives",
+   "category": "4",
+   "p": [
+    "P210",
+    "P212",
+    "P230",
+    "P233",
+    "P280",
+    "P371+P380+P375",
+    "P401",
+    "P501"
+   ],
+   "signal": "Warning",
+   "source": "Table 2.17.2. Label elements for desensitised explosives"
+  },
+  {
+   "class_key": "acute_oral",
+   "category": "1",
+   "p": [
+    "P264",
+    "P270",
+    "P301+P310",
+    "P321",
+    "P330",
+    "P405",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 3.1.3 Acute toxicity label elements"
+  },
+  {
+   "class_key": "acute_oral",
+   "category": "2",
+   "p": [
+    "P264",
+    "P270",
+    "P301+P310",
+    "P321",
+    "P330",
+    "P405",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 3.1.3 Acute toxicity label elements"
+  },
+  {
+   "class_key": "acute_oral",
+   "category": "3",
+   "p": [
+    "P264",
+    "P270",
+    "P301+P310",
+    "P321",
+    "P330",
+    "P405",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 3.1.3 Acute toxicity label elements"
+  },
+  {
+   "class_key": "acute_oral",
+   "category": "4",
+   "p": [
+    "P264",
+    "P270",
+    "P301+P312",
+    "P330",
+    "P501"
+   ],
+   "signal": "Warning",
+   "source": "Table 3.1.3 Acute toxicity label elements"
+  },
+  {
+   "class_key": "acute_dermal",
+   "category": "1",
+   "p": [
+    "P262",
+    "P264",
+    "P270",
+    "P280",
+    "P302+P352",
+    "P310",
+    "P321",
+    "P361+P364",
+    "P405",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 3.1.3 Acute toxicity label elements"
+  },
+  {
+   "class_key": "acute_dermal",
+   "category": "2",
+   "p": [
+    "P262",
+    "P264",
+    "P270",
+    "P280",
+    "P302+P352",
+    "P310",
+    "P321",
+    "P361+P364",
+    "P405",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 3.1.3 Acute toxicity label elements"
+  },
+  {
+   "class_key": "acute_dermal",
+   "category": "3",
+   "p": [
+    "P280",
+    "P302+P352",
+    "P312",
+    "P321",
+    "P361+P364",
+    "P405",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 3.1.3 Acute toxicity label elements"
+  },
+  {
+   "class_key": "acute_dermal",
+   "category": "4",
+   "p": [
+    "P280",
+    "P302+P352",
+    "P312",
+    "P321",
+    "P362+P364",
+    "P501"
+   ],
+   "signal": "Warning",
+   "source": "Table 3.1.3 Acute toxicity label elements"
+  },
+  {
+   "class_key": "acute_inhalation",
+   "category": "1",
+   "p": [
+    "P260",
+    "P271",
+    "P284",
+    "P304+P340",
+    "P310",
+    "P320",
+    "P403+P233",
+    "P405",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 3.1.3 Acute toxicity label elements"
+  },
+  {
+   "class_key": "acute_inhalation",
+   "category": "2",
+   "p": [
+    "P260",
+    "P271",
+    "P284",
+    "P304+P340",
+    "P310",
+    "P320",
+    "P403+P233",
+    "P405",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 3.1.3 Acute toxicity label elements"
+  },
+  {
+   "class_key": "acute_inhalation",
+   "category": "3",
+   "p": [
+    "P261",
+    "P271",
+    "P304+P340",
+    "P311",
+    "P321",
+    "P403+P233",
+    "P405",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 3.1.3 Acute toxicity label elements"
+  },
+  {
+   "class_key": "acute_inhalation",
+   "category": "4",
+   "p": [
+    "P261",
+    "P271",
+    "P304+P340",
+    "P312"
+   ],
+   "signal": "Warning",
+   "source": "Table 3.1.3 Acute toxicity label elements"
+  },
+  {
+   "class_key": "respiratory_sensitisation",
+   "category": "1",
+   "p": [
+    "P261",
+    "P284",
+    "P304+P340",
+    "P342+P311",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 3.4.7 Respiratory or skin sensitisation label elements"
+  },
+  {
+   "class_key": "respiratory_sensitisation",
+   "category": "1A",
+   "p": [
+    "P261",
+    "P284",
+    "P304+P340",
+    "P342+P311",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 3.4.7 Respiratory or skin sensitisation label elements"
+  },
+  {
+   "class_key": "respiratory_sensitisation",
+   "category": "1B",
+   "p": [
+    "P261",
+    "P284",
+    "P304+P340",
+    "P342+P311",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 3.4.7 Respiratory or skin sensitisation label elements"
+  },
+  {
+   "class_key": "skin_sensitisation",
+   "category": "1",
+   "p": [
+    "P261",
+    "P272",
+    "P280",
+    "P302+P352",
+    "P333+P313",
+    "P321",
+    "P362+P364",
+    "P501"
+   ],
+   "signal": "Warning",
+   "source": "Table 3.4.7 Respiratory or skin sensitisation label elements"
+  },
+  {
+   "class_key": "skin_sensitisation",
+   "category": "1A",
+   "p": [
+    "P261",
+    "P272",
+    "P280",
+    "P302+P352",
+    "P333+P313",
+    "P321",
+    "P362+P364",
+    "P501"
+   ],
+   "signal": "Warning",
+   "source": "Table 3.4.7 Respiratory or skin sensitisation label elements"
+  },
+  {
+   "class_key": "skin_sensitisation",
+   "category": "1B",
+   "p": [
+    "P261",
+    "P272",
+    "P280",
+    "P302+P352",
+    "P333+P313",
+    "P321",
+    "P362+P364",
+    "P501"
+   ],
+   "signal": "Warning",
+   "source": "Table 3.4.7 Respiratory or skin sensitisation label elements"
+  },
+  {
+   "class_key": "mutagenicity",
+   "category": "1",
+   "p": [
+    "P201",
+    "P202",
+    "P280",
+    "P308+P313",
+    "P405",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 3.5.3 Label elements of germ cell mutagenicity"
+  },
+  {
+   "class_key": "mutagenicity",
+   "category": "1A",
+   "p": [
+    "P201",
+    "P202",
+    "P280",
+    "P308+P313",
+    "P405",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 3.5.3 Label elements of germ cell mutagenicity"
+  },
+  {
+   "class_key": "mutagenicity",
+   "category": "1B",
+   "p": [
+    "P201",
+    "P202",
+    "P280",
+    "P308+P313",
+    "P405",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 3.5.3 Label elements of germ cell mutagenicity"
+  },
+  {
+   "class_key": "mutagenicity",
+   "category": "2",
+   "p": [
+    "P201",
+    "P202",
+    "P280",
+    "P308+P313",
+    "P405",
+    "P501"
+   ],
+   "signal": "Warning",
+   "source": "Table 3.5.3 Label elements of germ cell mutagenicity"
+  },
+  {
+   "class_key": "carcinogenicity",
+   "category": "1",
+   "p": [
+    "P201",
+    "P202",
+    "P280",
+    "P308+P313",
+    "P405",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 3.6.3 Label elements for carcinogenicity"
+  },
+  {
+   "class_key": "carcinogenicity",
+   "category": "1A",
+   "p": [
+    "P201",
+    "P202",
+    "P280",
+    "P308+P313",
+    "P405",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 3.6.3 Label elements for carcinogenicity"
+  },
+  {
+   "class_key": "carcinogenicity",
+   "category": "1B",
+   "p": [
+    "P201",
+    "P202",
+    "P280",
+    "P308+P313",
+    "P405",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 3.6.3 Label elements for carcinogenicity"
+  },
+  {
+   "class_key": "carcinogenicity",
+   "category": "2",
+   "p": [
+    "P201",
+    "P202",
+    "P280",
+    "P308+P313",
+    "P405",
+    "P501"
+   ],
+   "signal": "Warning",
+   "source": "Table 3.6.3 Label elements for carcinogenicity"
+  },
+  {
+   "class_key": "reproductive_toxicity",
+   "category": "1",
+   "p": [
+    "P201",
+    "P202",
+    "P280",
+    "P308+P313",
+    "P405",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 3.7.3 Label elements for reproductive toxicity"
+  },
+  {
+   "class_key": "reproductive_toxicity",
+   "category": "1A",
+   "p": [
+    "P201",
+    "P202",
+    "P280",
+    "P308+P313",
+    "P405",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 3.7.3 Label elements for reproductive toxicity"
+  },
+  {
+   "class_key": "reproductive_toxicity",
+   "category": "1B",
+   "p": [
+    "P201",
+    "P202",
+    "P280",
+    "P308+P313",
+    "P405",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 3.7.3 Label elements for reproductive toxicity"
+  },
+  {
+   "class_key": "reproductive_toxicity",
+   "category": "2",
+   "p": [
+    "P201",
+    "P202",
+    "P280",
+    "P308+P313",
+    "P405",
+    "P501"
+   ],
+   "signal": "Warning",
+   "source": "Table 3.7.3 Label elements for reproductive toxicity"
+  },
+  {
+   "class_key": "lactation",
+   "category": "Additional category",
+   "p": [
+    "P201",
+    "P260",
+    "P263",
+    "P264",
+    "P270",
+    "P308+P313"
+   ],
+   "signal": "No signal word",
+   "source": "Table 3.7.3 Label elements for reproductive toxicity"
+  },
+  {
+   "class_key": "stot_se",
+   "category": "1",
+   "p": [
+    "P260",
+    "P264",
+    "P270",
+    "P308+P311",
+    "P321",
+    "P405",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 3.8.4 Label elements for specific target organ toxicity after single expos"
+  },
+  {
+   "class_key": "stot_se",
+   "category": "2",
+   "p": [
+    "P260",
+    "P264",
+    "P270",
+    "P308+P311",
+    "P405",
+    "P501"
+   ],
+   "signal": "Warning",
+   "source": "Table 3.8.4 Label elements for specific target organ toxicity after single expos"
+  },
+  {
+   "class_key": "stot_se_3_resp",
+   "category": "3",
+   "p": [
+    "P261",
+    "P271",
+    "P304+P340",
+    "P312",
+    "P403+P233",
+    "P405",
+    "P501"
+   ],
+   "signal": "Warning",
+   "source": "Table 3.8.4 Label elements for specific target organ toxicity after single expos"
+  },
+  {
+   "class_key": "stot_se_3_narc",
+   "category": "3",
+   "p": [
+    "P261",
+    "P271",
+    "P304+P340",
+    "P312",
+    "P403+P233",
+    "P405",
+    "P501"
+   ],
+   "signal": "Warning",
+   "source": "Table 3.8.4 Label elements for specific target organ toxicity after single expos"
+  },
+  {
+   "class_key": "stot_re",
+   "category": "1",
+   "p": [
+    "P260",
+    "P264",
+    "P270",
+    "P314",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 3.9.5 Label elements for specific target organ toxicity after repeated exp"
+  },
+  {
+   "class_key": "stot_re",
+   "category": "2",
+   "p": [
+    "P260",
+    "P314",
+    "P501"
+   ],
+   "signal": "Warning",
+   "source": "Table 3.9.5 Label elements for specific target organ toxicity after repeated exp"
+  },
+  {
+   "class_key": "aspiration",
+   "category": "1",
+   "p": [
+    "P301+P310",
+    "P331",
+    "P405",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 3.10.2 Aspiration toxicity label elements"
+  },
+  {
+   "class_key": "ed_human_health",
+   "category": "1",
+   "p": [
+    "P201",
+    "P202",
+    "P263",
+    "P280",
+    "P308+P313",
+    "P405",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 3.11.3. Label elements of endocrine disruption for human health"
+  },
+  {
+   "class_key": "ed_human_health",
+   "category": "2",
+   "p": [
+    "P201",
+    "P202",
+    "P263",
+    "P280",
+    "P308+P313",
+    "P405",
+    "P501"
+   ],
+   "signal": "Warning",
+   "source": "Table 3.11.3. Label elements of endocrine disruption for human health"
+  },
+  {
+   "class_key": "ed_environment",
+   "category": "1",
+   "p": [
+    "P201",
+    "P202",
+    "P273",
+    "P391",
+    "P405",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 4.2.3. Label elements of endocrine disruption for the environment"
+  },
+  {
+   "class_key": "ed_environment",
+   "category": "2",
+   "p": [
+    "P201",
+    "P202",
+    "P273",
+    "P391",
+    "P405",
+    "P501"
+   ],
+   "signal": "Warning",
+   "source": "Table 4.2.3. Label elements of endocrine disruption for the environment"
+  },
+  {
+   "class_key": "pbt",
+   "category": "PBT",
+   "p": [
+    "P201",
+    "P202",
+    "P273",
+    "P391",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 4.3.1. Label elements for PBT and vPvB properties"
+  },
+  {
+   "class_key": "pbt",
+   "category": "vPvB",
+   "p": [
+    "P201",
+    "P202",
+    "P273",
+    "P391",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 4.3.1. Label elements for PBT and vPvB properties"
+  },
+  {
+   "class_key": "pmt",
+   "category": "PMT",
+   "p": [
+    "P201",
+    "P202",
+    "P273",
+    "P391",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 4.4.1. Label elements for PMT and vPvM properties"
+  },
+  {
+   "class_key": "pmt",
+   "category": "vPvM",
+   "p": [
+    "P201",
+    "P202",
+    "P273",
+    "P391",
+    "P501"
+   ],
+   "signal": "Danger",
+   "source": "Table 4.4.1. Label elements for PMT and vPvM properties"
+  }
+ ]
+}

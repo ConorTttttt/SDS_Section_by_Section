@@ -192,6 +192,8 @@ def gestis(cas, work):
 def pubchem(cas, work):
     url = f'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/{cas}/property/MolecularFormula,IUPACName/JSON'
     code, txt = curl(url, os.path.join(work, f'pubchem_{cas}.json'))
+    if code == '404' and 'NotFound' in (txt or ''):
+        return {'source': 'PubChem', 'status': 'not found', 'http': code, 'note': 'No CID found (common for polymers, UVCB substances and mixtures)'}
     if code != '200':
         return {'source': 'PubChem', 'status': 'unreachable', 'http': code, 'note': txt[:160]}
     try:

@@ -18,6 +18,9 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from dedupe import dedupe  # noqa: E402
+import refgate  # noqa: E402
+import textinterp as ti  # noqa: E402
+from sds_text import transport_class  # noqa: E402
 
 # Checklist rows this engine implements (checked against checklist/coverage.csv by tools/check_coverage.py)
 CODED = ({f'10-A{i}' for i in range(1, 17)} | {f'10-B{i}' for i in range(1, 18)} | {f'10-C{i}' for i in range(1, 9)}
@@ -100,20 +103,24 @@ def families_in(text, vocab=FAMILIES):
 
 # ------------------------------------------------------------------ jurisdiction
 def detect_jurisdiction(full):
-    t = full[:6000] + full[-3000:]
+    head = full[:6000] + full[-3000:]
     score = {'US': 0, 'GB': 0, 'EU': 0}
     why = {'US': [], 'GB': [], 'EU': []}
-    for j, rx, w, label in [
-        ('US', r'29 CFR 1910\.1200|Hazard Communication Standard|\bOSHA\b', 3, 'cites OSHA HazCom'),
-        ('US', r'\b[A-Z]{2} \d{5}\b|\bUSA\b|United States', 1, 'US address'),
-        ('GB', r'UK SI 2019/758|UK SI 2020/1577|GB[- ]CLP|GB REACH|UK SI 2019/720|UK SI 2020/1567', 3, 'cites GB REACH/CLP'),
-        ('GB', r'UNITED KINGDOM|\b[A-Z]{1,2}\d{1,2}[A-Z]? \d[A-Z]{2}\b', 1, 'UK address'),
-        ('EU', r'2020/878', 3, 'cites Reg. 2020/878'),
-        ('EU', r'2015/830', 1, 'cites Reg. 2015/830 (old EU format)'),
+    for j, rx, w, label, anywhere in [
+        ('US', r'29 CFR 1910\.1200|Hazard Communication Standard', 3, 'cites OSHA HazCom', True),
+        ('US', r'\bOSHA\b', 1, 'mentions OSHA (e.g. in an abbreviations list)', False),
+        ('US', r'\b[A-Z]{2} \d{5}\b|\bUSA\b|United States', 1, 'US address', False),
+        ('GB', r'UK SI 2019/758|UK SI 2020/1577|GB[- ]CLP|GB REACH|UK SI 2019/720|UK SI 2020/1567', 3, 'cites GB REACH/CLP', True),
+        ('GB', r'UNITED KINGDOM|\b[A-Z]{1,2}\d{1,2}[A-Z]? \d[A-Z]{2}\b', 1, 'UK address', False),
+        ('EU', r'2020/878', 3, 'cites Reg. 2020/878', True),
+        ('EU', r'2015/830', 1, 'cites Reg. 2015/830 (old EU format)', True),
     ]:
-        if re.search(rx, t):
-            score[j] += w
-            why[j].append(label)
+        # explicit regulation citations count wherever they are (repeated page footers are removed, so the one kept
+        # copy may sit mid-document); a bare "OSHA" and addresses count only near the start or end
+        if j not in why or label not in why[j]:
+            if re.search(rx, full if anywhere else head):
+                score[j] += w
+                why[j].append(label)
     best = max(score, key=score.get)
     return best, score, why
 
@@ -122,7 +129,7 @@ def detect_jurisdiction(full):
 SLOT_LABELS = {
     'reactivity': r'reactiv(?:e hazard|ity)', 'stability': r'(?:chemical )?stability',
     'reactions': r'(?:possibility of )?hazardous (?:reactions|polymeri[sz]ation)', 'conditions': r'conditions to avoid',
-    'incompatible': r'incompatible materials', 'decomposition': r'hazardous decomposition products',
+    'incompatible': r'incompatib\w* materials|materials to avoid|incompatibilit(?:y|ies)', 'decomposition': r'hazardous decomposition products?',
 }
 NUM_SLOT = {'10.1': 'reactivity', '10.2': 'stability', '10.3': 'reactions', '10.4': 'conditions', '10.5': 'incompatible', '10.6': 'decomposition'}
 
@@ -134,8 +141,13 @@ def section10_slots(sec10):
             numbered = True
             body = sec10['subsections'][key]
             body = re.sub(r'^\s*10\.\d\.?\s*', '', body)
-            body = re.sub(SLOT_LABELS[slot], '', body, count=1, flags=re.I)
-            slots[slot] = ' '.join(body.split())
+            # non-standard numbering (e.g. "10.1 Stability", "10.3 Materials to avoid"): the title decides the slot
+            head = body.split('\n', 1)[0]
+            titled = next((sl for sl, rx in SLOT_LABELS.items() if re.match(r'\s*(?:' + rx + r')\b', head, re.I)), None)
+            if titled and titled != slot and titled not in slots:
+                slot = titled
+            body = re.sub(r'^\s*(?:' + SLOT_LABELS[slot] + r')\s*[:.\-–]?', '', body, count=1, flags=re.I)
+            slots.setdefault(slot, ' '.join(body.split()))
     if not numbered:  # labelled layout (typical US)
         text = sec10['text']
         lines = text.split('\n')[1:]
@@ -211,6 +223,43 @@ def elements(sds):
     return found
 
 
+def pubchem_formula(d):
+    for r in d.get('results', []):
+        if r['source'] == 'PubChem' and r.get('status') == 'ok' and r.get('formula'):
+            return r['formula']
+    return None
+
+
+def formula_elements(f):
+    return {e for e in re.findall(r'([A-Z][a-z]?)', f or '') if e in PERIODIC}
+
+
+def elements_with_formulas(sds, lk, gate):
+    """All composition elements (SDS formulas, element words, PubChem formulas of every Section 3 CAS) and whether
+    the set is complete enough to say an element is absent (every CAS has a formula; mixtures also need no
+    undisclosed ingredients without a CAS)."""
+    found = elements(sds)
+    cas3 = [c for c in sds['codes_by_section'].get('3', {}).get('CAS', []) or sds['codes_all']['CAS'] if c != '7732-18-5']
+    missing = 0
+    for c in cas3:
+        f = pubchem_formula(lk.get(c, {}))
+        if f:
+            found |= formula_elements(f)
+        else:
+            missing += 1
+    complete = bool(cas3) and missing == 0 or (gate.type == 'substance' and bool(found))
+    return found, complete
+
+
+def elements_major(sds, lk, gate):
+    """Elements of the main ingredients (concentration band 'major'): these decide what decomposition products to expect."""
+    out = set()
+    for c, d in lk.items():
+        if c != '7732-18-5' and gate.band(c) == 'major':
+            out |= formula_elements(pubchem_formula(d))
+    return out
+
+
 PERIODIC = set('H He Li Be B C N O F Ne Na Mg Al Si P S Cl Ar K Ca Ti Cr Mn Fe Co Ni Cu Zn Br Ag Sn I Ba Pb Hg Zr Mo W Pt Au'.split())
 
 
@@ -229,12 +278,14 @@ def reference_statements(lk):
     for r in lk.get('results', []):
         if r['source'] == 'ICSC' and r['status'] == 'ok':
             for c in r['cards']:
-                out.append((f"ICSC {c['card']}", c.get('chemical_dangers') or '', c.get('url')))
+                out.append((f"ICSC {c['card']}", c.get('chemical_dangers') or '', c.get('url'),
+                            ' '.join(str(x) for x in (c.get('name'), c.get('physical_dangers'), c.get('first_aid'), c.get('fire_and_explosion')) if x)))
         if r['source'] == 'CAMEO Chemicals' and r['status'] == 'ok':
             for d in r['datasheets']:
-                out.append((f"CAMEO {d['id']}", (d.get('reactivity_profile') or '') + ' ' + (d.get('air_water_reactions') or ''), d.get('url')))
+                out.append((f"CAMEO {d['id']}", (d.get('reactivity_profile') or '') + ' ' + (d.get('air_water_reactions') or ''), d.get('url'),
+                            (d.get('name') or '') + ' ' + (d.get('reactivity_profile') or '')[:200]))
         if r['source'] == 'NIOSH Pocket Guide' and r['status'] == 'ok':
-            out.append(('NIOSH', 'Incompatible with: ' + (r.get('incompatibilities') or ''), r.get('url')))
+            out.append(('NIOSH', 'Incompatible with: ' + (r.get('incompatibilities') or ''), r.get('url'), ''))
     return out
 
 
@@ -248,6 +299,8 @@ def reacting_families(text):
         if re.match(r'This\b', s) or re.search(r'\b(?:in)?solub|miscib', s, re.I):
             continue
         s2 = re.sub(r'(\b(?:oxidants?|oxidi[sz]ers?|oxidi[sz]ing agents?|acids?|bases?)\s+such as\b)[^.]*', r'\1', s, flags=re.I)
+        # "(nickel carbonyl + oxygen)" is one specific reagent combination, not the families of its parts
+        s2 = re.sub(r'\([^()]*\+[^()]*\)', ' a specific reagent combination ', s2)
         head = re.split(PRODUCT_VERB, s2, maxsplit=1, flags=re.I)[0]
         if re.search(r'^(?:an? (?:base|acid|oxidi|reduc)|the (?:substance|solution)[^.]* is an? |[\w ,()\-]+ is an? (?:\w+ )?(?:reduc|oxidi|base|acid)|generally|salts of)', head, re.I) and not re.search(VIOLENT, head, re.I):
             head = ''
@@ -288,6 +341,7 @@ def run(sds, lookup_dir, declared, sds_type):
     H = classification(sds)
     cas = sds['codes_all']['CAS']
     lk = lookups(cas, lookup_dir)
+    gate = refgate.Gate(sds, H, sds_type)
     aqueous = '7732-18-5' in cas or re.search(r'\bsolution\b', low(sds['sections'].get('1', {}).get('text', '')))
     incompatible = slots.get('incompatible', '')
     have10 = families_in(incompatible) | families_in(slots.get('reactions', ''))
@@ -300,7 +354,7 @@ def run(sds, lookup_dir, declared, sds_type):
         blanks = [k for k, sl in NUM_SLOT.items() if k in sec10['subsections'] and not slots.get(sl)]
         if blanks:
             add('10', '10-A4', 'fail', 'Blank: ' + ', '.join(blanks), 'No blank subsections', 'Annex II 0.4')
-        noreason = [k for k, sl in NUM_SLOT.items() if re.search(NO_INFO, low(slots.get(sl))) and not re.search(REASON, low(slots.get(sl)))]
+        noreason = [k for k, sl in NUM_SLOT.items() if ti.is_no_data(slots.get(sl)) and not ti.has_reason(slots.get(sl))]
         if noreason:
             add('10', '10-A5', 'fail', '; '.join(f'{k}: "{slots[NUM_SLOT[k]][:60]}"' for k in noreason),
                 'A reason for each "no data"/"not applicable" (one consolidated finding)', 'Annex II s.10 preamble')
@@ -309,7 +363,7 @@ def run(sds, lookup_dir, declared, sds_type):
         if absent:
             add('10', '10-A3', 'fail', 'Elements missing: ' + ', '.join(absent), 'All six App D elements', 'App D Table D.1 s.10')
     r1 = slots.get('reactivity', '')
-    if len(r1) < 60 and not (families_in(r1) or re.search(r'react|decompos|explo|flammab|corros', low(r1)) and len(r1) > 25):
+    if 'reactivity' in slots and len(r1) < 60 and not (families_in(r1) or re.search(r'react|decompos|explo|flammab|corros', low(r1)) and len(r1) > 25):
         add('10', '10-A7', 'warning', r1 or '(empty)', 'Reactivity hazards described for this product', 'Annex II 10.1.1 / App D s.10(a)')
     if not re.search(r'\bstable\b|\bunstable\b|stability', low(slots.get('stability', ''))):
         add('10', '10-A9', 'fail', slots.get('stability', '(empty)'), 'Stable/unstable under normal conditions stated', 'Annex II 10.2 / App D s.10(b)')
@@ -326,7 +380,7 @@ def run(sds, lookup_dir, declared, sds_type):
     for sl, label in (('reactivity', '10.1'), ('reactions', '10.3')):
         if reactive and re.search(CONTRADICT, low(slots.get(sl))):
             bad.append(('contra:' + label, f'{label}: "{slots.get(sl, "")[:70]}"'))
-    if re.search(r'^\W*yes\b|reactive hazard\W*yes|(?<!not )\bis reactive\b', low(r1)) and re.search(r'^\W*none\b|none under normal|no hazardous reactions?|(?<!polymerization )does not occur\W*$', low(slots.get('reactions', ''))):
+    if (re.search(r'^\W*yes\b|reactive hazard\W*yes', low(r1)) or ti.affirmed(r1, r'\bis reactive\b')) and re.search(r'^\W*none\b|none under normal|no hazardous reactions?|(?<!polymerization )does not occur\W*$', low(slots.get('reactions', ''))):
         bad.append(('contra:self', '10.1 says reactive but 10.3 says none'))
     if H & UNSTABLE_CLASS and re.fullmatch(r'\W*stable(?: under normal conditions)?\W*', low(slots.get('stability', ''))):
         bad.append(('stab:unstable', '10.2 unqualified "stable"'))
@@ -368,7 +422,7 @@ def run(sds, lookup_dir, declared, sds_type):
         empty = [sl for sl in NUM_SLOT.values() if sl in slots and not slots[sl]]
         if empty:
             add('10', '10-A6', 'fail', 'Empty: ' + ', '.join(empty), 'Mark "no applicable information available"', '1910.1200(g)(3); App D intro')
-    if EUGB and sds_type == 'mixture' and re.search(NO_INFO + r'|none known', low(r1)) and not re.search(r'component|ingredient|substance', low(s10)):
+    if EUGB and sds_type == 'mixture' and (ti.is_no_data(r1) or re.search(r'none known', low(r1))) and not re.search(r'component|ingredient|substance', low(s10)):
         add('10.1', '10-A8', 'warning', r1, 'With no mixture-level data, data on the component substances', 'Annex II 10.1.2')
     if re.search(r'stabili[sz]|inhibit', sx['1'] + ' ' + sx['3'] + ' ' + sx['7']) and not re.search(r'stabili[sz]|inhibit', st10):
         st = 'fail' if EUGB else 'warning'
@@ -379,14 +433,17 @@ def run(sds, lookup_dir, declared, sds_type):
             'Annex II 10.3', items=[{'key': 'react:polymer', 'status': 'fail', 'text': 'hazardous polymerisation'}], prefix='10.3 must address: ')
     elif EUGB and (H & REACTIVITY_CLASS) and not slots.get('reactions'):
         add('10.3', '10-A11', 'fail', '', 'Describe the hazardous reactions for a reactivity class (' + ', '.join(sorted(H & REACTIVITY_CLASS)) + ')', 'Annex II 10.3')
-    fire_only = re.search(r'fire|combustion|burning', dec10) and not re.search(r'heat|decompos|storage|use|spill', dec10.replace('in case of fire', ''))
+    fire_only = re.search(r'fire|combustion|burning', dec10) and not re.search(
+        r'heat|decompos|storage|\buse\b|spill|contact|react|mix|none known|none under|not expected|should not be (?:produced|formed)|normal', dec10.replace('in case of fire', ''))
     if fire_only:
         add('10.6', '10-A13' if EUGB else '10-A14', 'warning' if EUGB else 'info', slots.get('decomposition', ''),
             'Decomposition products from use, storage, spill and heating (fire products belong in 5.2)', 'Annex II 10.6' if EUGB else 'App D s.10(f)')
     m15 = re.search(r'(?:sadt|decomposition (?:onset )?temperature|self-accelerating decomposition temperature)[^.]{0,40}?\d+(?:[.,]\d+)?\s*°\s*c(.{0,80})', sx['9'] + ' ' + s10.lower())
     if EUGB and m15 and not re.search(r'method|test|\bun\b|h\.[1-4]|oecd|astm|dsc|\ben ?\d', m15.group(1)):
         add('9/10', '10-A15', 'info', '', 'Cite the test method for the quoted SADT/decomposition value', 'Annex II s.10 preamble')
-    if J == 'EU' and re.search(r'nanoform', sx['1'] + ' ' + sx['3'] + ' ' + sx['9']) and 'nanoform' not in s10.lower():
+    nano_txt = sx['1'] + ' . ' + sx['3'] + ' . ' + sx['9']
+    nano = ti.affirmed(nano_txt, r'nanoforms?\b') and not re.search(r'(?:\bno|\bnot|does not contains?|free (?:of|from))\s+(?:\w+\s+){0,3}nano|nano\w*\W{0,3}(?:no|none|not applicable|n/?a)\b', nano_txt)
+    if J == 'EU' and nano and 'nanoform' not in s10.lower():
         add('10', '10-A16', 'warning', '', 'Say which nanoform each Section 10 statement applies to', 'Annex II 0.1.3')
     if H & {'H280', 'H229', 'H222', 'H223'}:
         items_add('10.3/10.4', '10-B3', 'warning', s10[:120], 'Gases under pressure/aerosols: ',
@@ -472,15 +529,18 @@ def run(sds, lookup_dir, declared, sds_type):
             items=[{'key': 'fam:' + f, 'text': f, 'status': 'fail'} for f in c8], prefix='Every material the SDS names as reactive appears in 10.5/10.3. Missing: ')
     s7 = low(' '.join(sds['sections'].get('7', {}).get('text', '').split()))
     c2 = []
+    P2c = {c for combo in sds['codes_by_section'].get('2', {}).get('P', []) for c in combo.split('+')}
+    light_matters = bool(P2c & {'P410'} or H & {'H240', 'H241', 'H242', 'EUH019'})
     for cond, rx7, rx10 in (('light/sunlight', r'sunlight|\blight\b|dark', r'sunlight|\blight\b'),
                             ('moisture', r'protect(?:ed)? (?:from|against) moisture|dry place', r'moist|water'),
-                            ('heat', r'\bcool\b|refrigerat|heat', r'heat|temperature'),
+                            ('heat', r'refrigerat|heat|temperatures? (?:above|exceeding|not exceeding|below)|≤\s*-?\d+\s*°', r'heat|temperature'),
                             ('static discharge', r'static', r'static')):
         if re.search(rx7, s7) and not re.search(rx10, low(s10)):
-            c2.append(cond)
-    if c2:
-        add('10.4 ↔ 7', '10-C2', 'warning', 'Section 7 sets: ' + ', '.join(c2), 'Same conditions named in Section 10. Missing: ' + ', '.join(c2), 'Annex II 7, 10.4',
-            items=[{'key': 'cond:' + c, 'text': c, 'status': 'warning'} for c in c2], prefix='Same conditions named in Section 10. Missing: ')
+            c2.append((cond, 'warning' if cond != 'light/sunlight' or light_matters else 'info'))
+    if c2 and not ti.refers_to(slots.get('conditions', ''), '7'):   # "(see section 7)" in 10.4 covers Section 7's conditions
+        st = 'warning' if any(x == 'warning' for _, x in c2) else 'info'
+        add('10.4 ↔ 7', '10-C2', st, 'Section 7 sets: ' + ', '.join(c for c, _ in c2), 'Same conditions named in Section 10. Missing: ' + ', '.join(c for c, _ in c2), 'Annex II 7, 10.4',
+            items=[{'key': 'cond:' + c, 'text': c, 'status': x} for c, x in c2], prefix='Same conditions named in Section 10. Missing: ')
     s9 = ' '.join(sds['sections'].get('9', {}).get('text', '').split())
     m = re.search(r'decomposition temperature\s*([<>≥≤]?\s*-?\d+(?:\.\d+)?)\s*°?\s*C', s9, re.I)
     if m and re.search(r'\bstable\b', low(slots.get('stability', ''))):
@@ -488,16 +548,19 @@ def run(sds, lookup_dir, declared, sds_type):
         if val <= 50:
             add('10 ↔ 9', '10-C3', 'warning', f'9: decomposition temperature {m.group(1).strip()} °C; 10.2: {slots.get("stability", "")[:60]}',
                 'Consistent decomposition data (value implausible or conflicts with "stable"): needs verification', 'Annex II 9.1 / App D s.9')
-    els = elements(sds)
+    els_all, complete = elements_with_formulas(sds, lk, gate)
+    els = elements(sds) | elements_major(sds, lk, gate)   # C5/5-C2: elements of the SDS formulas and of the main ingredients
     dec = low(slots.get('decomposition', ''))
     need = {e for rx, e in PRODUCT_ELEMENTS if re.search(rx, dec)}
-    if els and need - els:
-        add('10.6 ↔ 3', '10-C4', 'warning', f'10.6: {slots.get("decomposition", "")[:120]} | composition elements: {"".join(sorted(els))}',
-            f'Product(s) need {", ".join(sorted(need - els))}, not in Section 3: undeclared impurity or copy-paste; verify', 'By Section element rule')
+    if complete and els_all and need - els_all:
+        add('10.6 ↔ 3', '10-C4', 'warning', f'10.6: {slots.get("decomposition", "")[:120]} | composition elements: {"".join(sorted(els_all))}',
+            f'Product(s) need {", ".join(sorted(need - els_all))}, not in Section 3: undeclared impurity or copy-paste; verify', 'By Section element rule')
     thermal = m or re.search(r'thermal decomposition|on heating|excess heat|\bheat\b', low(s10 + ' ' + sds['sections'].get('5', {}).get('text', '')))
     if thermal and els:
         miss = []
-        if 'C' in els and 'C' not in need and not (H & FLAMMABLE and False):
+        s5co = re.search(r'carbon (?:mon|di)oxide|carbon oxides|\bco2?\b', low(sds['sections'].get('5', {}).get('text', '')))
+        none_normal = re.search(r'none known|not expected|should not be (?:produced|formed)|none under normal|not (?:produced|formed) under normal', dec)
+        if 'C' in els and 'C' not in need and not (s5co and none_normal):
             miss.append('C → CO/CO₂')
         for x in ('N', 'S', 'P'):
             if x in els and x not in need:
@@ -510,9 +573,8 @@ def run(sds, lookup_dir, declared, sds_type):
         if metal and not (H & FLAMMABLE) and not re.search(r'metal oxide|oxide', dec):
             add('10.6 ↔ 3', '10-C5', 'info', slots.get('decomposition', '')[:120],
                 f'Metal oxides ({", ".join(sorted(metal))}) not expected: product is not combustible', 'By Section element rule (tuned)')
-    m14 = re.search(r'(?:hazard class|transport hazard class(?:es)?|UN classification)\s*\(?e?s?\)?\s*(\d(?:\.\d)?)', ' '.join(sds['sections'].get('14', {}).get('text', '').split()), re.I)
-    if m14:
-        cls = m14.group(1)
+    cls = transport_class(sds['sections'].get('14', {}).get('text', ''), sds['sections'].get('14', {}).get('subsections'))
+    if cls:
         if cls == '4.3' and 'water' not in families_in(incompatible):
             add('10 ↔ 14', '10-C6', 'warning', f'Class {cls}; 10.5: {incompatible[:80]}', 'Water in 10.5', 'ADR / Section 14')
         if cls == '5.1' and 'combustibles' not in have10:
@@ -538,14 +600,15 @@ def run(sds, lookup_dir, declared, sds_type):
     if (H & WATER_REACTIVE or 'water' in families_in(incompatible) and not aqueous):
         if not re.search(r'water', re.split(r'suitable extinguishing media|extinguishing media', s5, flags=re.I)[-1], re.I) or re.search(r'water spray|water jet|foam', low(suitable)):
             add('5.1 ↔ 10', '5-C1', 'fail', s5[:150], 'Water listed as unsuitable; no water/water-based foam as suitable', 'Annex II 5.1 / App D s.5(a)')
+    sub52 = sds['sections'].get('5', {}).get('subsections', {}).get('5.2')
     m52 = re.search(r'(?:hazardous combustion products|special hazards arising|specific hazards arising)(.{0,400})', s5, re.I)
-    if m52:
-        p52 = low(m52.group(1))
+    if m52 or sub52:
+        p52 = low(' '.join(sub52.split()) if sub52 else m52.group(1))
         n52 = {e for rx, e in PRODUCT_ELEMENTS if re.search(rx, p52)}
         if els & {'Cl', 'F', 'Br', 'I'} and not n52 & {'Cl', 'F', 'Br', 'I'}:
-            add('5.2', '5-C2', 'fail', m52.group(1)[:150], 'A halogen-containing combustion product (HX or X₂)', 'Annex II 5.2 / 10.6')
+            add('5.2', '5-C2', 'fail', p52[:150], 'A halogen-containing combustion product (HX or X₂)', 'Annex II 5.2 / 10.6')
         elif 'C' in els and 'C' not in n52:
-            add('5.2', '5-C2', 'warning', m52.group(1)[:150], 'Carbon oxides named (generic "toxic fumes" is not enough)', 'Annex II 5.2 / 10.6')
+            add('5.2', '5-C2', 'warning', p52[:150], 'Carbon oxides named (generic "toxic fumes" is not enough)', 'Annex II 5.2 / 10.6')
     s6 = ' '.join(sds['sections'].get('6', {}).get('text', '').split())
     s63 = low(sds['sections'].get('6', {}).get('subsections', {}).get('6.3', s6))
     clash = []
@@ -556,16 +619,18 @@ def run(sds, lookup_dir, declared, sds_type):
         for fam, rx in (('acids', r'acid|bisulphite|bisulfite'), ('bases', r'alkali|base|soda|lime|bicarbonate|carbonate|hydroxide')):
             if re.search(rx, agent) and fam in fam10:
                 clash.append(f'neutralising agent ({fam}) is listed in 10.5')
-    if any(re.search(r'saw-?dust|wood chips|paper', x) and not re.search(r"\bdo not\b|\bnever\b|\bno\b|\bnot\b", x) for x in re.split(r'(?<=[.;])\s+', s63)) \
+    if ti.affirmed(s63, r'saw-?dust|wood chips|paper') \
             and ('combustibles' in fam10 or H & OXIDISER):
         clash.append('combustible absorbent (sawdust/paper) with an oxidiser or 10.5 combustibles')
-    if re.search(r'(?<!no )(?<!not )(?:flush|wash|rinse|hose)\w* (?:\w+ ){0,3}(?:with )?water|water spray', s63) and 'water' in fam10 and not aqueous:
+    if ti.affirmed(s63, r'(?:flush|wash|rinse|hose)\w* (?:\w+ ){0,3}(?:with )?water|water spray') and 'water' in fam10 and not aqueous:
         clash.append('water used in clean-up but water is listed in 10.5')
     if clash:
         add('6.3 ↔ 10.5', '6-C1', 'fail', s63[:150], 'Clean-up materials or neutralising agents listed as incompatible in 10.5: ' + '; '.join(clash),
             'Annex II 6.3, 10.5; CRW 4 (absorbent check)', items=[{'key': 'spill:incompat', 'status': 'fail', 'text': '; '.join(clash)}], prefix='Clean-up materials or neutralising agents listed as incompatible in 10.5: ')
     absorb_bad = []
     for cas_, d in lk.items():
+        if gate.band(cas_) == 'trace':
+            continue
         for r in d['results']:
             if r['source'] == 'CAMEO Chemicals' and r['status'] == 'ok':
                 for ds in r['datasheets']:
@@ -578,50 +643,75 @@ def run(sds, lookup_dir, declared, sds_type):
             'Name a compatible absorbent; CAMEO flags: ' + '; '.join(sorted(set(absorb_bad)))[:150], 'CAMEO absorbent data')
     s72 = sds['sections'].get('7', {}).get('subsections', {}).get('7.2', s7)
     fam10 = families_in(incompatible)
-    if fam10 and not families_in(s72) and not re.search(r'section 10|10\.5', low(s72)):
+    if fam10 and not families_in(s72) and not (ti.refers_to(s72, '10') or re.search(r'10\.5|incompatible materials', low(s72))):
         add('7.2', '7-C1', 'warning', ' '.join(s72.split())[:150], 'Segregation for: ' + ', '.join(sorted(fam10)) + ' (or a cross-reference to 10.5)', 'Annex II 7.2')
 
     # ---- D: data spot-checks
     reported = set()  # overlap with 10-C1/10-C8 is now handled by the engine-wide duplicate rule
-    fails, warns, explicit, srcs, fail_cards = {}, set(), set(), [], {}
+    fails, warns, infos, explicit, srcs, fail_cards = {}, set(), set(), set(), [], {}
     PRIMARY = ['halogens', 'acids', 'oxidisers', 'halogenated compounds']
+
+    def groups(txt):
+        """Sentences, each with a following 'This ...' sentence (which says what the reaction produces)."""
+        sents = sentences(' '.join(txt.split()))
+        out = []
+        for i, sn in enumerate(sents):
+            if re.match(r'This\b', sn):
+                continue
+            nxt = sents[i + 1] if i + 1 < len(sents) and re.match(r'This\b', sents[i + 1]) else ''
+            out.append((sn + ' ' + nxt).strip())
+        return out
     for cas_, d in lk.items():
         if cas_ == '7732-18-5':  # water as diluent: its own reactivity is not the product's
             continue
-        for src, txt, url in reference_statements(d):
-            for f, violent in reacting_families(txt).items():
-                name = f[1] if isinstance(f, tuple) else f
-                if isinstance(f, tuple) and f[0] == 'specific':
-                    fams = SPECIFIC[name]
-                    if re.search(r'\b' + name + r'\b', low(incompatible)) or fams & reported:
+        for src, txt, url, form_txt in reference_statements(d):
+            if not gate.card_applies(cas_, src, form_txt):
+                continue
+            for grp in groups(txt):
+                if not gate.statement_applies(cas_, src, grp):
+                    continue
+                kinds = refgate.kinds_of(grp)
+                for f, violent in reacting_families(grp).items():
+                    name = f[1] if isinstance(f, tuple) else f
+                    if isinstance(f, tuple) and f[0] == 'specific':
+                        fams = SPECIFIC[name]
+                        if re.search(r'\b' + name + r'\b', low(incompatible)) or fams & reported:
+                            continue
+                        want = 'warning' if fams & have10 or not (violent and src != 'NIOSH') else 'fail'
+                        sev = gate.allow(cas_, kinds, want, src)
+                        if sev is None:
+                            continue
+                        if fams & have10:
+                            (explicit if sev != 'info' else infos).add(name); srcs.append(src)
+                        elif sev == 'fail':
+                            fam = next(x for x in PRIMARY if x in fams)
+                            fails.setdefault(fam, set()).add(name); srcs.append(src)
+                            if src.startswith('ICSC'):
+                                fail_cards.setdefault(cas_, set()).add(src)
+                        else:
+                            (warns if sev == 'warning' else infos).add(name); srcs.append(src)
                         continue
-                    if fams & have10:
-                        explicit.add(name); srcs.append(src)
-                    elif violent and src != 'NIOSH':
-                        fam = next(x for x in PRIMARY if x in fams)
-                        fails.setdefault(fam, set()).add(name); srcs.append(src)
+                    if name in have10 or name in reported:
+                        continue
+                    if name == 'water' and aqueous:
+                        continue
+                    if isinstance(f, tuple):
+                        if not re.search(REAGENTS[name], low(incompatible)):
+                            sev = gate.allow(cas_, kinds, 'warning', src)
+                            if sev:
+                                (warns if sev == 'warning' else infos).add(name); srcs.append(src)
+                        continue
+                    sev = gate.allow(cas_, kinds, 'fail' if violent and src != 'NIOSH' else 'warning', src)
+                    if name == 'metals' and sev == 'info' and 'H290' in H:   # corrosive to metals: metals matter (user decision)
+                        sev = 'warning'
+                    if sev == 'fail':
+                        fails.setdefault(name, set()); srcs.append(src)
                         if src.startswith('ICSC'):
                             fail_cards.setdefault(cas_, set()).add(src)
-                    else:
-                        warns.add(name); srcs.append(src)
-                    continue
-                if name in have10 or name in reported:
-                    continue
-                if name == 'water' and aqueous:
-                    continue
-                if isinstance(f, tuple):
-                    if not re.search(REAGENTS[name], low(incompatible)):
-                        warns.add(name)
-                        srcs.append(src)
-                elif violent and src != 'NIOSH':
-                    fails.setdefault(name, set())
-                    srcs.append(src)
-                    if src.startswith('ICSC'):
-                        fail_cards.setdefault(cas_, set()).add(src)
-                else:
-                    warns.add(name)
-                    srcs.append(src)
+                    elif sev:
+                        (warns if sev == 'warning' else infos).add(name); srcs.append(src)
     warns -= set(fails)
+    infos -= set(fails) | warns | explicit
     notes = []
     s3 = ' '.join(sds['sections'].get('3', {}).get('text', '').split())
     for cas_, d in lk.items():
@@ -632,13 +722,14 @@ def run(sds, lookup_dir, declared, sds_type):
             used = sorted(fail_cards.get(cas_, set())) or ['all cards (none stricter)']
             notes.append(f"ICSC has {len(cards)} cards for {cas_}: " + '; '.join(f"{c['card']} ({c['name']})" for c in cards)
                          + f". SDS concentration {conc} %; the stricter card was used: {', '.join(used)}.")
-    if fails or warns or explicit:
+    if fails or warns or explicit or infos:
         items = [{'key': 'fam:' + k, 'status': 'fail', 'text': k + (f" ({', '.join(sorted(v))})" if v else '') + ': violent/explosive/gas-releasing reaction recorded'}
                  for k, v in sorted(fails.items())]
         items += [{'key': 'name:' + n, 'status': 'warning', 'text': 'name explicitly (family already listed): ' + n} for n in sorted(explicit)]
         items += [{'key': ('fam:' if n in FAMILIES else 'name:') + n, 'status': 'warning', 'text': 'also listed: ' + n} for n in sorted(warns)]
+        items += [{'key': ('fam:' if n in FAMILIES else 'name:') + n, 'status': 'info', 'text': 'minor ingredient also lists: ' + n} for n in sorted(infos)]
         suffix = (' ' + ' '.join(notes)) if notes else ''
-        add('10.5', '10-D1', 'fail' if fails else 'warning', incompatible[:150], '; '.join(x['text'] for x in items) + suffix,
+        add('10.5', '10-D1', 'fail' if fails else ('warning' if (warns or explicit) else 'info'), incompatible[:150], '; '.join(x['text'] for x in items) + suffix,
             ', '.join(sorted(set(srcs))), items=items, prefix='', suffix=suffix)
     # 10-D4 / 10-D5 / 10-D6 from reference data
     s52 = low(' '.join(sds['sections'].get('5', {}).get('text', '').split()))
@@ -646,21 +737,36 @@ def run(sds, lookup_dir, declared, sds_type):
     PRODUCTS = {'chlorine': r'chlorine', 'hydrogen chloride': r'hydrogen chloride|\bhcl\b', 'nitrogen oxides': r'nitrogen oxides|\bnox\b',
                 'carbon monoxide': r'carbon monoxide', 'sulfur oxides': r'sulph?fur (?:di)?oxides?|\bsox\b', 'phosphine': r'phosphine',
                 'hydrogen cyanide': r'hydrogen cyanide', 'hydrogen fluoride': r'hydrogen fluoride|\bhf\b', 'phosgene': r'phosgene'}
+    d6_sev = {}
     for cas_, d in lk.items():
         if cas_ == '7732-18-5':
             continue
-        for src, txt, url in reference_statements(d):
+        for src, txt, url, form_txt in reference_statements(d):
+            if not gate.card_applies(cas_, src, form_txt):
+                continue
             t = low(txt)
             for sent in sentences(' '.join(txt.split())):
-                if re.search(r'on heating|when heated|decomposes on heating|thermal decomposition|on combustion|burning', sent, re.I):
-                    tail = sent + ' '
+                if re.search(r'on heating|when heated|decomposes on heating|thermal decomposition|on combustion|burning', sent, re.I) \
+                        and gate.statement_applies(cas_, src, sent):
                     for name, rx in PRODUCTS.items():
-                        if re.search(rx, tail, re.I) and not re.search(rx, dec10 + ' ' + s52):
+                        if re.search(rx, sent, re.I) and not re.search(rx, dec10 + ' ' + s52) and gate.allow(cas_, refgate.kinds_of(sent), 'warning', src):
                             d4.append(name); src456.add(src)
-            if re.search(r'stabili[sz]ed|inhibitor|inhibited', t):
+            if re.search(r'stabili[sz]ed|inhibitor|inhibited', t) and gate.allow(cas_, 'reactivity', 'fail', src) in ('fail', 'warning'):
                 d5 = True; src456.add(src)
-            if re.search(r'may form explosive peroxides|peroxide former|may polymeri[sz]e|polymeri[sz]able|polymerization', t):
-                d6.append('peroxide formation' if 'peroxide' in t else 'hazardous polymerisation'); src456.add(src)
+            # every statement in the record counts: one record can describe both peroxide formation and polymerisation
+            for what, rx, kind in (('peroxide formation', r'(?:form|forms|forming)\b[^.]{0,40}peroxides|peroxide former|autoxid', {'high_hazard'}),
+                                   # the substance itself polymerises; "may initiate the polymerization of isocyanates" does not count
+                                   ('hazardous polymerisation', r'may polymeri[sz]e|polymeri[sz]es (?:readily|violently|exothermically|explosively|rapidly|spontaneously)|'
+                                    r'undergo (?:very )?(?:exothermic |violent |hazardous )?(?:addition )?polymeri[sz]ation|hazardous polymeri[sz]ation|'
+                                    r'polymeri[sz]able|self-polymeri[sz]', {'reactivity'})):
+                if re.search(rx, t):
+                    sev = gate.allow(cas_, kind, 'warning', src)
+                    if sev and what == 'peroxide formation' and gate.band(cas_) == 'minor' and 'EUH019' not in H \
+                            and cas_ not in refgate.CFG['strong_peroxide_formers']['cas']:
+                        sev = 'info'   # 1-10 %: warning only with EUH019 or a listed strong peroxide former (user decision)
+                    if sev:
+                        d6.append(what); src456.add(src)
+                        d6_sev[what] = refgate.strongest(d6_sev.get(what), sev)
     if d4:
         d4 = sorted(set(d4))
         add('10.6', '10-D4', 'warning', slots.get('decomposition', '')[:120], 'Decomposition products recorded on heating, missing from 10.6/5.2: ' + ', '.join(d4),
@@ -672,8 +778,9 @@ def run(sds, lookup_dir, declared, sds_type):
     for what in sorted(set(d6)):
         word = 'peroxide' if 'peroxide' in what else 'polymeri'
         if not re.search(word, st10 + ' ' + re10 + ' ' + co10):
-            add('10.2-10.4', '10-D6', 'warning', s10[:120], f'Reference data record {what}: address it in 10.2-10.4', ', '.join(sorted(src456)),
-                items=[{'key': 'react:peroxide' if word == 'peroxide' else 'react:polymer', 'status': 'warning', 'text': what}], prefix='Reference data record: ')
+            st6 = d6_sev.get(what, 'warning')
+            add('10.2-10.4', '10-D6', st6, s10[:120], f'Reference data record {what}: address it in 10.2-10.4', ', '.join(sorted(src456)),
+                items=[{'key': 'react:peroxide' if word == 'peroxide' else 'react:polymer', 'status': st6, 'text': what}], prefix='Reference data record: ')
     for cas_, d in lk.items():
         for r in d['results']:
             if r['source'] == 'GESTIS' and r.get('entries') and cas_ != '7732-18-5':
@@ -695,7 +802,7 @@ def run(sds, lookup_dir, declared, sds_type):
             if rest:
                 add('10', '10-A5', 'fail', '; '.join(r for r in a5['sds_says'].split('; ') if r.split(':')[0] in rest), a5['expected'], a5['source'])
     findings = dedupe(findings)
-    return {'jurisdiction': juris, 'H': sorted(H), 'elements': sorted(els), 'slots': slots, 'findings': findings}
+    return {'jurisdiction': juris, 'H': sorted(H), 'elements': sorted(els), 'slots': slots, 'findings': findings, 'gating': gate.notes}
 
 
 if __name__ == '__main__':

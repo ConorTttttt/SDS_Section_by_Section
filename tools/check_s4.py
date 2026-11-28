@@ -17,6 +17,8 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import check_s10 as s10  # noqa: E402
 from dedupe import dedupe  # noqa: E402
+import refgate  # noqa: E402
+import textinterp as ti  # noqa: E402
 
 # Checklist rows this engine implements (checked against checklist/coverage.csv by tools/check_coverage.py)
 CODED = ({f'4-A{i}' for i in range(1, 11)} | {f'4-B{i}' for i in range(1, 8)} | {f'4-C{i}' for i in range(1, 5)}
@@ -24,7 +26,8 @@ CODED = ({f'4-A{i}' for i in range(1, 11)} | {f'4-B{i}' for i in range(1, 8)} | 
 
 # health hazard statements -> codes (for SDSs that print text without codes)
 H_TEXT = [
-    (r'fatal if swallowed', 'H300'), (r'toxic if swallowed', 'H301'), (r'harmful if swallowed', 'H302'),
+    # "May be fatal if swallowed and enters airways" is H304, not H300 (blind test, ATF lubricant)
+    (r'fatal if swallowed(?! and enters airways)', 'H300'), (r'toxic if swallowed', 'H301'), (r'harmful if swallowed(?! and enters airways)', 'H302'),
     (r'may be fatal if swallowed and enters airways', 'H304'), (r'fatal in contact with skin', 'H310'),
     (r'toxic in contact with skin', 'H311'), (r'harmful in contact with skin', 'H312'),
     (r'causes severe skin burns and eye damage', 'H314'), (r'causes skin irritation', 'H315'),
@@ -44,22 +47,23 @@ ROUTE_TRIGGERS = {
 }
 HEALTH = {c for v in ROUTE_TRIGGERS.values() for c in v if c not in {'H224', 'H225', 'H226', 'H250', 'H260', 'H261'}} | {
     'H340', 'H341', 'H350', 'H351', 'H360', 'H361', 'H362', 'H370', 'H371', 'H372', 'H373'}
-SYMPTOMS = {'H314': r'burn|corros', 'H318': r'eye damage|blind|burn', 'H319': r'eye irritation|irritat\w* (?:to |of )?(?:the )?eyes?|\bredness',
+SYMPTOMS = {'H314': r'burn|corros', 'H318': ti.SYNONYMS['eye_symptoms'], 'H319': r'eye irritation|irritat\w* (?:to |of )?(?:the )?eyes?|\bredness',
             'H315': r'skin irritation|\bredness|irritat', 'H335': r'respiratory|cough|sore throat|breath',
             'H336': r'drows|dizz|headache|narco', 'H317': r'rash|allerg|sensiti', 'H334': r'asthma|wheez|breath'}
 # first-aid P-statements: code -> (text pattern to find it in Section 2, action pattern expected in Section 4)
 P_ACTIONS = {
-    'P330': (r'rinse mouth', r'rinse mouth|clean mouth|mouth with water'),
-    'P331': (r'do not induce vomiting', r'do not induce vomiting|do not induce'),
-    'P352': (r'wash with plenty of', r'wash\w* (?:off )?(?:\w+ )?with (?:plenty of )?(?:soap and )?water|wash off'),
-    'P353': (r'rinse skin with water', r'rinse skin|shower|wash off'),
-    'P361': (r'take off immediately all contaminated', r'(?:remove|take off)\w* (?:\w+ ){0,3}contaminated cloth'),
-    'P362': (r'take off contaminated clothing', r'(?:remove|take off)\w* (?:\w+ ){0,3}contaminated cloth'),
-    'P363': (r'wash contaminated clothing before reuse', r'wash\w* (?:\w+ ){0,6}before re-?use'),
-    'P340': (r'remove (?:person|victim) to fresh air', r'fresh air|remove from exposure'),
-    'P351': (r'rinse cautiously with water', r'rinse|irrigate|flush'),
-    'P338': (r'remove contact lenses', r'contact lens'),
-    'P310': (r'immediately call a poison cent', r'immediate|urgent|at once'),
+    # (label text in Section 2, what Section 4 must say: textinterp synonyms so "flush" = "rinse" = "wash with water")
+    'P330': (r'rinse mouth', ti.SYNONYMS['rinse_mouth']),
+    'P331': (r'do not induce vomiting', ti.SYNONYMS['no_vomit']),
+    'P352': (r'wash with plenty of', ti.SYNONYMS['rinse_water']),
+    'P353': (r'rinse skin with water', ti.SYNONYMS['rinse_water']),
+    'P361': (r'take off immediately all contaminated', ti.SYNONYMS['remove_clothing']),
+    'P362': (r'take off contaminated clothing', ti.SYNONYMS['remove_clothing']),
+    'P363': (r'wash contaminated clothing before reuse', ti.SYNONYMS['wash_clothing']),
+    'P340': (r'remove (?:person|victim) to fresh air', ti.SYNONYMS['fresh_air']),
+    'P351': (r'rinse cautiously with water', ti.SYNONYMS['rinse_eyes']),
+    'P338': (r'remove contact lenses', ti.SYNONYMS['contact_lenses']),
+    'P310': (r'immediately call a poison cent', ti.SYNONYMS['urgent']),
     'P335': (r'brush off loose particles', r'brush off'),
     'P334': (r'immerse in cool water', r'immerse'),
     'P336': (r'thaw frosted parts', r'thaw'),
@@ -70,13 +74,20 @@ ROUTE_LABELS = [
     ('skin', r'(?:skin contact|skin|after skin contact|in case of skin contact|if on skin)\b'),
     ('inhalation', r'(?:inhalation|after inhalation|if inhaled|breathing)\b'),
     ('ingestion', r'(?:ingestion|after (?:ingestion|swallowing)|if swallowed|swallowing)\b'),
-    ('general', r'general advice\b'),
-    ('firstaider', r'(?:self-protection of the first aider|personal protection for first|protection of first[- ]aiders?)'),
+    ('general', r'general(?: advice| information| notes?)?\b'),
+    ('firstaider', r'(?:self[- ]protection of the first[- ]aider|personal protection for first|protection of first[- ]aiders?)'),
     ('symptoms', r'most important symptoms'),
     ('physician', r'notes? to physician'),
 ]
-NOINFO = r'no (?:further )?(?:relevant )?(?:information|data)(?: is)? available|not available|no data'
-POS_VOMIT = r'(?<!not )(?<!never )(?<!n\'t )\binduce vomiting'
+ROUTE_PREFIX = r'(?:first[- ]aid measures?\s+)?'   # "First-aid measures after ingestion :" (label-style layouts)
+
+
+def noinfo(v):
+    return ti.is_no_data(v)
+
+
+def pos_vomit(text):
+    return ti.affirmed(text, ti.SYNONYMS['induce_vomit'])
 
 
 def low(x):
@@ -112,7 +123,7 @@ def routes(text):
         stripped = re.sub(r'^\s*4\.\d\.?\s*', '', ln)
         hit = None
         for name, rx in ROUTE_LABELS:
-            m = re.match(r'\s*' + rx + r'[ :\-–]*(.*)$', stripped, re.I)
+            m = re.match(r'\s*' + ROUTE_PREFIX + rx + r'[ :\-–]*(.*)$', stripped, re.I)
             if m:
                 hit = name
                 out[name] = (out.get(name, '') + ' ' + m.group(1)).strip()
@@ -152,6 +163,7 @@ def run(sds, lookup_dir, declared, sds_type):
     P, Pcodes = p_in_section2(sds)
     cas = sds['codes_all']['CAS']
     lk = s10.lookups(cas, lookup_dir)
+    gate = refgate.Gate(sds, H, sds_type)
 
     # ---- A: required content
     if EUGB:
@@ -161,9 +173,9 @@ def run(sds, lookup_dir, declared, sds_type):
         blank = [k for k, v in (('4.2', s42), ('4.3', s43)) if k in subs and not v]
         if blank:
             add('4', '4-A4', 'fail', 'Blank: ' + ', '.join(blank), 'No blank subsections', 'Annex II 0.4')
-        noinfo = [f'{k}: "{v[:50]}"' for k, v in (('4.2', s42), ('4.3', s43)) if re.search(NOINFO, low(v))]
-        if noinfo:
-            add('4', '4-A4', 'info', '; '.join(noinfo), '"No data" without a reason is allowed in Section 4 (no reasons rule)', 'Annex II 0.4 / s.4')
+        nd = [f'{k}: "{v[:50]}"' for k, v in (('4.2', s42), ('4.3', s43)) if noinfo(v)]
+        if nd:
+            add('4', '4-A4', 'info', '; '.join(nd), '"No data" without a reason is allowed in Section 4 (no reasons rule)', 'Annex II 0.4 / s.4')
     else:
         miss = [n for n, ok in (('(a) routes', any(k in r for k in ('eyes', 'skin', 'inhalation', 'ingestion'))),
                                 ('(b) symptoms', bool(s42)), ('(c) medical attention', bool(s43) or 'medical attention' in s4)) if not ok]
@@ -173,20 +185,20 @@ def run(sds, lookup_dir, declared, sds_type):
         empty = [k for k in ('eyes', 'skin', 'inhalation', 'ingestion', 'symptoms', 'physician') if k in r and not r[k]]
         if empty:
             add('4', '4-A5', 'fail', 'Empty: ' + ', '.join(empty), 'Mark "no applicable information available"', '1910.1200(g)(3)')
-    if not (H & HEALTH) and (not s42 or (re.search(NOINFO, low(s42)) and len(s42) < 80)):
+    if not (H & HEALTH) and (not s42 or noinfo(s42)):
         add('4.2', '4-A10', 'warning', s42[:100], 'Most important acute and delayed symptoms summarised (or why none are expected)', 'Annex II 4.2; App D s.4(b)')
     need = sorted(k for k, trig in ROUTE_TRIGGERS.items() if H & trig and k not in r)
     if need:
         add('4.1', '4-A6', 'fail', 'Routes given: ' + ', '.join(sorted(k for k in r if k in ROUTE_TRIGGERS)),
             'Route(s) required by classification: ' + ', '.join(need), 'Annex II 4.1.1 / App D s.4(a)')
     gaps = []
-    if not re.search(r'medical|physician|doctor|poison', s4):
+    if not re.search(ti.SYNONYMS['medical'], s4):
         gaps.append(('gen:medical', 'whether medical attention is needed'))
-    if not re.search(r'fresh air|remove from exposure', s4):
+    if not re.search(ti.SYNONYMS['fresh_air'], s4):
         gaps.append(('P:P340', 'moving to fresh air'))
-    if not re.search(r'cloth|shoes', s4):
+    if not re.search(r'cloth|shoes|garment', s4):
         gaps.append(('P:P361', 'removing/handling clothing and shoes'))
-    if not ('firstaider' in r or re.search(r'first[- ]?aider|rescuer|responder|pocket mask|mouth-to-mouth', s4)):
+    if not ('firstaider' in r or re.search(ti.SYNONYMS['firstaider_ppe'], s4)):
         gaps.append(('gen:ppe', 'PPE for first-aid responders'))
     if gaps:
         st = 'warning' if EUGB else 'info'
@@ -195,7 +207,10 @@ def run(sds, lookup_dir, declared, sds_type):
     if H & URGENT and not re.search(r'immediate|urgent|at once|without delay', s4):
         add('4', '4-A8', 'fail' if EUGB else 'warning', 'No urgent wording', f'Immediate medical attention ({", ".join(sorted(H & URGENT))}: P310 classes)', 'Annex II s.4 preamble; CLP Annex IV P310')
     if EUGB:
-        clin = [w for w in ('oxygen', 'gastric lavage', 'lavage', 'emesis', 'inject', 'intubat', 'administer') if any(w in low(v) for k, v in r.items() if k in ROUTE_TRIGGERS)]
+        # clinical steps for an untrained first-aider; a step limited to trained/medical personnel is acceptable in 4.1
+        sents = [x for k, v in r.items() if k in ROUTE_TRIGGERS for x in s10.sentences(v)]
+        clin = sorted({w for w in ('oxygen', 'gastric lavage', 'lavage', 'emesis', 'inject', 'intubat', 'administer')
+                       for x in sents if w in low(x) and not re.search(r'trained|qualified|medical personnel|physician|doctor|paramedic', low(x))})
         if clin:
             add('4.1', '4-A9', 'warning', 'Clinical steps in 4.1: ' + ', '.join(clin), 'Untrained responder, no special equipment; move clinical steps to 4.3', 'Annex II s.4 preamble')
 
@@ -203,12 +218,12 @@ def run(sds, lookup_dir, declared, sds_type):
     def one(key, status, text):
         return [{'key': key, 'status': status, 'text': text}]
     ing = low(r.get('ingestion', ''))
-    if re.search(POS_VOMIT, ing):
+    if pos_vomit(ing):
         asp_cor = H & {'H304', 'H314'}
         st = 'fail' if asp_cor else 'warning'
         txt = '"Induce vomiting" ' + ('contradicts P331 (Asp. Tox. 1 / Skin Corr. 1)' if asp_cor else 'should be reviewed (no Asp. Tox. 1 / Skin Corr. 1, so not a P331 contradiction)')
         add('4.1', '4-B1', st, r.get('ingestion', ''), txt, 'CLP Annex IV P331 conditions', items=one('P:P331', st, txt), prefix='')
-    elif H & {'H304', 'H314'} and 'induce vomiting' not in ing:
+    elif H & {'H304', 'H314'} and not ti.says(ing, 'no_vomit') and not ti.says(s4, 'no_vomit'):
         add('4.1', '4-B1', 'warning', r.get('ingestion', ''), '"Do NOT induce vomiting" (P331)', 'CLP Annex IV P331',
             items=one('P:P331', 'warning', '"Do NOT induce vomiting" (P331)'), prefix='')
     if 'H314' in H and not re.search(P_ACTIONS['P330'][1], ing) and 'ingestion' in r:
@@ -220,25 +235,25 @@ def run(sds, lookup_dir, declared, sds_type):
         if H & {'H314', 'H224', 'H225', 'H226'}:
             if not re.search(P_ACTIONS['P361'][1], skin):
                 want.append(('P:P361', 'take off contaminated clothing immediately (P361)'))
-            if not re.search(r'rinse|shower|wash|water', skin):
+            if not re.search(ti.SYNONYMS['rinse_water'], skin):
                 want.append(('P:P353', 'rinse skin with water/shower (P353)'))
-        if H & {'H312', 'H315', 'H317'} and not re.search(r'wash|water|soap', skin):
+        if H & {'H312', 'H315', 'H317'} and not re.search(ti.SYNONYMS['rinse_water'] + r'|soap', skin):
             want.append(('P:P352', 'wash with plenty of water (P302+P352)'))
         if want:
             add('4.1', '4-B2', 'warning', r.get('skin', ''), '; '.join(t for _, t in want), 'CLP Annex IV P303+P361+P353, P302+P352',
                 items=[{'key': k, 'status': 'warning', 'text': t} for k, t in want], prefix='')
     eyes = low(r.get('eyes', ''))
     if H & {'H314', 'H318', 'H319'} and 'eyes' in r:
-        if not re.search(r'rinse|irrigate|flush', eyes):
+        if not re.search(ti.SYNONYMS['rinse_eyes'], eyes):
             add('4.1', '4-B3', 'fail', r.get('eyes', ''), 'Rinse with water (P305+P351+P338)', 'CLP Annex IV',
                 items=one('P:P351', 'fail', 'Rinse with water (P305+P351+P338)'), prefix='')
-        elif 'contact lens' not in eyes:
+        elif not re.search(ti.SYNONYMS['contact_lenses'], eyes):
             t = 'Remove contact lenses if present and easy to do; continue rinsing (P338)'
             add('4.1', '4-B3', 'warning', r.get('eyes', ''), t, 'CLP Annex IV P305+P351+P338', items=one('P:P338', 'warning', t), prefix='')
-    if H & ROUTE_TRIGGERS['inhalation'] and 'inhalation' in r and not re.search(r'fresh air|remove from exposure', low(r['inhalation'])):
+    if H & ROUTE_TRIGGERS['inhalation'] and 'inhalation' in r and not re.search(ti.SYNONYMS['fresh_air'], low(r['inhalation'])):
         t = 'Fresh air, keep comfortable for breathing (P304+P340)'
         add('4.1', '4-B4', 'warning', r['inhalation'], t, 'CLP Annex IV', items=one('P:P340', 'warning', t), prefix='')
-    if H & {'H340', 'H341', 'H350', 'H351', 'H360', 'H361', 'H362', 'H370', 'H371', 'H372', 'H373'} and not re.search(r'medical advice|medical attention|physician', s4):
+    if H & {'H340', 'H341', 'H350', 'H351', 'H360', 'H361', 'H362', 'H370', 'H371', 'H372', 'H373'} and not re.search(ti.SYNONYMS['medical'], s4):
         add('4.1-4.3', '4-B5', 'warning', '', 'Medical advice after exposure (P308+P313 / P308+P311 / P314)', 'CLP Annex IV')
     p334_quote = ('CLP Annex IV P302+P335+P334: "IF ON SKIN: Brush off loose particles from skin. Immerse in cool water [or wrap in wet bandages]." '
                   'Condition for water-reactives (2.12): standalone P334 row "Use only \'immerse in cool water.\' Text in square brackets should not be used."; '
@@ -259,8 +274,14 @@ def run(sds, lookup_dir, declared, sds_type):
         add('4.1', '4-B6', 'warning', r['skin'], 'Rinse contaminated clothing and skin before removing clothes (P306+P360)', 'CLP Annex IV')
     if 'H281' in H and not re.search(r'thaw|lukewarm', s4):
         add('4.1', '4-B6', 'fail', '', 'Thaw frosted parts with lukewarm water; do not rub (P336+P315)', 'CLP Annex IV')
-    if P & {'P320', 'P321'} and not re.search(r'antidote|specific treatment|see (?:section|label)', low(s43)):
-        add('4.3', '4-B7', 'fail' if EUGB else 'warning', s43, 'Specific treatment/antidote referred to by P320/P321', 'CLP Annex IV P320/P321')
+    # P320/P321 conditions (CLP Annex IV): antidote for Acute Tox. oral 1-3 / inhalation 1-2; immediate specific measures
+    # (e.g. a cleansing agent) for Acute Tox. dermal 1-4, inhalation 3, STOT SE 1; only an optional cleansing agent for
+    # Skin Corr. / Skin Irrit. / Skin Sens., so P321 from those classes alone asks nothing of 4.3.
+    if not re.search(r'antidote|specific treatment|specific measures|cleansing agent|see (?:section|label)', low(s43)):
+        if ('P320' in P and 'H330' in H) or ('P321' in P and H & {'H300', 'H301'}):
+            add('4.3', '4-B7', 'fail' if EUGB else 'warning', s43, 'Antidote / specific treatment referred to by P320/P321 (acute toxicity)', 'CLP Annex IV P320/P321 conditions')
+        elif P & {'P320', 'P321'} and H & {'H310', 'H311', 'H312', 'H331', 'H370'}:
+            add('4.3', '4-B7', 'warning', s43, 'Immediate specific measures (e.g. cleansing agent) referred to by P321', 'CLP Annex IV P321 conditions')
 
     # ---- Section 2 findings arising from the Section 4 review
     s2 = low(' '.join(sds['sections'].get('2', {}).get('text', '').split()))
@@ -275,19 +296,19 @@ def run(sds, lookup_dir, declared, sds_type):
 
     # ---- C: cross-section
     items = []
-    if 'P331' in P and re.search(POS_VOMIT, s4):
+    if 'P331' in P and pos_vomit(s4):
         items.append({'key': 'P:P331', 'status': 'fail', 'text': 'P331 on label vs "induce vomiting" in Section 4'})
     for code in sorted(P):
         if code in P_ACTIONS and code != 'P310' and not re.search(P_ACTIONS[code][1], s4):
             items.append({'key': 'P:' + code, 'status': 'warning', 'text': code + ' not reflected'})
-    if P & {'P310', 'P315', 'P316'} and not re.search(r'immediate|urgent|at once', s4):
+    if P & {'P310', 'P315', 'P316'} and not re.search(ti.SYNONYMS['urgent'], s4):
         items.append({'key': 'urgent', 'status': 'warning', 'text': 'P310/P315/P316 (immediate medical help; P316 matched as an unverified equivalent) not reflected'})
     if items:
         st = 'fail' if any(x['status'] == 'fail' for x in items) else 'warning'
         add('4.1 ↔ 2', '4-C1', st, '', 'Label first-aid statements vs Section 4: ' + '; '.join(x['text'] for x in items),
             'Annex II 2.2, 4.1; CLP Annex IV', items=items, prefix='Label first-aid statements vs Section 4: ')
     hc = H & HEALTH
-    if hc and re.search(NOINFO, low(s42)) and len(s42) < 80:
+    if hc and noinfo(s42):
         add('4.2 ↔ 2/11', '4-C2', 'fail', s42, f'Symptoms for the classified hazards ({", ".join(sorted(hc))})', 'Annex II 4.2, 11')
     elif hc:
         miss = [c for c, rx in SYMPTOMS.items() if c in hc and not re.search(rx, low(s42))]
@@ -296,6 +317,8 @@ def run(sds, lookup_dir, declared, sds_type):
     if H & {'H300', 'H301', 'H330', 'H331'} and not re.search(r'mouth-to-mouth|pocket mask|first[- ]?aider', s4):
         add('4.1 ↔ 8', '4-C3', 'warning', '', 'Protect the first-aider (no mouth-to-mouth; PPE as Section 8)', 'Good practice (not binding)')
     s11 = low(' '.join(sds['sections'].get('11', {}).get('text', '').split())).replace('acute and delayed', '').replace('acute & delayed', '')
+    # a "Potential delayed effects : Not available" field is not a delayed effect
+    s11 = re.sub(r'(?:potential )?delayed (?:effects?|onset|symptoms?|reactions?)\s*:\s*(?:not available|no (?:specific |known )?data[^.]*|none known|no known[^.]*)', ' ', s11)
     if re.search(r'delayed (?:effect|onset|symptom|reaction)|(?:effects|symptoms) may be delayed|oedema|edema|may cause sensiti', s11) and not re.search(r'delay|later|hours', low(s42 + ' ' + s43)):
         t = 'Delayed effects in Section 11 reflected in 4.2/4.3'
         add('4.2/4.3 ↔ 11', '4-C4', 'warning', s42[:100], t, 'Annex II 4.2, 4.3, 11', items=one('gen:delayed', 'warning', t), prefix='')
@@ -303,8 +326,10 @@ def run(sds, lookup_dir, declared, sds_type):
     # ---- D: data spot-checks
     ditems, srcs = [], set()
     route_key = {'ingestion': 'P:P331', 'eyes': 'P:P351', 'skin': 'P:P361', 'inhalation': 'P:P340'}
-    key = {'ingestion': [(r'do not induce vomiting', 'Do NOT induce vomiting')], 'eyes': [(r'rinse|irrigate|flush', 'rinse with plenty of water')],
-           'skin': [(r'remove contaminated cloth', 'remove contaminated clothes')], 'inhalation': [(r'fresh air|remove from exposure', 'fresh air')]}
+    key = {'ingestion': [(r'do not induce vomiting', 'Do NOT induce vomiting', ti.SYNONYMS['no_vomit'])],
+           'eyes': [(r'rinse|irrigate|flush', 'rinse with plenty of water', ti.SYNONYMS['rinse_eyes'])],
+           'skin': [(r'remove contaminated cloth', 'remove contaminated clothes', ti.SYNONYMS['remove_clothing'])],
+           'inhalation': [(r'fresh air|remove from exposure', 'fresh air', ti.SYNONYMS['fresh_air'])]}
     delayed, special = [], []
     for c, d in lk.items():
         if c == '7732-18-5':
@@ -312,30 +337,40 @@ def run(sds, lookup_dir, declared, sds_type):
         for res in d['results']:
             if res['source'] == 'ICSC' and res['status'] == 'ok':
                 for card in res['cards']:
+                    lab = f'ICSC {card["card"]}'
+                    form_txt = ' '.join(str(x) for x in (card.get('name'), card.get('physical_dangers'), card.get('first_aid'), card.get('fire_and_explosion')) if x)
+                    if not gate.card_applies(c, lab, form_txt):
+                        continue
                     for route, info in (card.get('first_aid') or {}).items():
                         fa = low(info.get('first_aid'))
-                        for rx, label in key.get(route, []):
-                            sds_rx = P_ACTIONS['P361'][1] if label == 'remove contaminated clothes' else rx
+                        for rx, label, sds_rx in key.get(route, []):
                             if re.search(rx, fa) and route in r and not re.search(sds_rx, low(r[route])):
-                                if label == 'Do NOT induce vomiting' and re.search(POS_VOMIT, low(r[route])):
-                                    ditems.append({'key': 'P:P331', 'status': 'fail', 'text': f'{route}: ICSC {card["card"]} says "Do NOT induce vomiting"; SDS says to induce it'})
+                                if label == 'Do NOT induce vomiting' and pos_vomit(low(r[route])):
+                                    st = gate.allow(c, {'ingestion'}, 'fail', lab)
+                                    if st:
+                                        ditems.append({'key': 'P:P331', 'status': st, 'text': f'{route}: {lab} says "Do NOT induce vomiting"; SDS says to induce it'})
                                 else:
-                                    ditems.append({'key': route_key[route], 'status': 'warning', 'text': f'{route}: {label}'})
-                                srcs.add(f'ICSC {card["card"]}')
-                        if 'refer immediately' in fa and route in r and not re.search(r'immediate|urgent', low(r[route])):
-                            ditems.append({'key': 'urgent:' + route, 'status': 'warning', 'text': f'{route}: refer immediately for medical attention'})
-                            srcs.add(f'ICSC {card["card"]}')
+                                    st = gate.allow(c, {route}, 'warning', lab)
+                                    if st:
+                                        ditems.append({'key': route_key[route], 'status': st, 'text': f'{route}: {label}'})
+                                srcs.add(lab)
+                        if 'refer immediately' in fa and route in r and not re.search(ti.SYNONYMS['urgent'], low(r[route])):
+                            st = gate.allow(c, {route}, 'warning', lab)
+                            if st:
+                                ditems.append({'key': 'urgent:' + route, 'status': st, 'text': f'{route}: refer immediately for medical attention'})
+                                srcs.add(lab)
                     notes = low(card.get('notes'))
-                    if re.search(r'do not become manifest|may be delayed|medical observation', notes):
-                        delayed.append(f'ICSC {card["card"]}')
-                    if re.search(r'antidote|specific treatment|calcium gluconate|removal by a physician', notes):
-                        special.append(f'ICSC {card["card"]} ({c})')
+                    if re.search(r'do not become manifest|may be delayed|medical observation', notes) and gate.allow(c, {'delayed_health'}, 'warning', lab):
+                        delayed.append(lab)
+                    if re.search(r'antidote|specific treatment|calcium gluconate|removal by a physician', notes) and \
+                            gate.allow(c, {'inhalation', 'skin', 'eyes', 'ingestion'}, 'warning', lab):
+                        special.append(f'{lab} ({c})')
     uniq = {}
     for x in ditems:
         uniq.setdefault((x['key'], x['text']), x)
     ditems = list(uniq.values())
     if ditems:
-        st = 'fail' if any(x['status'] == 'fail' for x in ditems) else 'warning'
+        st = refgate.strongest(*[x['status'] for x in ditems])
         add('4.1', '4-D1', st, '', '; '.join(x['text'] for x in ditems), ', '.join(sorted(srcs)), items=ditems, prefix='')
     if special and not re.search(r'antidote|specific treatment|physician|ophthalmolog|removal', low(s43)):
         add('4.3', '4-D2', 'warning', s43[:100], 'Specific treatment recorded in reference data: ' + ', '.join(special), 'ICSC notes')
@@ -343,7 +378,7 @@ def run(sds, lookup_dir, declared, sds_type):
         t = 'Delayed effects (lung oedema; medical observation) recorded in ' + ', '.join(sorted(set(delayed)))
         add('4.2/4.3', '4-D3', 'warning', (s42 + ' | ' + s43)[:120], t, 'ICSC notes', items=one('gen:delayed', 'warning', t), prefix='')
     findings = dedupe(findings)
-    return {'jurisdiction': juris, 'H': sorted(H), 'P_section2': sorted(P), 'routes': r, 'findings': findings}
+    return {'jurisdiction': juris, 'H': sorted(H), 'P_section2': sorted(P), 'routes': r, 'findings': findings, 'gating': gate.notes}
 
 
 if __name__ == '__main__':

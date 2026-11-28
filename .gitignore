@@ -3,3 +3,6 @@ out/
 runs/
 __pycache__/
 *.pyc
+
+# per-SDS review reports and extracted text: they quote supplier documents, keep local
+local/

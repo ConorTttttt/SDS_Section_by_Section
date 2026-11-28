@@ -17,6 +17,8 @@ jobs:
           python-version: '3.12'
       - name: Install pandoc (reads the synthetic .docx files)
         run: sudo apt-get update && sudo apt-get install -y pandoc
+      - name: Unit tests (text interpretation, concentration/form gating)
+        run: python3 -I -m unittest discover -s tests
       - name: Checklist mirror matches the committed Sheet export
         run: python3 -I tools/sync_checklist.py --check
       - name: Coverage check (Checklist "coded" rows vs engine check IDs)
